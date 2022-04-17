@@ -24,7 +24,7 @@ const char *pixelShader = R"(
 	out vec4 pColor;
 	void main() {
 		// REQUIREMENT 1B) shade pixel:
-		pColor = vec4(1, 1, 0, 1);							// r, g, b, alpha
+		pColor = vec4(0, 1, 0, 1);							// r, g, b, alpha
 	}
 )";
 
@@ -80,7 +80,7 @@ int main() {												// application entry
 	if (!glfwInit())
 		return 1;
 	// create named window of given size
-	GLFWwindow *w = glfwCreateWindow(400, 400, "Clear to Green", NULL, NULL);
+	GLFWwindow *w = glfwCreateWindow(1000, 1000, "Clear to Green", NULL, NULL);
 	if (!w)
 		return AppError("can't open window");
 	glfwMakeContextCurrent(w);
