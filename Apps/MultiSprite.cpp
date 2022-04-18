@@ -10,7 +10,7 @@
 int winWidth = 600, winHeight = 600;
 Sprite background, sprite1, sprite2, *selected = NULL;
 
-string dir = "C:/Users/Jules/Code/Aids/";
+string dir = "C:/Users/kaomaaso/source/repos/akyrimos/SinglePlayerCardGame/Lib/Images/";
 string sprite1Tex = dir+"Lily.tga", sprite1Mat = dir+"1.tga";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
