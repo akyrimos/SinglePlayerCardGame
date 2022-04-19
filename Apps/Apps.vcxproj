@@ -164,6 +164,7 @@
     <ClInclude Include="..\Include\GLXtras.h" />
     <ClInclude Include="..\Include\Misc.h" />
     <ClInclude Include="..\Include\Sprite.h" />
+    <ClInclude Include="CardEnum.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
