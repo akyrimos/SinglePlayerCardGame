@@ -14,7 +14,7 @@ string dir = "../Lib/Images/";
 string sprite1Tex = dir+"cardtemplate.png", sprite1Mat = dir+"cardtemplate.png";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
-string backgroundTex = dir+"Earth.tga";
+string backgroundTex = dir+"Outline.png";
 
 // Display
 
@@ -25,7 +25,7 @@ void Display() {
 	glEnable(GL_DEPTH_TEST);
 	background.Display();
 	sprite1.Display();
-	sprite2.Display();
+	//sprite2.Display();
 	glFlush();
 }
 
