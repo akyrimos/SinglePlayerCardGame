@@ -11,7 +11,7 @@ int winWidth = 600, winHeight = 600;
 Sprite background, sprite1, sprite2, *selected = NULL;
 
 string dir = "../Lib/Images/";
-string sprite1Tex = dir+"Lily.tga", sprite1Mat = dir+"1.tga";
+string sprite1Tex = dir+"cardtemplate.png", sprite1Mat = dir+"cardtemplate.png";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Earth.tga";
@@ -70,8 +70,8 @@ int main(int ac, char **av) {
 	gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
 	// read background, foreground, and mat textures
 	background.Initialize(backgroundTex, "", 0, .7f);
-	sprite1.Initialize(combined32, 1, .2f);
-//	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .2f);
+//	sprite1.Initialize(combined32, 1, .2f);
+	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .2f);
 	sprite2.Initialize(sprite2Tex, sprite2Mat, 2, .1f);
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
