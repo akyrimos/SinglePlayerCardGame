@@ -11,7 +11,7 @@ int winWidth = 600, winHeight = 600;
 Sprite background, sprite1, sprite2, *selected = NULL;
 
 string dir = "../Lib/Images/";
-string sprite1Tex = dir+"cardtemplate.png", sprite1Mat = dir+"cardtemplate.png";
+string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
