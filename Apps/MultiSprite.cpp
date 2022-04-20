@@ -8,8 +8,7 @@
 #include "Sprite.h"
 
 int winWidth = 600, winHeight = 600;
-Sprite background, sprite1, sprite2, playCard, *selected = NULL;
-Sprite hand[10];
+Sprite background, sprite1, sprite2, sprite3, playCard, *selected = NULL;
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
@@ -28,7 +27,8 @@ void Display() {
 	glEnable(GL_DEPTH_TEST);
 	background.Display();
 	sprite1.Display();
-	//sprite2.Display();
+	sprite2.Display();
+	sprite3.Display();
 	playCard.Display();
 	glFlush();
 }
@@ -44,6 +44,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		selected = NULL;
 		if (sprite1.Hit(ix, iy)) selected = &sprite1;
 		if (sprite2.Hit(ix, iy)) selected = &sprite2;
+		if (sprite3.Hit(ix, iy)) selected = &sprite3;
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
 	}
@@ -85,12 +86,19 @@ int main(int ac, char** av) {
 	// read background, foreground, and mat textures
 	background.Initialize(backgroundTex, "", 0, .7f);
 	//	sprite1.Initialize(combined32, 1, .2f);
-	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .2f);
-	sprite2.Initialize(sprite2Tex, sprite2Mat, 2, .1f);
-	playCard.Initialize(playCardTex, playCardMat, 3, .3f);
+	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
+	sprite2.Initialize(sprite1Tex, sprite1Mat, 2, .2f);
+	sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
+	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 	sprite1.SetScale({ 0.2f, 0.2f });
-	sprite1.SetPosition({ -.5f,-.5f });
+	sprite1.SetPosition({ -.5f, -.75f });
+	sprite2.SetScale({ 0.2f,0.2f });
+	sprite2.SetPosition({ -.15f,-.75f });
+	sprite3.SetScale({ 0.2f,0.2f });
+	sprite3.SetPosition({.15f, -.75f});
 	playCard.SetScale({ 0.2f, 0.2f });
+	playCard.SetPosition({ 0.5f, .0f });
+
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
 	glfwSetCursorPosCallback(w, MouseMove);
@@ -108,6 +116,7 @@ int main(int ac, char** av) {
 	background.Release();
 	sprite1.Release();
 	sprite2.Release();
+	sprite3.Release();
 	playCard.Release();
 	glfwDestroyWindow(w);
 	glfwTerminate();
