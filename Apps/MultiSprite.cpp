@@ -8,13 +8,16 @@
 #include "Sprite.h"
 
 int winWidth = 600, winHeight = 600;
-Sprite background, sprite1, sprite2, *selected = NULL;
-
+Sprite background, sprite1, sprite2, playCard, *selected = NULL;
+Sprite hand[10];
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string sprite2Tex = dir+"YosemiteSam.tga", sprite2Mat = dir+"2.tga";
+string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
+
+
 
 // Display
 
@@ -26,6 +29,7 @@ void Display() {
 	background.Display();
 	sprite1.Display();
 	//sprite2.Display();
+	playCard.Display();
 	glFlush();
 }
 
@@ -43,6 +47,16 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
 	}
+
+	if (action == GLFW_RELEASE) {
+		if (selected) {
+			if (selected->Intersect(playCard))
+				selected->SetPosition({ -5.0f, -5.0f });
+		}
+		selected = NULL;
+	}
+
+
 }
 
 void MouseMove(GLFWwindow *w, double x, double y) {
@@ -61,18 +75,22 @@ void Resize(GLFWwindow *w, int width, int height) {
 	glViewport(0, 0, winWidth = width, winHeight = height);
 }
 
-int main(int ac, char **av) {
+int main(int ac, char** av) {
 	// init app window and GL context
 	glfwInit();
-	GLFWwindow *w = glfwCreateWindow(winWidth, winHeight, "MultiSprite", NULL, NULL);
+	GLFWwindow* w = glfwCreateWindow(winWidth, winHeight, "MultiSprite", NULL, NULL);
 	glfwSetWindowPos(w, 100, 100);
 	glfwMakeContextCurrent(w);
-	gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	// read background, foreground, and mat textures
 	background.Initialize(backgroundTex, "", 0, .7f);
-//	sprite1.Initialize(combined32, 1, .2f);
+	//	sprite1.Initialize(combined32, 1, .2f);
 	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .2f);
 	sprite2.Initialize(sprite2Tex, sprite2Mat, 2, .1f);
+	playCard.Initialize(playCardTex, playCardMat, 3, .3f);
+	sprite1.SetScale({ 0.2f, 0.2f });
+	sprite1.SetPosition({ -.5f,-.5f });
+	playCard.SetScale({ 0.2f, 0.2f });
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
 	glfwSetCursorPosCallback(w, MouseMove);
@@ -90,6 +108,7 @@ int main(int ac, char **av) {
 	background.Release();
 	sprite1.Release();
 	sprite2.Release();
+	playCard.Release();
 	glfwDestroyWindow(w);
 	glfwTerminate();
 }
