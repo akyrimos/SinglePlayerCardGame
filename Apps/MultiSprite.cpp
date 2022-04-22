@@ -7,7 +7,7 @@
 #include "Misc.h"
 #include "Sprite.h"
 
-int winWidth = 600, winHeight = 600;
+int winWidth = 800, winHeight = 800;
 Sprite background, sprite1, sprite2, sprite3, playCard, *selected = NULL;
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
@@ -31,7 +31,15 @@ void Display() {
 	playCard.Display();
 	glFlush();
 }
-
+//helper method to play a card on a enemy
+void CardPlayer(Sprite* select, Sprite card) {
+	if (select) {
+		if (select->Intersect(card)) {
+			select->SetPosition({ -5.0f, -5.0f });
+		}
+	}
+	select = NULL;
+}
 // Mouse
 
 void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
@@ -49,11 +57,14 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	}
 
 	if (action == GLFW_RELEASE) {
+		CardPlayer(selected, playCard);
+		/*
 		if (selected) {
 			if (selected->Intersect(playCard))
 				selected->SetPosition({ -5.0f, -5.0f });
 		}
 		selected = NULL;
+		*/
 	}
 
 
