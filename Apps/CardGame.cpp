@@ -31,6 +31,7 @@ void Display() {
 	playCard.Display();
 	glFlush();
 }
+
 //helper method to play a card on a enemy
 void CardPlayer(Sprite* select, Sprite card) {
 	if (select) {
@@ -40,6 +41,7 @@ void CardPlayer(Sprite* select, Sprite card) {
 	}
 	select = NULL;
 }
+
 // Mouse
 
 void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
