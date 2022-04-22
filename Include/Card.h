@@ -6,9 +6,16 @@
 #include <vector>
 #include "VecMat.h"
 #include "CardEnum.h"
+#include "Sprite.h"
 
+using std::string;
 
-class Card : public Sprite {
+class Card {
+public:
+	int Energy;
+	int ID;
+	string Name;
+	Sprite Image;
 
 };
 
