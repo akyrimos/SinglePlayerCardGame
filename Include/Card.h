@@ -16,11 +16,9 @@ public:
 	/*
 	* Constructor
 	*/
-	Card();
+	Card(string image);
 
-	Card(const Card &other);
-
-	Card &operator=(const Card& rhs);
+	Card(string image, int ID, string Name);
 
 	~Card();
 
