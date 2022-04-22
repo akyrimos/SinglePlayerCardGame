@@ -13,6 +13,17 @@ using std::string;
 
 class Card {
 public:
+	/*
+	* Constructor
+	*/
+	Card();
+
+	Card(const Card &other);
+
+	Card &operator=(const Card& rhs);
+
+	~Card();
+
 	int Energy;
 	int ID;
 	string Name;
