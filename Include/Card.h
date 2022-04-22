@@ -7,6 +7,7 @@
 #include "VecMat.h"
 #include "CardEnum.h"
 #include "Sprite.h"
+#include "Character.h"
 
 using std::string;
 
@@ -21,7 +22,8 @@ public:
 		CardEnum cardAbility;
 		int value;
 	};
-
+	void PlayCard(Character target);
+	Character CheckTarget(Character target);
 };
 
 #endif
