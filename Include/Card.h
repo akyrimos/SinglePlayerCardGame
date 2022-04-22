@@ -17,6 +17,10 @@ public:
 	string Name;
 	Sprite Image;
 
+	struct Action {
+		int value;
+	};
+
 };
 
 #endif
