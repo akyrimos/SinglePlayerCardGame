@@ -30,7 +30,7 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MultiSprite.cpp">
+    <ClCompile Include="CardGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
