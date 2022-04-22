@@ -2,9 +2,11 @@
 using namespace std;
 
 class Character {
-	private int health;
-	private int temparmor;
-	private int[] buffs;
+private:
+	int health;
+	int temparmor;
+	int buffs[];
 
-	public bool CheckifAlive();
+public:
+	bool CheckifAlive();
 };

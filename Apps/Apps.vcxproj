@@ -161,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Card.h" />
+    <ClInclude Include="..\Include\Character.h" />
     <ClInclude Include="..\Include\Draw.h" />
     <ClInclude Include="..\Include\GLXtras.h" />
     <ClInclude Include="..\Include\Misc.h" />
