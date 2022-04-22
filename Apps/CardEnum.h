@@ -1,3 +1,5 @@
+#ifndef CARDENUM
+#define CARDENUM
 
 using namespace std;
 
@@ -17,3 +19,4 @@ class CardEnum {
 	
 
 };
+#endif // !CARDENUM
