@@ -18,6 +18,7 @@ public:
 	Sprite Image;
 
 	struct Action {
+		CardEnum cardAbility;
 		int value;
 	};
 
