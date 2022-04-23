@@ -18,6 +18,7 @@ public:
 	*/
 	Card(string image);
 
+
 	Card(string image, int ID, string Name);
 
 	~Card();
@@ -27,12 +28,17 @@ public:
 	string Name;
 	Sprite Image;
 
-	struct Action {
-		CardEnum cardAbility;
-		int value;
-	};
+	void SetAction(CardEnum newAbility, int newValue);
 	void PlayCard(Character target);
 	Character CheckTarget(Character target);
+
+private:
+	struct Action {
+		CardEnum ability;
+		int value;
+	};
+
+	Action *CardAction;
 };
 
 #endif
