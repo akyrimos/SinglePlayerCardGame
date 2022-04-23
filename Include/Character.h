@@ -5,7 +5,9 @@ using namespace std;
 
 class Character {
 private:
+	int characterID;
 	int health;
+	int maxHealth;
 	int temparmor;
 	int *status;
 	Sprite Image;
