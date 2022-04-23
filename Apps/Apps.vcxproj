@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Include\Card.cpp" />
     <ClCompile Include="..\Lib\Draw.cpp" />
     <ClCompile Include="..\Lib\glad.c" />
     <ClCompile Include="..\Lib\GLXtras.cpp" />
