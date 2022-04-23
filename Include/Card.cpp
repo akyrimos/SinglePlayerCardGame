@@ -19,6 +19,7 @@ Card::Card(string image) {
 	ID = 1;
 	CardAction = new Action;
 }
-void SetAction(CardEnum newAbility, int newValue) {
-	Card::CardAction.ability = newAbility;
+void Card::SetAction(CardEnum newAbility, int newValue) {
+	CardAction->ability = newAbility;
+	CardAction->value = newValue;
 }
