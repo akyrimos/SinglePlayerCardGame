@@ -6,7 +6,7 @@
 #include "CardEnum.h"
 #include "Sprite.h"
 #include "Character.h"
-#include "../Apps/CardEnum.h"
+#include "CardEnum.h"
 
 using namespace std;
 using std::string;
