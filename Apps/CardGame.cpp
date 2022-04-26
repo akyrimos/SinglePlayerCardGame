@@ -91,7 +91,7 @@ void Resize(GLFWwindow *w, int width, int height) {
 int main(int ac, char** av) {
 	// init app window and GL context
 	glfwInit();
-	GLFWwindow* w = glfwCreateWindow(winWidth, winHeight, "MultiSprite", NULL, NULL);
+	GLFWwindow* w = glfwCreateWindow(winWidth, winHeight, "CardGame", NULL, NULL);
 	glfwSetWindowPos(w, 100, 100);
 	glfwMakeContextCurrent(w);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
