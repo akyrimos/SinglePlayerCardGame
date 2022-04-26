@@ -1,4 +1,4 @@
-// MultiSprite.cpp - multiple movable, selectable, layered sprites
+// CardGame.cpp - hosts the display and runs the while loop
 
 #include <glad.h>
 #include <GLFW/glfw3.h>
