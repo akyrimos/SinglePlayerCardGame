@@ -163,13 +163,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Card.h" />
+    <ClInclude Include="..\Include\CardEnum.h" />
     <ClInclude Include="..\Include\Character.h" />
     <ClInclude Include="..\Include\Draw.h" />
     <ClInclude Include="..\Include\GLXtras.h" />
     <ClInclude Include="..\Include\Misc.h" />
     <ClInclude Include="..\Include\Sprite.h" />
     <ClInclude Include="..\Include\VecMat.h" />
-    <ClInclude Include="CardEnum.h" />
     <ClInclude Include="CardGame.h" />
     <ClInclude Include="Enemy.h" />
   </ItemGroup>

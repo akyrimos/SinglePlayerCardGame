@@ -12,14 +12,55 @@ using namespace std;
 using std::string;
 
 
-Card::Card(string image) {
+Card::Card(string image) 
+{
 	this->Image.Initialize(image, 0.1f);
 	Name = "Default";
 	Energy = 0;
 	ID = 1;
 	CardAction = new Action;
 }
-void Card::SetAction(CardEnum newAbility, int newValue) {
+
+void Card::SetAction(CardEnum newAbility, int newValue) 
+{
 	CardAction->ability = newAbility;
 	CardAction->value = newValue;
+}
+
+void Card::PlayCard(Character target) 
+{
+	if (target.isPlayer()) 
+	{
+		switch (CardAction->ability)
+		{
+		case CardEnum::Defend:
+			cout << "Defend!";
+			break;
+		case CardEnum::Buff:
+			cout << "Buff!";
+			break;
+		case CardEnum::Power:
+			cout << "Power!";
+			break;
+		default:
+			cout << "Invalid Target!";
+			break;
+		}
+	}
+	else if(!target.isPlayer())
+	{
+		switch (CardAction->ability)
+		{
+		case CardEnum::Attack:
+			cout << "Attack!";
+			break;
+		case CardEnum::Debuff:
+			cout << "Debuff!";
+			break;
+		default:
+			cout << "Invalid Target!";
+			break;
+		}
+	}
+
 }
