@@ -23,5 +23,14 @@ Character::~Character()
 
 bool Character::CheckifAlive()
 {
+	if (health > 0) 
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Character::isPlayer() 
+{
 	return false;
 }

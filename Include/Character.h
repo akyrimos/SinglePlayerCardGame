@@ -18,5 +18,6 @@ public:
 	Character& operator=(const Character& rhs);
 	~Character();
 	bool CheckifAlive();
+	bool isPlayer();
 };
 #endif
