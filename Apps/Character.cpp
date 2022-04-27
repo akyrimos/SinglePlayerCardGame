@@ -1,5 +1,4 @@
-#include "Character.h"
-
+#include "../Include/Character.h"
 //	public
 
 Character::Character()
