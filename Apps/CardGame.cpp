@@ -5,15 +5,19 @@
 #include <stdio.h>
 #include "GLXtras.h"
 #include "Misc.h"
+#include "Card.h"
 #include "Sprite.h"
 
+
 int winWidth = 800, winHeight = 800;
-Sprite background, sprite1, sprite2, sprite3, playCard, *selected = NULL;
+Sprite background, sprite1, sprite2, sprite3, playCard, * selected = NULL;
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
+
+
 
 
 
@@ -96,6 +100,8 @@ int main(int ac, char** av) {
 	glfwMakeContextCurrent(w);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	// read background, foreground, and mat textures
+	Card atk = Card(sprite1Tex);
+
 	background.Initialize(backgroundTex, "", 0, .7f);
 	//	sprite1.Initialize(combined32, 1, .2f);
 	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
@@ -120,6 +126,7 @@ int main(int ac, char** av) {
 	glfwSwapInterval(1);
 	while (!glfwWindowShouldClose(w)) {
 		Display();
+		atk.Image.Display();
 		glfwSwapBuffers(w);
 		glfwPollEvents();
 	}

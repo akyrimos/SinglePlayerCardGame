@@ -21,6 +21,11 @@ Card::Card(string image)
 	CardAction = new Action;
 }
 
+Card::~Card() {
+	Image.Release();
+	delete CardAction;
+}
+
 void Card::SetAction(CardEnum newAbility, int newValue) 
 {
 	CardAction->ability = newAbility;
