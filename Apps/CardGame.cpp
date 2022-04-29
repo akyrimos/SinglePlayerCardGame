@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "GLXtras.h"
 #include "Misc.h"
-#include "Card.h"
+#include "../Include/Card.h"
 #include "Sprite.h"
 
 

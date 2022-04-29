@@ -5,7 +5,7 @@
 #include "Card.h"
 #include "CardEnum.h"
 #include "Sprite.h"
-#include "Character.h"
+#include "Actor.h"
 #include "CardEnum.h"
 
 using namespace std;
@@ -32,7 +32,7 @@ void Card::SetAction(CardEnum newAbility, int newValue)
 	CardAction->value = newValue;
 }
 
-void Card::PlayCard(Character target) 
+void Card::PlayCard(Actor target) 
 {
 	if (target.isPlayer()) 
 	{

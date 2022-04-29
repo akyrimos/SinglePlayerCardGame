@@ -1,22 +1,23 @@
-#ifndef CHARACTER
-#define CHARACTER
+#ifndef ACTOR
+#define ACTOR
 #include "Sprite.h"
 using namespace std;
 
-class Character {
+class Actor {
 private:
-	int characterID;
+	int ActorID;
 	int health;
 	int maxHealth;
 	int temparmor;
 	int *status;
 	Sprite Image;
+	static int next_id;
 
 public:
-	Character();
-	Character(const Character& other);
-	Character& operator=(const Character& rhs);
-	~Character();
+	Actor();
+	Actor(const Actor& other);
+	Actor& operator=(const Actor& rhs);
+	~Actor();
 	bool CheckifAlive();
 	bool isPlayer();
 };

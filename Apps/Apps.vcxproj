@@ -158,13 +158,13 @@
     <ClCompile Include="..\Lib\GLXtras.cpp" />
     <ClCompile Include="..\Lib\Misc.cpp" />
     <ClCompile Include="CardGame.cpp" />
-    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Card.h" />
     <ClInclude Include="..\Include\CardEnum.h" />
-    <ClInclude Include="..\Include\Character.h" />
+    <ClInclude Include="..\Include\Actor.h" />
     <ClInclude Include="..\Include\Draw.h" />
     <ClInclude Include="..\Include\GLXtras.h" />
     <ClInclude Include="..\Include\Misc.h" />

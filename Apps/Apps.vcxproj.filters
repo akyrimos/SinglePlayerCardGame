@@ -36,7 +36,7 @@
     <ClCompile Include="..\Include\Card.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Character.cpp">
+    <ClCompile Include="Actor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -59,7 +59,7 @@
     <ClInclude Include="..\Include\VecMat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Character.h">
+    <ClInclude Include="..\Include\Actor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">

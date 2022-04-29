@@ -7,7 +7,7 @@
 #include "VecMat.h"
 #include "CardEnum.h"
 #include "Sprite.h"
-#include "Character.h"
+#include "Actor.h"
 
 using std::string;
 
@@ -29,8 +29,8 @@ public:
 	Sprite Image;
 
 	void SetAction(CardEnum newAbility, int newValue);
-	void PlayCard(Character target);
-	Character CheckTarget(Character target);
+	void PlayCard(Actor target);
+	Actor CheckTarget(Actor target);
 
 private:
 	struct Action {
