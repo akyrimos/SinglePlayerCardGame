@@ -16,7 +16,7 @@ string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
-
+Sprite *interactables[3] = {&sprite1,&sprite2,&sprite3};
 
 
 
@@ -53,11 +53,14 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	glfwGetCursorPos(w, &x, &y);
 	y = winHeight-y; // invert y for upward-increasing screen space
 	if (action == GLFW_PRESS) {
-		int ix = (int) x, iy = (int) y;
+		int ix = (int)x, iy = (int)y;
 		selected = NULL;
-		if (sprite1.Hit(ix, iy)) selected = &sprite1;
+		for (Sprite *x : interactables) {
+			if (x->Hit(ix, iy)) selected = x;
+		}
+		/*if (sprite1.Hit(ix, iy)) selected = &sprite1;
 		if (sprite2.Hit(ix, iy)) selected = &sprite2;
-		if (sprite3.Hit(ix, iy)) selected = &sprite3;
+		if (sprite3.Hit(ix, iy)) selected = &sprite3;*/
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
 	}

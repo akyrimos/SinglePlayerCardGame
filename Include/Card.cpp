@@ -14,7 +14,7 @@ using std::string;
 
 Card::Card(string image) 
 {
-	this->Image.Initialize(image, 0.1f);
+	this->Image.Initialize(image, 0.7f);
 	Name = "Default";
 	Energy = 0;
 	ID = 1;
