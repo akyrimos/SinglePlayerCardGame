@@ -11,10 +11,13 @@
 using namespace std;
 using std::string;
 
-
+Card::Card() {
+	
+}
 Card::Card(string image) 
 {
-	this->Image.Initialize(image, 0.7f);
+	this->Image.Initialize(image, 0.3f);
+	this->Image.SetScale({ 0.2f, 0.2f });
 	Name = "Default";
 	Energy = 0;
 	ID = 1;

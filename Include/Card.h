@@ -16,6 +16,7 @@ public:
 	/*
 	* Constructor
 	*/
+	Card();
 	Card(string image);
 
 
