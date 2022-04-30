@@ -1,5 +1,7 @@
 #include "HandManager.h"
 
 HandManager::HandManager() {
-	hand = new Card[10];
+	cardPtr = new Card[handSize];
+
 }
+

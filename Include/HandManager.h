@@ -5,7 +5,7 @@
 class HandManager
 {
 	int handSize = 10;
-	Card hand[];
+	Card* cardPtr;
 	HandManager();
 };
 #endif
