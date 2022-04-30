@@ -124,7 +124,7 @@ int main(int ac, char** av) {
 	Card atk = Card(sprite1Tex);
 
 	startBackground.Initialize(startscreenBack, "", 10, .7f);
-	start_button.Initialize(startButton, startButtonMat, 11, .3f);
+	start_button.Initialize(startButton, startButtonMat, 11, .25f);
 	start_button.SetScale({ 0.3f, 0.3f });
 	start_button.SetPosition({ .10f, -.45f });
 
