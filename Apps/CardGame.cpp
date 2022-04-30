@@ -10,13 +10,18 @@
 
 
 int winWidth = 800, winHeight = 800;
-Sprite background, sprite1, sprite2, sprite3, playCard, * selected = NULL;
+Sprite background, sprite1, sprite2, sprite3, playCard, * selected = NULL, startBackground, start_button;
+//C:/Users/onlys/Source/Repos/akyrimos/SinglePlayerCardGame
+//../Lib/Images gives error for me (ryan) wont load textures
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
-Sprite *interactables[3] = {&sprite1,&sprite2,&sprite3};
+Sprite *interactables[4] = {&sprite1,&sprite2,&sprite3,&start_button};
+string startscreenBack = dir+"backgroundStart.png";
+string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
+bool startScreen = true;
 
 
 
@@ -33,6 +38,17 @@ void Display() {
 	sprite2.Display();
 	sprite3.Display();
 	playCard.Display();
+	glFlush();
+}
+
+//Added display function for start screen for our program
+void DisplayStartScreen() {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glClear(GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+	startBackground.Display();
+	start_button.Display();
 	glFlush();
 }
 
@@ -63,9 +79,11 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (sprite3.Hit(ix, iy)) selected = &sprite3;*/
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
+			startScreen = false;
 	}
 
 	if (action == GLFW_RELEASE) {
+		startScreen = false;
 		CardPlayer(selected, playCard);
 		/*
 		if (selected) {
@@ -98,12 +116,17 @@ void Resize(GLFWwindow *w, int width, int height) {
 int main(int ac, char** av) {
 	// init app window and GL context
 	glfwInit();
-	GLFWwindow* w = glfwCreateWindow(winWidth, winHeight, "CardGame", NULL, NULL);
+	GLFWwindow* w = glfwCreateWindow(winWidth, winHeight, "Destroy the Aliens", NULL, NULL);
 	glfwSetWindowPos(w, 100, 100);
 	glfwMakeContextCurrent(w);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	// read background, foreground, and mat textures
 	Card atk = Card(sprite1Tex);
+
+	startBackground.Initialize(startscreenBack, "", 10, .7f);
+	start_button.Initialize(startButton, startButtonMat, 11, .3f);
+	start_button.SetScale({ 0.3f, 0.3f });
+	start_button.SetPosition({ .10f, -.45f });
 
 	background.Initialize(backgroundTex, "", 0, .7f);
 	//	sprite1.Initialize(combined32, 1, .2f);
@@ -127,15 +150,27 @@ int main(int ac, char** av) {
 	glfwSetWindowSizeCallback(w, Resize);
 	// event loop
 	glfwSwapInterval(1);
+
 	while (!glfwWindowShouldClose(w)) {
-		Display();
-		atk.Image.Display();
-		glfwSwapBuffers(w);
-		glfwPollEvents();
+		
+		if (startScreen) {
+			DisplayStartScreen();
+			glfwSwapBuffers(w);
+			glfwPollEvents();
+		}
+		else {
+			Display();
+			atk.Image.Display();
+			glfwSwapBuffers(w);
+			glfwPollEvents();
+
+		}
 	}
 	// terminate
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	background.Release();
+	start_button.Release();
+	startBackground.Release();
 	sprite1.Release();
 	sprite2.Release();
 	sprite3.Release();
