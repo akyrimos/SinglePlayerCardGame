@@ -15,6 +15,18 @@ Library::Library() {
 
 }
 
+Library::~Library() {
+
+	for (int i = 0; i < deckLibrary.size(); i++) {
+		deckLibrary.pop();
+	}
+
+	discardPile.clear();
+	delete& deckLibrary;
+	delete& discardPile;
+	
+}
+
 void Library::Shuffle() {
 
 	random_shuffle(discardPile.begin(), discardPile.end());
