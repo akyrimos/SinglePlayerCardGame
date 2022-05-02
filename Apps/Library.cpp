@@ -16,6 +16,12 @@ void Library::Shuffle() {
 	
 }
 
+void Library::Add(Card foo) {
+
+	deckLibrary.push(foo);
+
+}
+
 Card Library::Draw() {
 
 	if (deckLibrary.empty()) {

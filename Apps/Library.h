@@ -14,6 +14,7 @@ public:
 	~Library();
 
 	void Shuffle();
+	void Add(Card foo);
 	Card Draw();
 
 
