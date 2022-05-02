@@ -11,3 +11,21 @@ Library::Library() {
 	cardsRemaining = librarySize;
 
 }
+
+void Library::Shuffle() {
+	
+}
+
+Card Library::Draw() {
+
+	if (deckLibrary.empty()) {
+		Shuffle();
+	}
+
+	Card drawnCard = deckLibrary.top();
+
+	deckLibrary.pop();
+
+	return drawnCard;
+
+}

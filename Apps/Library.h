@@ -14,7 +14,7 @@ public:
 	~Library();
 
 	void Shuffle();
-	void Draw(int drawNum);
+	Card Draw();
 
 
 private:
