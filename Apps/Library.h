@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <stack>
+#include <vector>
 #include "../Include/Card.h"
 
 using namespace std;
@@ -18,7 +19,10 @@ public:
 
 private:
 	stack<Card> deckLibrary;
-
+	vector<Card> cardVec;
+	int librarySize = 10;
+	int cardsRemaining;
+	
 
 };
 
