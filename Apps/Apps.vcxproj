@@ -160,6 +160,7 @@
     <ClCompile Include="CardGame.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="HandManager.cpp" />
+    <ClCompile Include="Library.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +175,7 @@
     <ClInclude Include="..\Include\VecMat.h" />
     <ClInclude Include="CardGame.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Library.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
