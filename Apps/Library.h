@@ -20,7 +20,7 @@ public:
 
 private:
 	stack<Card> deckLibrary;
-	vector<Card> cardVec;
+	vector<Card> discardPile;
 	int librarySize = 10;
 	int cardsRemaining;
 	
