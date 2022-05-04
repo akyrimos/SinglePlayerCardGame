@@ -31,10 +31,10 @@ public:
 
 	void SetAction(CardEnum newAbility, int newValue);
 	void PlayCard(Actor target);
+	void initializeImage(string image);
 	Actor CheckTarget(Actor target);
 
 private:
-
 	CardEnum ability;
 	int value;
 

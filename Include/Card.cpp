@@ -17,8 +17,6 @@ Card::Card() {
 }
 Card::Card(string image) 
 {
-	this->Image.Initialize(image, 0.3f);
-	this->Image.SetScale({ 0.2f, 0.2f });
 	Name = "Default";
 	EnergyCost = 0;
 	ID = 1;
@@ -28,6 +26,11 @@ Card::Card(string image)
 
 Card::~Card() {
 	Image.Release();
+}
+
+void Card::initializeImage(string image) {
+	this->Image.Initialize(image, 0.3f);
+	this->Image.SetScale({ 0.2f, 0.2f });
 }
 
 void Card::SetAction(CardEnum newAbility, int newValue) 
