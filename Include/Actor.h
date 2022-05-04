@@ -18,6 +18,9 @@ public:
 	Actor(const Actor& other);
 	Actor& operator=(const Actor& rhs);
 	~Actor();
+
+	void changeHealth(int healthToAdd);
+	void takeDamage(int damage);
 	bool CheckifAlive();
 	bool isPlayer();
 };
