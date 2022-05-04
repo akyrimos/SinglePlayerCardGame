@@ -13,23 +13,25 @@ using namespace std;
 using std::string;
 
 Card::Card() {
-	
-}
-Card::Card(string image) 
-{
-	Name = "Default";
+	filepath = "../Lib/Images/attack card.png";
 	EnergyCost = 0;
 	ID = 1;
 	ability = CardEnum::Undefined;
-	value = 0;
+}
+
+Card::Card(int EnergyCost, int ID, string name) {
+	this->filepath = name;
+	this->EnergyCost = EnergyCost;
+	this->ID = ID;
+	ability = CardEnum::Undefined;
 }
 
 Card::~Card() {
 	Image.Release();
 }
 
-void Card::initializeImage(string image) {
-	this->Image.Initialize(image, 0.3f);
+void Card::initializeImage(float Zvalue) {
+	this->Image.Initialize(filepath, Zvalue);
 	this->Image.SetScale({ 0.2f, 0.2f });
 }
 

@@ -17,21 +17,18 @@ public:
 	* Constructor
 	*/
 	Card();
-	Card(string image);
-
-
-	Card(string image, int ID, string Name);
+	Card(int EnergyCost, int ID, string name);
 
 	~Card();
 
 	int EnergyCost;
 	int ID;
-	string Name;
+	string filepath;
 	Sprite Image;
 
 	void SetAction(CardEnum newAbility, int newValue);
 	void PlayCard(Actor target);
-	void initializeImage(string image);
+	void initializeImage(float Zvalue);
 	Actor CheckTarget(Actor target);
 
 private:
