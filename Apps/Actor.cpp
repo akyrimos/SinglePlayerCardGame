@@ -43,4 +43,18 @@ bool Actor::isPlayer()
 	return false;
 }
 
+void Actor::changeHealth(int healthToAdd) {
+	if (health + healthToAdd > maxHealth) {
+		health = maxHealth;
+	}
+	else {
+		health += healthToAdd;
+	}
+}
+
+void Actor::takeDamage(int damage) {
+	health -= damage;
+	CheckifAlive();
+}
+
 int Actor::next_id = 0;
