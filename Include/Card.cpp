@@ -8,6 +8,7 @@
 #include "Actor.h"
 #include "CardEnum.h"
 
+
 using namespace std;
 using std::string;
 
@@ -19,27 +20,27 @@ Card::Card(string image)
 	this->Image.Initialize(image, 0.3f);
 	this->Image.SetScale({ 0.2f, 0.2f });
 	Name = "Default";
-	Energy = 0;
+	EnergyCost = 0;
 	ID = 1;
-	CardAction = new Action;
+	ability = CardEnum::Undefined;
+	value = 0;
 }
 
 Card::~Card() {
 	Image.Release();
-	delete CardAction;
 }
 
 void Card::SetAction(CardEnum newAbility, int newValue) 
 {
-	CardAction->ability = newAbility;
-	CardAction->value = newValue;
+	ability = newAbility;
+	value = newValue;
 }
 
 void Card::PlayCard(Actor target) 
 {
 	if (target.isPlayer()) 
 	{
-		switch (CardAction->ability)
+		switch (ability)
 		{
 		case CardEnum::Defend:
 			cout << "Defend!";
@@ -57,7 +58,7 @@ void Card::PlayCard(Actor target)
 	}
 	else if(!target.isPlayer())
 	{
-		switch (CardAction->ability)
+		switch (ability)
 		{
 		case CardEnum::Attack:
 			cout << "Attack!";

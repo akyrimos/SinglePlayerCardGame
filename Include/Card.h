@@ -24,7 +24,7 @@ public:
 
 	~Card();
 
-	int Energy;
+	int EnergyCost;
 	int ID;
 	string Name;
 	Sprite Image;
@@ -34,12 +34,10 @@ public:
 	Actor CheckTarget(Actor target);
 
 private:
-	struct Action {
-		CardEnum ability;
-		int value;
-	};
 
-	Action *CardAction;
+	CardEnum ability;
+	int value;
+
 };
 
 #endif
