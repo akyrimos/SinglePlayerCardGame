@@ -121,7 +121,7 @@ int main(int ac, char** av) {
 	glfwMakeContextCurrent(w);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	// read background, foreground, and mat textures
-	Card atk = Card(sprite1Tex);
+	//Card atk = Card(sprite1Tex);
 
 	startBackground.Initialize(startscreenBack, "", 10, .7f);
 	start_button.Initialize(startButton, startButtonMat, 11, .25f);
