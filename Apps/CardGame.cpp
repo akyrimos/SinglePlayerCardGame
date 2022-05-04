@@ -79,11 +79,12 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (sprite3.Hit(ix, iy)) selected = &sprite3;*/
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
+		if(selected == &start_button)
 			startScreen = false;
 	}
 
 	if (action == GLFW_RELEASE) {
-		startScreen = false;
+		//startScreen = false;
 		CardPlayer(selected, playCard);
 		/*
 		if (selected) {
@@ -160,7 +161,7 @@ int main(int ac, char** av) {
 		}
 		else {
 			Display();
-			atk.Image.Display();
+			//atk.Image.Display();
 			glfwSwapBuffers(w);
 			glfwPollEvents();
 
