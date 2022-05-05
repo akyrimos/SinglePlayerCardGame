@@ -33,6 +33,7 @@ Card::~Card() {
 void Card::initializeImage(float Zvalue) {
 	this->Image.Initialize(filepath, Zvalue);
 	this->Image.SetScale({ 0.2f, 0.2f });
+	this->Image.Display();
 }
 
 void Card::SetAction(CardEnum newAbility, int newValue) 

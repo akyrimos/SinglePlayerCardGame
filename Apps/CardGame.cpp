@@ -18,9 +18,12 @@ string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
-Sprite *interactables[4] = {&sprite1,&sprite2,&sprite3,&start_button};
+Card temp = Card();
+Sprite *interactables[5] = {&sprite1,&sprite2,&sprite3,&start_button,&temp.Image};
 string startscreenBack = dir+"backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
+
+
 bool startScreen = true;
 
 
@@ -34,9 +37,9 @@ void Display() {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	background.Display();
-	sprite1.Display();
-	sprite2.Display();
-	sprite3.Display();
+	//sprite1.Display();
+	//sprite2.Display();
+	//sprite3.Display();
 	playCard.Display();
 	glFlush();
 }
@@ -131,10 +134,11 @@ int main(int ac, char** av) {
 
 	background.Initialize(backgroundTex, "", 0, .7f);
 	//	sprite1.Initialize(combined32, 1, .2f);
-	sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
-	sprite2.Initialize(sprite1Tex, sprite1Mat, 2, .2f);
-	sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
+	//sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
+	//sprite2.Initialize(sprite1Tex, sprite1Mat, 2, .2f);
+	//sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
+
 	sprite1.SetScale({ 0.2f, 0.2f });
 	sprite1.SetPosition({ -.5f, -.75f });
 	sprite2.SetScale({ 0.2f,0.2f });
@@ -161,6 +165,7 @@ int main(int ac, char** av) {
 		}
 		else {
 			Display();
+			temp.initializeImage(.1f);
 			//atk.Image.Display();
 			glfwSwapBuffers(w);
 			glfwPollEvents();
