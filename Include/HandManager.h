@@ -12,7 +12,7 @@ public:
 	~HandManager();
 	void playCard(Card c);
 	void Draw();
-	void Discard();
+	void DiscardHand();
 
 private:
 	int maxHandSize = 10;

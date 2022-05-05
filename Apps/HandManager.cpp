@@ -18,7 +18,14 @@ void HandManager::Draw() {
 	handSize++;
 }
 
+void HandManager::DiscardHand() {
+	for (int i = 0; i < handSize; i++) {
+		libptr->MoveToDiscard(hand[i]);
+	}
 
+	handSize = 0;
+	hand.clear();
+}
 
 
 
