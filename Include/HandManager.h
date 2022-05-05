@@ -11,12 +11,13 @@ public:
 	HandManager();
 	~HandManager();
 	void playCard(Card c);
+	void Draw();
+	void Discard();
+
 private:
 	int maxHandSize = 10;
 	int drawCards = 5;
 	int handSize = 0;
-	void Draw();
-	void Discard();
 	vector<Card> hand;
 	Library* libptr;
 
