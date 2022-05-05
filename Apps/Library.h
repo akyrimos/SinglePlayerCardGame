@@ -16,6 +16,7 @@ public:
 	void Shuffle();
 	void Add(Card foo);
 	Card Draw();
+	void MoveToDiscard(Card foo);
 
 
 private:

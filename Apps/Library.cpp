@@ -58,3 +58,7 @@ Card Library::Draw() {
 	return drawnCard;
 
 }
+
+void Library::MoveToDiscard(Card foo) {
+	discardPile.push_back(foo);
+}
