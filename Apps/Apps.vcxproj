@@ -162,6 +162,7 @@
     <ClCompile Include="HandManager.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Sprite.cpp" />
+    <ClCompile Include="TurnManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Card.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="CardGame.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Library.h" />
+    <ClInclude Include="TurnManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
