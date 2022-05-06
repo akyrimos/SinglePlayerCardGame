@@ -11,18 +11,18 @@ HandManager::~HandManager()
 	delete &hand;
 }
 
-HandManager::HandManager(Library lib) {
+HandManager::HandManager(Library* lib) {
 	vector<Card> hand;
-	libptr = &lib;
+	libptr = lib;
 	selected = nullptr;
 }
 
 HandManager& HandManager::operator=(const HandManager& rhs) {
 	if (this == &rhs) return *this;
 	delete& hand;
-	hand = rhs.hand;
-	libptr = rhs.libptr;
-	maxHandSize = rhs.maxHandSize;
+	this->hand = rhs.hand;
+	this->libptr = rhs.libptr;
+	this->maxHandSize = rhs.maxHandSize;
 	drawCards = rhs.drawCards;
 	return *this;
 }
