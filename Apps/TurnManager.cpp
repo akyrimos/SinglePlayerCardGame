@@ -33,4 +33,5 @@ void TurnManager::RunTurn() {
 		handptr->Draw();
 	}
 
+	turnNum++;
 }
