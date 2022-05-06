@@ -6,6 +6,7 @@
 #include "GLXtras.h"
 #include "Misc.h"
 #include "../Include/Card.h"
+#include "vector"
 #include "Sprite.h"
 
 
@@ -19,7 +20,7 @@ string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
 Card temp = Card();
-Sprite *interactables[5] = {&sprite1,&sprite2,&sprite3,&start_button,&temp.Image};
+vector<Sprite*> interactables;
 string startscreenBack = dir+"backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
 
@@ -50,8 +51,11 @@ void DisplayStartScreen() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
+	interactables.push_back(&start_button);
+	interactables.push_back(&temp.Image);
 	startBackground.Display();
 	start_button.Display();
+
 	glFlush();
 }
 
@@ -74,12 +78,9 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		int ix = (int)x, iy = (int)y;
 		selected = NULL;
-		for (Sprite *x : interactables) {
+		for (Sprite* x : interactables) {
 			if (x->Hit(ix, iy)) selected = x;
 		}
-		/*if (sprite1.Hit(ix, iy)) selected = &sprite1;
-		if (sprite2.Hit(ix, iy)) selected = &sprite2;
-		if (sprite3.Hit(ix, iy)) selected = &sprite3;*/
 		if (selected)
 			selected->MouseDown(vec2((float) x, (float) y));
 		if(selected == &start_button)
