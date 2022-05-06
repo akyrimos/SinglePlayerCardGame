@@ -20,7 +20,6 @@ public:
 
 private:
 
-	Library* libptr;
 	HandManager* handptr;
 	Enemy* enemyptr;
 	Actor* actptr;
