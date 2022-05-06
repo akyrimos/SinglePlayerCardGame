@@ -8,7 +8,7 @@ private:
 	int ActorID;
 	int health;
 	int maxHealth;
-	int temparmor;
+	int tempArmor;
 	int *status;
 	Sprite Image;
 	static int next_id;
@@ -19,9 +19,10 @@ public:
 	Actor& operator=(const Actor& rhs);
 	~Actor();
 
-	void changeHealth(int healthToAdd);
-	void takeDamage(int damage);
+	void ChangeHealth(int healthToAdd);
+	void TakeDamage(int damage);
 	bool CheckifAlive();
 	bool isPlayer();
+	void RemoveArmor();
 };
 #endif

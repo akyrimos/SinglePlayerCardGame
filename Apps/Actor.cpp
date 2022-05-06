@@ -8,7 +8,7 @@ Actor::Actor()
 	ActorID = next_id;
 	maxHealth = 10;
 	health = maxHealth;
-	temparmor = 0;
+	tempArmor = 0;
 	status = 0;
 
 
@@ -43,7 +43,7 @@ bool Actor::isPlayer()
 	return false;
 }
 
-void Actor::changeHealth(int healthToAdd) {
+void Actor::ChangeHealth(int healthToAdd) {
 	if (health + healthToAdd > maxHealth) {
 		health = maxHealth;
 	}
@@ -52,9 +52,17 @@ void Actor::changeHealth(int healthToAdd) {
 	}
 }
 
-void Actor::takeDamage(int damage) {
-	health -= damage;
-	CheckifAlive();
+void Actor::TakeDamage(int damage) {
+	tempArmor -= damage;
+	if (tempArmor < 0) {
+		health -= abs(tempArmor);
+		RemoveArmor();
+		CheckifAlive();
+	}
+}
+
+void Actor::RemoveArmor() {
+	tempArmor = 0;
 }
 
 int Actor::next_id = 0;
