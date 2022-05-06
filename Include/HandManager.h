@@ -10,6 +10,7 @@ class HandManager
 public:
 	HandManager();
 	~HandManager();
+	HandManager& operator=(const HandManager& rhs);
 	void playCard(Card c);
 	void Draw();
 	void DiscardHand();

@@ -8,8 +8,22 @@ HandManager::HandManager() {
 HandManager::~HandManager()
 {
 	delete &hand;
-	// not sure if HandManager is responsible for Library
-	// delete library;
+	delete libptr;
+}
+
+HandManager& HandManager::operator=(const HandManager& rhs) {
+	if (this == &rhs) return *this;
+	delete& hand;
+	delete libptr;
+	hand = rhs.hand;
+	libptr = rhs.libptr;
+	maxHandSize = rhs.maxHandSize;
+	drawCards = rhs.drawCards;
+	return *this;
+}
+
+void HandManager::playCard(Card c)
+{
 }
 
 void HandManager::Draw() {
