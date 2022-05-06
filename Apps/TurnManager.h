@@ -10,9 +10,8 @@ class TurnManager
 public:
 
 	int turnNum = 1;
-	int drawForTurn = 5;
 
-	TurnManager(Library* libptr, HandManager* handptr);
+	TurnManager(HandManager* handptr, Enemy* enemyptr, Actor* actorptr);
 
 	~TurnManager();
 
@@ -23,6 +22,8 @@ private:
 
 	Library* libptr;
 	HandManager* handptr;
+	Enemy* enemyptr;
+	Actor* actptr;
 
 };
 
