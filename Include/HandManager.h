@@ -16,10 +16,11 @@ public:
 	void Draw();
 	void DiscardHand();
 
-private:
 	int maxHandSize = 10;
 	int drawCards = 5;
 	int handSize = 0;
+
+private:
 	vector<Card> hand;
 	Card* selected;
 	Library* libptr;
