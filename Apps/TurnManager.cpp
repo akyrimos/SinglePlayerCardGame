@@ -2,12 +2,16 @@
 
 using namespace std;
 
-TurnManager::TurnManager(Library lib, HandManager hand) {
+//TurnManager tm(..)
+//if using this version pass in "&hand" on instantiation
+TurnManager::TurnManager(Library* lib, HandManager* hand) {
 
-	this->libptr = &lib;
-	this->handptr = &hand;
+	this->libptr = lib;
+	this->handptr = hand;
 
 }
+
+
 
 TurnManager::~TurnManager() {
 

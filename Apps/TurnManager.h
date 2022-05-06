@@ -12,7 +12,8 @@ public:
 	int turnNum = 1;
 	int drawForTurn = 5;
 
-	TurnManager(Library libptr, HandManager handptr);
+	TurnManager(Library* libptr, HandManager* handptr);
+
 	~TurnManager();
 
 	void RunTurn();
