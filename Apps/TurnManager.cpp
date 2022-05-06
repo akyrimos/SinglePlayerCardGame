@@ -24,6 +24,10 @@ void TurnManager::RunTurn() {
 
 	//Enemy takes turn
 
+	actptr->RemoveArmor();
+	enemyptr->RemoveArmor();
+
+	//tick down status effects go here
 
 	for (int i = 0; i < handptr->drawCards; i++) {
 		handptr->Draw();
