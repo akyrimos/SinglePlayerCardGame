@@ -30,9 +30,12 @@ Card::~Card() {
 	Image.Release();
 }
 
-void Card::initializeImage(float Zvalue) {
-	this->Image.Initialize(filepath, Zvalue);
+void Card::initializeImage(float depth) {
+	this->Image.Initialize(filepath, depth);
 	this->Image.SetScale({ 0.2f, 0.2f });
+}
+
+void Card::Display() {
 	this->Image.Display();
 }
 

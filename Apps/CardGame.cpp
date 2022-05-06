@@ -60,13 +60,15 @@ void DisplayStartScreen() {
 }
 
 //helper method to play a card on a enemy
-void CardPlayer(Sprite* select, Sprite card) {
-	if (select) {
-		if (select->Intersect(card)) {
-			select->SetPosition({ -5.0f, -5.0f });
+void CardPlayer(Sprite* card, Sprite target) {
+	if (card) {
+		if (card->Intersect(target)) {
+			card->SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
+
 		}
 	}
-	select = NULL;
+	//before it goes null add the card to the discard pile (library)
+	card = NULL;
 }
 
 // Mouse
@@ -140,6 +142,7 @@ int main(int ac, char** av) {
 	//sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 
+	temp.initializeImage(.1f);
 	sprite1.SetScale({ 0.2f, 0.2f });
 	sprite1.SetPosition({ -.5f, -.75f });
 	sprite2.SetScale({ 0.2f,0.2f });
@@ -166,8 +169,7 @@ int main(int ac, char** av) {
 		}
 		else {
 			Display();
-			temp.initializeImage(.1f);
-			//atk.Image.Display();
+			temp.Display();
 			glfwSwapBuffers(w);
 			glfwPollEvents();
 
