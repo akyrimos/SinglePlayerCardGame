@@ -26,7 +26,11 @@ string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not suppor
 string backgroundTex = dir+"Outline.png";
 
 Card temp = Card();
-
+Library library = Library();
+HandManager hand = HandManager(&library);
+Actor player = Actor();
+Enemy alien = Enemy();
+TurnManager turnEngine = TurnManager(&hand, &alien, &player);
 
 vector<Sprite*> interactables;
 string startscreenBack = dir+"backgroundStart.png";
