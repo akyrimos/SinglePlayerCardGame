@@ -159,6 +159,7 @@
     <ClCompile Include="..\Lib\Misc.cpp" />
     <ClCompile Include="CardGame.cpp" />
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="HandManager.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="Sprite.cpp" />
