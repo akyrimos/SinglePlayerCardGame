@@ -8,6 +8,11 @@
 #include "../Include/Card.h"
 #include "vector"
 #include "Sprite.h"
+#include "Library.h"
+#include "TurnManager.h"
+#include "Actor.h"
+#include "Enemy.h"
+#include "../Include/HandManager.h"
 
 
 int winWidth = 800, winHeight = 800;
@@ -19,7 +24,10 @@ string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
+
 Card temp = Card();
+
+
 vector<Sprite*> interactables;
 string startscreenBack = dir+"backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
