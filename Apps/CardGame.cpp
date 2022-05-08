@@ -25,7 +25,15 @@ string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
 
-Card temp = Card();
+Card card1 = Card();
+Card card2 = Card();
+Card card3 = Card();
+Card card4 = Card();
+Card card5 = Card();
+
+
+
+
 Library library = Library();
 HandManager hand = HandManager(&library);
 Actor player = Actor();
@@ -64,7 +72,7 @@ void DisplayStartScreen() {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	interactables.push_back(&start_button);
-	interactables.push_back(&temp.Image);
+	interactables.push_back(&card1.Image);
 	startBackground.Display();
 	start_button.Display();
 
@@ -154,7 +162,7 @@ int main(int ac, char** av) {
 	//sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 
-	temp.initializeImage(.1f);
+	card1.initializeImage(.1f);
 	sprite1.SetScale({ 0.2f, 0.2f });
 	sprite1.SetPosition({ -.5f, -.75f });
 	sprite2.SetScale({ 0.2f,0.2f });
@@ -163,6 +171,12 @@ int main(int ac, char** av) {
 	sprite3.SetPosition({.15f, -.75f});
 	playCard.SetScale({ 0.2f, 0.2f });
 	playCard.SetPosition({ 0.5f, .0f });
+
+	library.Add(card1);
+	library.Add(card2);
+	library.Add(card3);
+	library.Add(card4);
+	library.Add(card5);
 
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
@@ -181,7 +195,7 @@ int main(int ac, char** av) {
 		}
 		else {
 			Display();
-			temp.Display();
+			card1.Display();
 			glfwSwapBuffers(w);
 			glfwPollEvents();
 
