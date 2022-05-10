@@ -60,6 +60,7 @@ void Display() {
 	background.Display();
 	playCard.Display();
 	endTurn.Display();
+	card1.Display();
 	glFlush();
 }
 
@@ -101,10 +102,15 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		for (Sprite* x : interactables) {
 			if (x->Hit(ix, iy)) selected = x;
 		}
-		if (selected)
-			selected->MouseDown(vec2((float) x, (float) y));
-		if(selected == &start_button)
+		if (selected) {
+			selected->MouseDown(vec2((float)x, (float)y));
+		}
+		if (selected == &start_button) {
 			startScreen = false;
+		}
+		if (selected == &endTurn) {
+			turnEngine.RunTurn();
+		}
 	}
 
 	if (action == GLFW_RELEASE) {
@@ -186,7 +192,6 @@ int main(int ac, char** av) {
 		}
 		else {
 			Display();
-			card1.Display();
 			glfwSwapBuffers(w);
 			glfwPollEvents();
 
