@@ -61,6 +61,11 @@ void Display() {
 	playCard.Display();
 	endTurn.Display();
 	card1.Display();
+	card2.Display();
+	card3.Display();
+	card4.Display();
+	card5.Display();
+
 	glFlush();
 }
 
@@ -71,7 +76,14 @@ void DisplayStartScreen() {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	interactables.push_back(&start_button);
+
+	interactables.push_back(&endTurn);
+
 	interactables.push_back(&card1.Image);
+	interactables.push_back(&card2.Image);
+	interactables.push_back(&card3.Image);
+	interactables.push_back(&card4.Image);
+	interactables.push_back(&card5.Image);
 	startBackground.Display();
 	start_button.Display();
 
@@ -88,6 +100,12 @@ void CardPlayer(Sprite* card, Sprite target) {
 	}
 	//before it goes null add the card to the discard pile (library)
 	card = NULL;
+}
+
+void SetHand() {
+	for (int i = 0; i < hand.handSize; i++) {
+		hand.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); 
+	}
 }
 
 // Mouse
@@ -110,6 +128,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		}
 		if (selected == &endTurn) {
 			turnEngine.RunTurn();
+			SetHand();
 		}
 	}
 
@@ -138,11 +157,6 @@ void MouseWheel(GLFWwindow *w, double ignore, double spin) {
 		selected->MouseWheel(spin);
 }
 
-void SetHand() {
-	for (int i = 0; i < hand.handSize; i++) {
-		hand.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); //Attrocious... haha
-	}
-}
 // Application
 
 void Resize(GLFWwindow *w, int width, int height) {
@@ -174,7 +188,12 @@ int main(int ac, char** av) {
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 	endTurn.Initialize(endTurnTex, "", 5, .1f);
 
-	card1.initializeImage(.1f);
+	card1.initializeImage(.2f);
+	card2.initializeImage(.3f);
+	card3.initializeImage(.4f);
+	card4.initializeImage(.5f);
+	card5.initializeImage(.6f);
+
 	playCard.SetScale({ 0.2f, 0.2f });
 	playCard.SetPosition({ 0.5f, .0f });
 	endTurn.SetScale({ 0.2f, 0.1f });
