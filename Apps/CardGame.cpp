@@ -16,7 +16,7 @@
 
 
 int winWidth = 800, winHeight = 800;
-Sprite background, sprite1, sprite2, sprite3, playCard, * selected = NULL, startBackground, start_button;
+Sprite background, sprite1, sprite2, sprite3, playCard, endTurn, * selected = NULL, startBackground, start_button;
 //C:/Users/onlys/Source/Repos/akyrimos/SinglePlayerCardGame
 //../Lib/Images gives error for me (ryan) wont load textures
 string dir = "../Lib/Images/";
@@ -24,6 +24,7 @@ string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
+string endTurnTex = dir + "end_turn_btn.png";
 
 Card card1 = Card();
 Card card2 = Card();
@@ -61,6 +62,7 @@ void Display() {
 	//sprite2.Display();
 	//sprite3.Display();
 	playCard.Display();
+	endTurn.Display();
 	glFlush();
 }
 
@@ -166,6 +168,7 @@ int main(int ac, char** av) {
 	//sprite2.Initialize(sprite1Tex, sprite1Mat, 2, .2f);
 	//sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
+	endTurn.Initialize(endTurnTex, "", 5, .1f);
 
 	card1.initializeImage(.1f);
 //	sprite1.SetScale({ 0.2f, 0.2f });
@@ -176,6 +179,8 @@ int main(int ac, char** av) {
 //	sprite3.SetPosition({.15f, -.75f});
 	playCard.SetScale({ 0.2f, 0.2f });
 	playCard.SetPosition({ 0.5f, .0f });
+	endTurn.SetScale({ 0.2f, 0.1f });
+	endTurn.SetPosition({ 0.5f, -.3f });
 
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
@@ -209,6 +214,7 @@ int main(int ac, char** av) {
 	sprite2.Release();
 	sprite3.Release();
 	playCard.Release();
+	endTurn.Release();
 	glfwDestroyWindow(w);
 	glfwTerminate();
 }
