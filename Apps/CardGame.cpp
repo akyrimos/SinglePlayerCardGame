@@ -60,12 +60,17 @@ void Display() {
 	background.Display();
 	playCard.Display();
 	endTurn.Display();
+	for (int i = 0; i < hm.handSize; i++) {
+		hm.hand.at(i)->Display();
+	}
+	/*
+	
 	card1.Display();
 	card2.Display();
 	card3.Display();
 	card4.Display();
 	card5.Display();
-
+	*/
 	glFlush();
 }
 
@@ -104,8 +109,9 @@ void CardPlayer(Sprite* card, Sprite target) {
 
 void SetHand() {
 	for (int i = 0; i < hm.handSize; i++) {
-		hm.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); 
+		hm.hand.at(i)->Image.SetPosition({ handXPos[i], handYPos }); 
 	}
+//	card1.Image.SetPosition({ handXPos[0], handYPos });
 }
 
 // Mouse
@@ -178,16 +184,19 @@ int main(int ac, char** av) {
 	start_button.SetScale({ 0.3f, 0.3f });
 	start_button.SetPosition({ .10f, -.45f });
 
-	library.Add(card1);
-	library.Add(card2);
-	library.Add(card3);
-	library.Add(card4);
-	library.Add(card5);
+	library.Add(&card1);
+	library.Add(&card2);
+	library.Add(&card3);
+	library.Add(&card4);
+	library.Add(&card5);
+
+
 
 	background.Initialize(backgroundTex, "", 0, .7f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 	endTurn.Initialize(endTurnTex, "", 5, .1f);
 
+	
 	card1.initializeImage(.2f);
 	card2.initializeImage(.3f);
 	card3.initializeImage(.4f);
