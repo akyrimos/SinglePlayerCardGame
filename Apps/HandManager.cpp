@@ -1,7 +1,7 @@
 #include "HandManager.h"
 
 HandManager::HandManager() {
-	vector<Card> hand;
+	vector<Card*> hand;
 	libptr = nullptr;
 	selected = nullptr;
 }
@@ -12,7 +12,7 @@ HandManager::~HandManager()
 }
 
 HandManager::HandManager(Library* lib) {
-	vector<Card> hand;
+	vector<Card*> hand;
 	libptr = lib;
 	selected = nullptr;
 }
@@ -45,6 +45,8 @@ void HandManager::DiscardHand() {
 	hand.clear();
 }
 
-
+void HandManager::SetCardPosition(float x, float y, int index) {
+	hand.at(index)->Image.SetPosition({ x, y });
+}
 
 

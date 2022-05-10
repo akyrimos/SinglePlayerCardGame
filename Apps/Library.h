@@ -14,14 +14,14 @@ public:
 	~Library();
 
 	void Shuffle();
-	void Add(Card foo);
-	Card Draw();
-	void MoveToDiscard(Card foo);
+	void Add(Card* foo);
+	Card* Draw();
+	void MoveToDiscard(Card* foo);
 
 
 private:
-	stack<Card> deckLibrary;
-	vector<Card> discardPile;
+	stack<Card*> deckLibrary;
+	vector<Card*> discardPile;
 	int librarySize = 10;
 	int cardsRemaining;
 	

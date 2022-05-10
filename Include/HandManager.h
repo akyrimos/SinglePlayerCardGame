@@ -15,11 +15,12 @@ public:
 	void playCard(Card c);
 	void Draw();
 	void DiscardHand();
+	void SetCardPosition(float x, float y, int index);
 
 	int maxHandSize = 10;
 	int drawCards = 5;
 	int handSize = 0;
-	vector<Card> hand;
+	vector<Card*> hand;
 
 private:
 	Card* selected;

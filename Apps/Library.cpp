@@ -9,8 +9,8 @@ using namespace std;
 
 Library::Library() {
 
-	stack<Card> deckLibrary;
-	vector<Card> discardPile;
+	stack<Card*> deckLibrary;
+	vector<Card*> discardPile;
 	cardsRemaining = librarySize;
 
 }
@@ -39,19 +39,18 @@ void Library::Shuffle() {
 
 }
 
-void Library::Add(Card foo) {
-
+void Library::Add(Card* foo) {
 	deckLibrary.push(foo);
 
 }
 
-Card Library::Draw() {
+Card* Library::Draw() {
 
 	if (deckLibrary.empty()) {
 		Shuffle();
 	}
 
-	Card drawnCard = deckLibrary.top();
+	Card* drawnCard = deckLibrary.top();
 
 	deckLibrary.pop();
 
@@ -59,6 +58,6 @@ Card Library::Draw() {
 
 }
 
-void Library::MoveToDiscard(Card foo) {
+void Library::MoveToDiscard(Card* foo) {
 	discardPile.push_back(foo);
 }
