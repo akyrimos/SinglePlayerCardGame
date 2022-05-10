@@ -138,6 +138,11 @@ void MouseWheel(GLFWwindow *w, double ignore, double spin) {
 		selected->MouseWheel(spin);
 }
 
+void SetHand() {
+	for (int i = 0; i < hand.handSize; i++) {
+		hand.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); //Attrocious... haha
+	}
+}
 // Application
 
 void Resize(GLFWwindow *w, int width, int height) {
