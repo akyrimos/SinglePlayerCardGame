@@ -31,9 +31,6 @@ Card card3 = Card();
 Card card4 = Card();
 Card card5 = Card();
 
-
-
-
 Library library = Library();
 HandManager hand = HandManager(&library);
 Actor player = Actor();
@@ -44,6 +41,8 @@ vector<Sprite*> interactables;
 string startscreenBack = dir+"backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
 
+float handXPos[10] = {-.50f, -.40f, -.30f, -.20f, -.10f, 0, .10f, .20f, .30f, .40f};
+const float handYPos = -.75f;
 
 bool startScreen = true;
 
@@ -155,6 +154,12 @@ int main(int ac, char** av) {
 	start_button.SetScale({ 0.3f, 0.3f });
 	start_button.SetPosition({ .10f, -.45f });
 
+	library.Add(card1);
+	library.Add(card2);
+	library.Add(card3);
+	library.Add(card4);
+	library.Add(card5);
+
 	background.Initialize(backgroundTex, "", 0, .7f);
 	//	sprite1.Initialize(combined32, 1, .2f);
 	//sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
@@ -163,20 +168,14 @@ int main(int ac, char** av) {
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 
 	card1.initializeImage(.1f);
-	sprite1.SetScale({ 0.2f, 0.2f });
-	sprite1.SetPosition({ -.5f, -.75f });
-	sprite2.SetScale({ 0.2f,0.2f });
-	sprite2.SetPosition({ -.15f,-.75f });
-	sprite3.SetScale({ 0.2f,0.2f });
-	sprite3.SetPosition({.15f, -.75f});
+//	sprite1.SetScale({ 0.2f, 0.2f });
+//	sprite1.SetPosition({ -.5f, -.75f });
+//	sprite2.SetScale({ 0.2f,0.2f });
+//	sprite2.SetPosition({ -.15f,-.75f });
+//	sprite3.SetScale({ 0.2f,0.2f });/
+//	sprite3.SetPosition({.15f, -.75f});
 	playCard.SetScale({ 0.2f, 0.2f });
 	playCard.SetPosition({ 0.5f, .0f });
-
-	library.Add(card1);
-	library.Add(card2);
-	library.Add(card3);
-	library.Add(card4);
-	library.Add(card5);
 
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
