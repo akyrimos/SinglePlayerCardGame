@@ -35,10 +35,10 @@ Card card4 = Card();
 Card card5 = Card();
 
 Library library = Library();
-HandManager hand = HandManager(&library);
+HandManager hm = HandManager(&library);
 Actor player = Actor();
 Enemy alien = Enemy();
-TurnManager turnEngine = TurnManager(&hand, &alien, &player);
+TurnManager turnEngine = TurnManager(&hm, &alien, &player);
 
 vector<Sprite*> interactables;
 
@@ -103,8 +103,8 @@ void CardPlayer(Sprite* card, Sprite target) {
 }
 
 void SetHand() {
-	for (int i = 0; i < hand.handSize; i++) {
-		hand.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); 
+	for (int i = 0; i < hm.handSize; i++) {
+		hm.hand.at(i).Image.SetPosition({ handXPos[i], handYPos }); 
 	}
 }
 
