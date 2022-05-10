@@ -16,7 +16,7 @@
 
 
 int winWidth = 800, winHeight = 800;
-Sprite background, sprite1, sprite2, sprite3, playCard, endTurn, * selected = NULL, startBackground, start_button;
+Sprite background, playCard, endTurn, * selected = NULL, startBackground, start_button;
 //C:/Users/onlys/Source/Repos/akyrimos/SinglePlayerCardGame
 //../Lib/Images gives error for me (ryan) wont load textures
 string dir = "../Lib/Images/";
@@ -25,6 +25,8 @@ string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"Outline.png";
 string endTurnTex = dir + "end_turn_btn.png";
+string startscreenBack = dir + "backgroundStart.png";
+string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
 
 Card card1 = Card();
 Card card2 = Card();
@@ -39,8 +41,6 @@ Enemy alien = Enemy();
 TurnManager turnEngine = TurnManager(&hand, &alien, &player);
 
 vector<Sprite*> interactables;
-string startscreenBack = dir+"backgroundStart.png";
-string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
 
 float handXPos[10] = {-.50f, -.40f, -.30f, -.20f, -.10f, 0, .10f, .20f, .30f, .40f};
 const float handYPos = -.75f;
@@ -58,9 +58,6 @@ void Display() {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	background.Display();
-	//sprite1.Display();
-	//sprite2.Display();
-	//sprite3.Display();
 	playCard.Display();
 	endTurn.Display();
 	glFlush();
@@ -163,29 +160,19 @@ int main(int ac, char** av) {
 	library.Add(card5);
 
 	background.Initialize(backgroundTex, "", 0, .7f);
-	//	sprite1.Initialize(combined32, 1, .2f);
-	//sprite1.Initialize(sprite1Tex, sprite1Mat, 1, .1f);
-	//sprite2.Initialize(sprite1Tex, sprite1Mat, 2, .2f);
-	//sprite3.Initialize(sprite1Tex, sprite1Mat, 3, .3f);
 	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
 	endTurn.Initialize(endTurnTex, "", 5, .1f);
 
 	card1.initializeImage(.1f);
-//	sprite1.SetScale({ 0.2f, 0.2f });
-//	sprite1.SetPosition({ -.5f, -.75f });
-//	sprite2.SetScale({ 0.2f,0.2f });
-//	sprite2.SetPosition({ -.15f,-.75f });
-//	sprite3.SetScale({ 0.2f,0.2f });/
-//	sprite3.SetPosition({.15f, -.75f});
 	playCard.SetScale({ 0.2f, 0.2f });
 	playCard.SetPosition({ 0.5f, .0f });
 	endTurn.SetScale({ 0.2f, 0.1f });
-	endTurn.SetPosition({ 0.5f, -.3f });
+	endTurn.SetPosition({ 0.5f, -.4f });
 
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
 	glfwSetCursorPosCallback(w, MouseMove);
-	glfwSetScrollCallback(w, MouseWheel);
+	//glfwSetScrollCallback(w, MouseWheel);
 	glfwSetWindowSizeCallback(w, Resize);
 	// event loop
 	glfwSwapInterval(1);
@@ -210,9 +197,6 @@ int main(int ac, char** av) {
 	background.Release();
 	start_button.Release();
 	startBackground.Release();
-	sprite1.Release();
-	sprite2.Release();
-	sprite3.Release();
 	playCard.Release();
 	endTurn.Release();
 	glfwDestroyWindow(w);
