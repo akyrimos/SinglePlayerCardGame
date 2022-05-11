@@ -17,13 +17,11 @@ Library::Library() {
 
 Library::~Library() {
 
-	for (int i = 0; i < deckLibrary.size(); i++) {
-		deckLibrary.pop();
-	}
+	//for (int i = 0; i < deckLibrary.size(); i++) {
+	//	deckLibrary.pop();
+	//}
 
-	discardPile.clear();
-	delete& deckLibrary;
-	delete& discardPile;
+	//discardPile.clear();
 	
 }
 

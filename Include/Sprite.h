@@ -50,6 +50,7 @@ public:
 	void SetFrameDuration(float dt); // if animating
 	Sprite(vec2 p = vec2(), float s = 1) : position(p), scale(vec2(s, s)) { UpdateTransform(); }
 	Sprite(vec2 p, vec2 s) : position(p), scale(s) { UpdateTransform(); }
+	~Sprite() { Release(); }
 };
 
 #endif

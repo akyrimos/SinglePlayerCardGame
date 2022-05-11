@@ -27,7 +27,6 @@ Card::Card(int EnergyCost, int ID, string name) {
 }
 
 Card::~Card() {
-	Image.Release();
 }
 
 void Card::initializeImage(float depth) {

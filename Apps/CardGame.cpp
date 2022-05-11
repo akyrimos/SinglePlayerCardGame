@@ -232,11 +232,11 @@ int main(int ac, char** av) {
 	}
 	// terminate
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	background.Release();
-	start_button.Release();
-	startBackground.Release();
-	playCard.Release();
-	endTurn.Release();
+	//background.Release();
+	//start_button.Release();
+	//startBackground.Release();
+	//playCard.Release();
+	//endTurn.Release();
 	glfwDestroyWindow(w);
 	glfwTerminate();
 }

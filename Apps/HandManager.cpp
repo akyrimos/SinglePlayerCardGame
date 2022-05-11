@@ -8,7 +8,6 @@ HandManager::HandManager() {
 
 HandManager::~HandManager()
 {
-	delete &hand;
 }
 
 HandManager::HandManager(Library* lib) {
