@@ -23,7 +23,7 @@ string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
 string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
-string backgroundTex = dir+"Outline.png";
+string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir + "end_turn_btn.png";
 string startscreenBack = dir + "backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
