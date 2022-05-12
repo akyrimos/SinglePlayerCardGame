@@ -109,7 +109,11 @@ void CardPlayer(Sprite* card, Sprite target) {
 
 void SetHand() {
 	for (int i = 0; i < hm.handSize; i++) {
+
+		hm.hand.at(i)->Image.z = (float)i * 0.1f + 0.2f;
 		hm.hand.at(i)->Image.SetPosition({ handXPos[i], handYPos }); 
+
+
 	}
 //	card1.Image.SetPosition({ handXPos[0], handYPos });
 }
