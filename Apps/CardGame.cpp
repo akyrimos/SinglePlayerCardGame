@@ -28,14 +28,14 @@ string endTurnTex = dir + "end_turn_btn.png";
 string startscreenBack = dir + "backgroundStart.png";
 string startButton = dir + "startScreenButton.png", startButtonMat = dir + "startScreenButton.png";
 
-Card card1 = Card();
-Card card2 = Card();
-Card card3 = Card();
-Card card4 = Card();
-Card card5 = Card();
+Card card1;
+Card card2;
+Card card3;
+Card card4;
+Card card5;
 
 Library library = Library();
-HandManager hm = HandManager(&library);
+HandManager hm(&library);
 Actor player = Actor();
 Enemy alien = Enemy();
 TurnManager turnEngine = TurnManager(&hm, &alien, &player);

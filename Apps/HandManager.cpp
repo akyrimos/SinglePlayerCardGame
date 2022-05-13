@@ -16,15 +16,15 @@ HandManager::HandManager(Library* lib) {
 	selected = nullptr;
 }
 
-HandManager& HandManager::operator=(const HandManager& rhs) {
-	if (this == &rhs) return *this;
-	delete& hand;
-	this->hand = rhs.hand;
-	this->libptr = rhs.libptr;
-	this->maxHandSize = rhs.maxHandSize;
-	drawCards = rhs.drawCards;
-	return *this;
-}
+//HandManager& HandManager::operator=(const HandManager& rhs) {
+//	if (this == &rhs) return *this;
+//	delete& hand;
+//	this->hand = rhs.hand;
+//	this->libptr = rhs.libptr;
+//	this->maxHandSize = rhs.maxHandSize;
+//	drawCards = rhs.drawCards;
+//	return *this;
+//}
 
 void HandManager::playCard(Card c)
 {

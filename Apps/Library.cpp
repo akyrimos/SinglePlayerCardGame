@@ -9,8 +9,8 @@ using namespace std;
 
 Library::Library() {
 
-	stack<Card*> deckLibrary;
-	vector<Card*> discardPile;
+	/*stack<Card*> deckLibrary;
+	vector<Card*> discardPile;*/
 	cardsRemaining = librarySize;
 
 }
