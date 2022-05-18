@@ -44,9 +44,27 @@ void Card::SetAction(CardEnum newAbility, int newValue)
 	value = newValue;
 }
 
-void Card::PlayCard(Actor target) 
+void Card::PlayCard()
 {
-	if (target.isPlayer()) 
+	switch (ability)
+	{
+	case CardEnum::Defend:
+		cout << "Defend!";
+		break;
+	case CardEnum::Buff:
+		cout << "Buff!";
+		break;
+	case CardEnum::Power:
+		cout << "Power!";
+		break;
+	default:
+		cout << "Invalid Target!";
+		break;
+	}
+}
+void Card::PlayCard(Actor* target) 
+{
+	if (target->isPlayer()) 
 	{
 		switch (ability)
 		{
@@ -64,7 +82,7 @@ void Card::PlayCard(Actor target)
 			break;
 		}
 	}
-	else if(!target.isPlayer())
+	else if(!target->isPlayer())
 	{
 		switch (ability)
 		{

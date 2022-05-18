@@ -26,8 +26,12 @@ HandManager::HandManager(Library* lib) {
 //	return *this;
 //}
 
-void HandManager::playCard(Card c)
+void HandManager::playCard()
 {
+	if (!selected) return;
+	selected->PlayCard();
+	selected->Image.SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
+
 }
 
 void HandManager::Draw() {
@@ -46,6 +50,16 @@ void HandManager::DiscardHand() {
 
 void HandManager::SetCardPosition(float x, float y, int index) {
 	hand.at(index)->Image.SetPosition({ x, y });
+}
+
+void HandManager::SelectCard(Card* c)
+{
+	selected = c;
+}
+
+void HandManager::DeselectCard()
+{
+	selected = nullptr;
 }
 
 

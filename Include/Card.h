@@ -27,7 +27,8 @@ public:
 	Sprite Image;
 
 	void SetAction(CardEnum newAbility, int newValue);
-	void PlayCard(Actor target);
+	void PlayCard();
+	void PlayCard(Actor* target);
 	void initializeImage(float Zvalue);
 	void Display();
 	Actor CheckTarget(Actor target);

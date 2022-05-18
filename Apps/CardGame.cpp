@@ -84,11 +84,11 @@ void DisplayStartScreen() {
 
 	interactables.push_back(&endTurn);
 
-	interactables.push_back(&card1.Image);
-	interactables.push_back(&card2.Image);
-	interactables.push_back(&card3.Image);
-	interactables.push_back(&card4.Image);
-	interactables.push_back(&card5.Image);
+	//interactables.push_back(&card1.Image);
+	//interactables.push_back(&card2.Image);
+	//interactables.push_back(&card3.Image);
+	//interactables.push_back(&card4.Image);
+	//interactables.push_back(&card5.Image);
 	startBackground.Display();
 	start_button.Display();
 
@@ -127,6 +127,11 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		int ix = (int)x, iy = (int)y;
 		selected = NULL;
+		hm.DeselectCard();
+		for (int i = 0; i < hm.handSize; i++) {
+			Sprite* cardSprite = &hm.hand.at(i)->Image;
+			if (cardSprite->Hit(ix, iy)) { selected = cardSprite; hm.SelectCard(hm.hand.at(i)); }
+		}
 		for (Sprite* x : interactables) {
 			if (x->Hit(ix, iy)) selected = x;
 		}
@@ -144,7 +149,8 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 
 	if (action == GLFW_RELEASE) {
 		//startScreen = false;
-		CardPlayer(selected, playCard);
+		//CardPlayer(selected, playCard);
+		hm.playCard();
 		/*
 		if (selected) {
 			if (selected->Intersect(playCard))
