@@ -21,7 +21,7 @@ Sprite background, playCard, endTurn, * selected = NULL, startBackground, start_
 //../Lib/Images gives error for me (ryan) wont load textures
 string dir = "../Lib/Images/";
 string sprite1Tex = dir+"attack card.png", sprite1Mat = dir+"attack card.png";
-string playCardTex = dir + "playcard.png", playCardMat = dir + "playcard.png";
+string playCardTex = dir + "alien_slime.png", playCardMat = dir + "alien_slime.png";
 string combined32 = dir+"Combined32.png"; // png, tga ok; bmp, jpg do not support 32
 string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir + "end_turn_btn.png";
@@ -189,8 +189,8 @@ int main(int ac, char** av) {
 	// read background, foreground, and mat textures
 	//Card atk = Card(sprite1Tex);
 
-	startBackground.Initialize(startscreenBack, "", 10, .7f);
-	start_button.Initialize(startButton, startButtonMat, 11, .25f);
+	startBackground.Initialize(startscreenBack, .7f);
+	start_button.Initialize(startButton, startButtonMat, .25f);
 	start_button.SetScale({ 0.3f, 0.3f });
 	start_button.SetPosition({ .10f, -.45f });
 
@@ -202,9 +202,9 @@ int main(int ac, char** av) {
 
 
 
-	background.Initialize(backgroundTex, "", 0, .7f);
-	playCard.Initialize(playCardTex, playCardMat, 4, .6f);
-	endTurn.Initialize(endTurnTex, "", 5, .1f);
+	background.Initialize(backgroundTex, .7f);
+	playCard.Initialize(playCardTex, playCardMat, .6f);
+	endTurn.Initialize(endTurnTex, .1f);
 
 	
 	card1.initializeImage(.2f);

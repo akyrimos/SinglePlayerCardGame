@@ -20,8 +20,10 @@ bool IsVisible(vec3 p, mat4 fullview, vec2 *screen = NULL, int *w = NULL, int *h
 	// if the depth test is enabled, is point p visible?
 	// if non-null, set screen location (in pixels) of transformed p
 	// **** this is slow when used during rendering!
-float DepthXY(int x, int y);
-	// return z-value at pixel(x,y), normalized for +/-1 space
+bool DepthXY(int x, int y, float &depth);
+	// return false if depth-buffer disabled, else
+	// return true and set depth to z-value at pixel(x,y)
+	// normalized for +/-1 space
 vec2 ScreenPoint(vec3 p, mat4 m, float *zscreen = NULL);
 	// transform 3D point to location (xscreen, yscreen), in pixels; if non-null, set zscreen
 	// uses current GL viewport

@@ -10,6 +10,9 @@
 
 using std::string;
 
+void BuildShader();
+int GetSpriteShader();
+
 // Sprite Class
 
 class Sprite {
@@ -18,22 +21,19 @@ public:
 	float z = 0; // in device coordinates (+/-1)
 	float rotation = 0;
 	int winWidth = 0, winHeight = 0;
-	GLuint textureUnit = 0, matUnit = 0;
 	int nTexChannels = 0;
 	// for animation:
 	GLuint frame = 0, nFrames = 0;
 	std::vector<GLuint> textureNames;
-	float frameDuration = .25f;
+	float frameDuration = 1.5f;
 	time_t change;
 	GLuint textureName = 0, matName = 0;
 	mat4 ptTransform, uvTransform;
 	bool Intersect(Sprite &s);
 	void UpdateTransform();
 	void Initialize(string imageFile, float z = 0);
-	void Initialize(string imageFile, int texUnit, float z = 0);
 	void Initialize(string imageFile, string matFile, float z = 0);
-	void Initialize(string imageFile, string matFile, int textureUnit, float z = 0);
-	void Initialize(std::vector<string> &imageFiles, string matFile);
+	void Initialize(std::vector<string> &imageFiles, string matFile, float z = 0);
 	bool Hit(int x, int y);
 	void SetPosition(vec2 p);
 	vec2 GetPosition();
@@ -45,7 +45,7 @@ public:
 	mat4 GetPtTransform();
 	void SetPtTransform(mat4 m);
 	void SetUvTransform(mat4 m);
-	void Display(mat4 *view = NULL);
+	void Display(mat4 *view = NULL, int textureUnit = 0);
 	void Release();
 	void SetFrameDuration(float dt); // if animating
 	Sprite(vec2 p = vec2(), float s = 1) : position(p), scale(vec2(s, s)) { UpdateTransform(); }

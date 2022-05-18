@@ -20,12 +20,15 @@ TurnManager::~TurnManager() {
 
 void TurnManager::RunTurn() {
 
+	//after you discard hand
 	handptr->DiscardHand();
+	enemyptr->RemoveArmor();
 
+	enemyptr->enemyAction();
 	//Enemy takes turn
 
 	actptr->RemoveArmor();
-	enemyptr->RemoveArmor();
+
 
 	//tick down status effects go here
 
@@ -33,5 +36,6 @@ void TurnManager::RunTurn() {
 		handptr->Draw();
 	}
 
+	
 	turnNum++;
 }

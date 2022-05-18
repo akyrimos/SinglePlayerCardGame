@@ -4,7 +4,7 @@
 using namespace std;
 
 class Actor {
-private:
+protected:
 	int ActorID;
 	int health;
 	int maxHealth;

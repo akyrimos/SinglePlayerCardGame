@@ -72,11 +72,16 @@ bool IsVisible(vec3 p, mat4 fullview, vec2 *screenA, int *w, int *h, float fudge
 	return z < zScreen+fudge;
 }
 
-float DepthXY(int x, int y) {
-	float v, depthRange[2]; // depthRange maps back to window coordinates of +/-1
-	glGetFloatv(GL_DEPTH_RANGE, depthRange);
-	glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &v);
-	return -1+2*(v-depthRange[0])/(depthRange[1]-depthRange[0]);
+bool DepthXY(int x, int y, float &depth) {
+	if (glIsEnabled(GL_DEPTH_TEST)) {
+		float v, depthRange[2]; // depthRange maps to window coordinates +/-1
+		glGetFloatv(GL_DEPTH_RANGE, depthRange);
+		glReadPixels(x, y, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &v);
+		depth = -1+2*(v-depthRange[0])/(depthRange[1]-depthRange[0]);
+		return true;
+	}
+	depth = 0;
+	return false;
 }
 
 float ScreenDistSq(int x, int y, vec3 p, mat4 m, float *zscreen) {
@@ -514,7 +519,9 @@ void Cylinder(vec3 p1, vec3 p2, float r1, float r2, mat4 modelview, mat4 persp, 
 //	glPatchParameteri(GL_PATCH_VERTICES, 4);
 //  glPatchParameterfv(GL_PATCH_DEFAULT_OUTER_LEVEL, outerLevels);
 //  glPatchParameterfv(GL_PATCH_DEFAULT_INNER_LEVEL, innerLevels);
+#ifdef GL_PATCHES
 	glDrawArrays(GL_PATCHES, 0, 4);
+#endif
 }
 
 // Triangles with optional outline
@@ -621,6 +628,7 @@ void Triangle(vec3 p1, vec3 p2, vec3 p3, vec3 c1, vec3 c2, vec3 c3,
 	SetUniform(triShader, "viewptM", Viewport()); // **** ????
 	SetUniform(triShader, "opacity", opacity);
 	SetUniform(triShader, "outlineOn", outline? 1 : 0);
+	SetUniform(triShader, "outlineColor", outlineCol);
 	SetUniform(triShader, "outlineWidth", outlineWidth);
 	SetUniform(triShader, "transition", transition);
 	glDrawArrays(GL_TRIANGLES, 0, 3);

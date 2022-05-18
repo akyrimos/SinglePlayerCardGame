@@ -10,8 +10,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "STB_Image.h"
-#include "stb_image_write.h"
+#include "stb_image.h"
 
 // Misc
 
@@ -70,7 +69,7 @@ float RaySphere(vec3 base, vec3 v, vec3 center, float radius) {
 	return a > 0? a : -vDot+root;
 }
 
-// Image File
+// Targa Image File
 
 unsigned char *ReadTarga(const char *filename, int *width, int *height, int *bytesPerPixel) {
 	// open targa file, read header, return pointer to pixels
@@ -150,9 +149,78 @@ bool WriteTarga(const char *filename) {
 	return ok;
 }
 
+// Matting
+
+namespace {
+
+unsigned char *ReadFile(const char *fileName, int &width, int &height, int &nChannels) {
+//	stbi_set_flip_vertically_on_load(true);
+	unsigned char *data = stbi_load(fileName, &width, &height, &nChannels, 0);
+	if (!data) {
+		printf("Can't open %s (%s)\n", fileName, stbi_failure_reason());
+		return NULL;
+	}
+	return data;
+}
+
+float GetVal(unsigned char *data, int x, int y, int w, int nChannels) {
+	unsigned char c = data[nChannels == 1? y*w+x : 3*(y*w+x)];
+	return (float) c/255;
+}
+
+float Lerp(float a, float b, float t) { return a+t*(b-a); }
+
+};
+
+// end namespace
+
+unsigned char *MergeFiles(const char *imageName, const char *matteName, int &imageWidth, int &imageHeight) {
+	int imageNChannels, matteWidth, matteHeight, matteNChannels;
+	unsigned char *imageData = ReadFile(imageName, imageWidth, imageHeight, imageNChannels);
+	unsigned char *matteData = ReadFile(matteName, matteWidth, matteHeight, matteNChannels);
+	if (!imageData || !matteData)
+		return NULL;
+	bool sameSize = imageWidth == matteWidth && imageHeight == matteHeight;
+	unsigned char *oData = new unsigned char[4*imageWidth*imageHeight];
+	unsigned char *t = imageData, *m = matteData, *o = oData;
+	for (int j = 0; j < imageHeight; j++)
+		for (int i = 0; i < imageWidth; i++) {
+			for (int k = 0; k < 3; k++)
+				*o++ = *t++;
+			if (sameSize) {
+				*o++ = *m++;
+				if (matteNChannels == 3) m += 2;
+			}
+			else {
+				float txf = (float) i/(imageWidth), tyf = (float) j/(imageHeight);
+				float x = txf*matteWidth, y = tyf*matteHeight;
+				int x0 = (int) floor(x), y0 = (int) floor(y);
+				float mxf = x-x0, myf = y-y0;
+				bool lerpX = x0 < matteWidth-1, lerpY = y0 < matteHeight-1;
+				float v00 = GetVal(matteData, x0, y0, matteWidth, matteNChannels), v10, v11, v01;
+				if (lerpX) v10 = GetVal(matteData, x0+1, y0, matteWidth, matteNChannels);
+				if (lerpY) v01 = GetVal(matteData, x0, y0+1, matteWidth, matteNChannels);
+				if (lerpX && lerpY) v11 = GetVal(matteData, x0+1, y0+1, matteWidth, matteNChannels);
+				float v = v00;
+				if (lerpX && !lerpY)
+					v = Lerp(v00, v10, mxf);
+				if (!lerpX && lerpY)
+					v = Lerp(v00, v01, myf);
+				if (lerpX && lerpY) {
+					float v1 = Lerp(v00, v10, mxf), v2 = Lerp(v01, v11, mxf);
+					v = Lerp(v1, v2, myf);
+				}
+				*o++ = (unsigned char) (255.*v);
+			}
+		}
+	delete [] imageData;
+	delete [] matteData;
+	return oData;
+}
+
 // Texture
 
-void LoadTexture(unsigned char *pixels, int width, int height, int bpp, GLuint textureUnit, GLuint textureName, bool bgr, bool mipmap) {
+void LoadTexture(unsigned char *pixels, int width, int height, int bpp, GLuint textureName, bool bgr, bool mipmap) {
 	unsigned char *temp = pixels;
 	if (false && bpp == 4) {
 		int bytesPerImage = 3*width*height;
@@ -163,8 +231,8 @@ void LoadTexture(unsigned char *pixels, int width, int height, int bpp, GLuint t
 				for (int k = 0; k < 3; k++)
 					*t++ = *p++;
 	}
-	glActiveTexture(GL_TEXTURE0+textureUnit);       // active texture corresponds with textureUnit
-	glBindTexture(GL_TEXTURE_2D, textureName);      // bind active texture to textureName
+	// glActiveTexture(GL_TEXTURE0+textureUnit);    // active texture corresponds with textureUnit
+	glBindTexture(GL_TEXTURE_2D, textureName);      // bind current texture to textureName
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);          // accommodate width not multiple of 4
 	// specify target, format, dimension, transfer data
 	if (bpp == 4)
@@ -179,11 +247,10 @@ void LoadTexture(unsigned char *pixels, int width, int height, int bpp, GLuint t
 	else
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// if (bpp == 4)
-	//	delete [] temp;
+	// if (bpp == 4) delete [] temp;
 }
 
-GLuint LoadTexture(const char *filename, GLuint textureUnit, bool mipmap, int *n) {
+GLuint LoadTexture(const char *filename, bool mipmap, int *n) {
 	int width, height, nChannels;
 	stbi_set_flip_vertically_on_load(true);
 	unsigned char *data = stbi_load(filename, &width, &height, &nChannels, 0);
@@ -194,23 +261,23 @@ GLuint LoadTexture(const char *filename, GLuint textureUnit, bool mipmap, int *n
 	if (n) *n = nChannels;
 	GLuint textureName = 0;
 	glGenTextures(1, &textureName);
-	LoadTexture(data, width, height, nChannels, textureUnit, textureName, false, mipmap);
+	LoadTexture(data, width, height, nChannels, textureName, false, mipmap);
 	stbi_image_free(data);
 	return textureName;
 }
 
-GLuint LoadTexture(unsigned char *pixels, int width, int height, int bpp, GLuint textureUnit, bool bgr, bool mipmap) {
+GLuint LoadTexture(unsigned char *pixels, int width, int height, int bpp, bool bgr, bool mipmap) {
 	GLuint textureName = 0;
 	// allocate GPU texture buffer; copy, free pixels
 	glGenTextures(1, &textureName);
-	LoadTexture(pixels, width, height, bpp, textureUnit, textureName, bgr, mipmap);
+	LoadTexture(pixels, width, height, bpp, textureName, bgr, mipmap);
 	return textureName;
 }
 
-GLuint LoadTargaTexture(const char *targaFilename, GLuint textureUnit, bool mipmap) {
+GLuint LoadTargaTexture(const char *targaFilename, bool mipmap) {
 	int width, height, bytesPerPixel;
 	unsigned char *pixels = ReadTarga(targaFilename, &width, &height, &bytesPerPixel);
-	GLuint textureName = LoadTexture(pixels, width, height, bytesPerPixel, textureUnit, true, mipmap); // Targa is BGR
+	GLuint textureName = LoadTexture(pixels, width, height, bytesPerPixel, true, mipmap); // Targa is BGR
 	delete [] pixels;
 	return textureName;
 }
