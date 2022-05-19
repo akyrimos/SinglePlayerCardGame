@@ -10,7 +10,6 @@ protected:
 	int maxHealth;
 	int tempArmor;
 	int *status;
-	Sprite Image;
 	static int next_id;
 
 public:
@@ -18,7 +17,7 @@ public:
 	Actor(const Actor& other);
 	Actor& operator=(const Actor& rhs);
 	~Actor();
-
+	Sprite Image;
 	void ChangeHealth(int healthToAdd);
 	void TakeDamage(int damage);
 	bool CheckifAlive();
