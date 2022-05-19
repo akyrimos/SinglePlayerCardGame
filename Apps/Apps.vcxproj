@@ -72,8 +72,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Users\maaso\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\onlys\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\ryanb\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\shawn\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\maaso\Graphics\Include;C:\Users\kaomaaso\source\repos\akyrimos\SinglePlayerCardGame\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\maaso\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\onlys\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\ryanb\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\kaomaaso\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\shawn\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\maaso\Graphics\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\ryanb\source\repos\SinglePlayerCardGame\Include;C:\Users\maaso\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\onlys\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\ryanb\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\shawn\source\repos\akyrimos\SinglePlayerCardGame\Include;C:\Users\maaso\Graphics\Include;C:\Users\kaomaaso\source\repos\akyrimos\SinglePlayerCardGame\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\ryanb\source\repos\SinglePlayerCardGame\Lib;C:\Users\maaso\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\onlys\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\ryanb\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\kaomaaso\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\shawn\source\repos\akyrimos\SinglePlayerCardGame\Lib;C:\Users\maaso\Graphics\Lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
