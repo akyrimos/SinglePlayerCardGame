@@ -161,6 +161,7 @@
     <ClCompile Include="CardGame.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyData.cpp" />
     <ClCompile Include="HandManager.cpp" />
     <ClCompile Include="Library.cpp" />
     <ClCompile Include="TurnManager.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="..\Include\VecMat.h" />
     <ClInclude Include="CardGame.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyData.h" />
     <ClInclude Include="Library.h" />
     <ClInclude Include="TurnManager.h" />
   </ItemGroup>
