@@ -3,17 +3,20 @@
 #define ENEMY
 #include "../Include/Actor.h"
 #include "../Include/CardEnum.h"
+#include <vector>
 
 class Enemy : public Actor
 {
 public:
 	Enemy();
-	Enemy(int startinghealth, string name, int ActionArraySize);
+	Enemy(int startinghealth, string name);
 	~Enemy();
 
 	void enemyAction();
+	void Display();
 	void IntializeEnemy(float depth);
 	void SetPositionEnemy(float x, float y);
+	void AddAction(CardEnum actionAdd, int valueAdd);
 
 private:
 	string filepath;
@@ -24,7 +27,8 @@ private:
 		int actionValue;
 	};
 
-	EnemyAction ActionArray[];
+	vector<EnemyAction> ActionVec;
+
 };
 
 

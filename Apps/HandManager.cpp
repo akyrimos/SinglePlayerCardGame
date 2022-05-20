@@ -40,6 +40,12 @@ void HandManager::Draw() {
 	handSize++;
 }
 
+void HandManager::playCard(Actor* target) {
+	if (!selected) return;
+	selected->PlayCard(target);
+	selected->Image.SetPosition({ -5.0f, -5.0f });
+}
+
 void HandManager::DiscardHand() {
 	for (int i = 0; i < handSize; i++) {
 		libptr->MoveToDiscard(hand[i]);
