@@ -28,10 +28,11 @@ HandManager::HandManager(Library* lib) {
 
 void HandManager::playCard()
 {
-	if (!selected) return;
+	if (!selected || (TotalEnergy-selected->EnergyCost) < 0) return;
+	cout << "Total Energy: " << TotalEnergy << endl;
 	selected->PlayCard();
 	selected->Image.SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
-
+	TotalEnergy -= selected->EnergyCost;
 }
 
 void HandManager::Draw() {
@@ -41,10 +42,12 @@ void HandManager::Draw() {
 }
 
 void HandManager::playCard(Actor* target) {
-	if (!selected) return;
+	if (!selected || (TotalEnergy - selected->EnergyCost) < 0) return;
 	selected->PlayCard(target);
 	selected->Image.SetPosition({ -5.0f, -5.0f });
+	TotalEnergy -= selected->EnergyCost;
 }
+
 
 void HandManager::DiscardHand() {
 	for (int i = 0; i < handSize; i++) {

@@ -16,6 +16,8 @@ public:
 	~TurnManager();
 
 	void RunTurn();
+
+	void ResetEnergy();
 	
 
 private:

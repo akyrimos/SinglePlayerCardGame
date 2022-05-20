@@ -14,7 +14,7 @@ using std::string;
 
 Card::Card() {
 	filepath = "../Lib/Images/attack card.png";
-	EnergyCost = 0;
+	EnergyCost = 1;
 	ID = 1;
 	value = 6;
 	ability = CardEnum::Attack;

@@ -18,6 +18,10 @@ TurnManager::~TurnManager() {
 
 }
 
+void TurnManager::ResetEnergy() {
+	handptr->TotalEnergy = 3;
+}
+
 void TurnManager::RunTurn() {
 
 	//after you discard hand
@@ -31,6 +35,7 @@ void TurnManager::RunTurn() {
 
 
 	//tick down status effects go here
+	ResetEnergy();
 
 	for (int i = 0; i < handptr->drawCards; i++) {
 		handptr->Draw();
