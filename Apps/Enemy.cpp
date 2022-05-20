@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include <random>
 
 using namespace std;
 
@@ -39,7 +40,13 @@ void Enemy::Display() {
 }
 
 void Enemy::enemyAction() {
-	gainArmor();
+	random_shuffle(ActionVec.begin(), ActionVec.end());
+	EnemyAction chosenAction{};
+	chosenAction.actionType = ActionVec.at(0).actionType;
+	chosenAction.actionValue = ActionVec.at(0).actionValue;
+
+	//return chosenAction;
+
 }
 
 Enemy::~Enemy() {
@@ -47,7 +54,7 @@ Enemy::~Enemy() {
 }
 
 void Enemy::AddAction(CardEnum actionAdd, int valueAdd) {
-	EnemyAction toAdd;
+	EnemyAction toAdd{};
 	toAdd.actionType = actionAdd;
 	toAdd.actionValue = valueAdd;
 	ActionVec.push_back(toAdd);
