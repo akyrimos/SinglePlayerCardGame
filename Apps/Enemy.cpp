@@ -21,7 +21,7 @@ Enemy::Enemy(int startinghealth, string name) {
 }
 
 void Enemy::IntializeEnemy(float depth) {
-	this->Image.Initialize(filepath, depth);
+	this->Image.Initialize(filepath, filepath, depth);
 	this->Image.SetScale({ .2f,.2f });
 	
 }
@@ -32,6 +32,10 @@ void Enemy::SetPositionEnemy(float x, float y) {
 
 void Enemy::gainArmor() {
 	tempArmor = 10;
+}
+
+void Enemy::Display() {
+	this->Image.Display();
 }
 
 void Enemy::enemyAction() {

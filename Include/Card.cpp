@@ -16,7 +16,8 @@ Card::Card() {
 	filepath = "../Lib/Images/attack card.png";
 	EnergyCost = 0;
 	ID = 1;
-	ability = CardEnum::Undefined;
+	value = 6;
+	ability = CardEnum::Attack;
 }
 
 Card::Card(int EnergyCost, int ID, string name) {
@@ -88,6 +89,7 @@ void Card::PlayCard(Actor* target)
 		{
 		case CardEnum::Attack:
 			cout << "Attack!";
+			target->TakeDamage(this->value);
 			break;
 		case CardEnum::Debuff:
 			cout << "Debuff!";

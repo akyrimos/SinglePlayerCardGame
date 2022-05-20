@@ -13,6 +13,7 @@ public:
 	~Enemy();
 
 	void enemyAction();
+	void Display();
 	void IntializeEnemy(float depth);
 	void SetPositionEnemy(float x, float y);
 	void AddAction(CardEnum actionAdd, int valueAdd);
