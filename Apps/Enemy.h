@@ -20,8 +20,8 @@ public:
 
 private:
 	string filepath;
-	void gainArmor();
-
+	void GainArmor();
+	// similar name as function
 	struct EnemyAction {
 		CardEnum actionType;
 		int actionValue;

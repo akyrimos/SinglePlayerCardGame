@@ -4,7 +4,7 @@
 using namespace std;
 
 Enemy::Enemy() {
-	ActorID = next_id;
+	actorId = nextId;
 	maxHealth = 10;
 	health = maxHealth;
 	tempArmor = 0;
@@ -13,7 +13,7 @@ Enemy::Enemy() {
 }
 
 Enemy::Enemy(int startinghealth, string name) {
-	ActorID = next_id;
+	actorId = nextId;
 	maxHealth = startinghealth;
 	health = maxHealth;
 	tempArmor = 0;
@@ -22,21 +22,21 @@ Enemy::Enemy(int startinghealth, string name) {
 }
 
 void Enemy::IntializeEnemy(float depth) {
-	this->Image.Initialize(filepath, filepath, depth);
-	this->Image.SetScale({ .2f,.2f });
+	this->image.Initialize(filepath, filepath, depth);
+	this->image.SetScale({ .2f,.2f });
 	
 }
 
 void Enemy::SetPositionEnemy(float x, float y) {
-	this->Image.SetPosition({ x,y });
+	this->image.SetPosition({ x,y });
 }
 
-void Enemy::gainArmor() {
+void Enemy::GainArmor() {
 	tempArmor = 10;
 }
 
 void Enemy::Display() {
-	this->Image.Display();
+	this->image.Display();
 }
 
 void Enemy::enemyAction() {

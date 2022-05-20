@@ -5,23 +5,23 @@ using namespace std;
 
 class Actor {
 protected:
-	int ActorID;
+	int actorId;
 	int health;
 	int maxHealth;
 	int tempArmor;
 	int *status;
-	static int next_id;
+	static int nextId;
 
 public:
 	Actor();
 	Actor(const Actor& other);
 	Actor& operator=(const Actor& rhs);
 	~Actor();
-	Sprite Image;
+	Sprite image;
 	void ChangeHealth(int healthToAdd);
 	void TakeDamage(int damage);
 	bool CheckifAlive();
-	bool isPlayer();
+	bool IsPlayer();
 	void RemoveArmor();
 };
 #endif

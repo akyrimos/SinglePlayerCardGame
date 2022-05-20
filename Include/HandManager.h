@@ -11,8 +11,8 @@ public:
 	~HandManager();
 	HandManager(Library* lib);
 	//HandManager& operator=(const HandManager& rhs);
-	void playCard(Actor* target);
-	void playCard();
+	void PlayCard(Actor* target);
+	//void playCard();
 	void Draw();
 	void DiscardHand();
 	void SetCardPosition(float x, float y, int index);
@@ -21,8 +21,8 @@ public:
 	int maxHandSize = 10;
 	int drawCards = 5;
 	int handSize = 0;
-	int TotalEnergy;
-	int MaxEnergy = 3;
+	int maxEnergy = 3;
+	int energyRemaining = maxEnergy;
 	vector<Card*> hand;
 	Card* selected;
 

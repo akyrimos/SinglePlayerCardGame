@@ -14,29 +14,29 @@ using std::string;
 
 Card::Card() {
 	filepath = "../Lib/Images/attack card.png";
-	EnergyCost = 1;
-	ID = 1;
+	energyCost = 1;
+	id = 1;
 	value = 6;
 	ability = CardEnum::Attack;
 }
 
 Card::Card(int EnergyCost, int ID, string name) {
 	this->filepath = name;
-	this->EnergyCost = EnergyCost;
-	this->ID = ID;
+	this->energyCost = EnergyCost;
+	this->id = ID;
 	ability = CardEnum::Undefined;
 }
 
 Card::~Card() {
 }
 
-void Card::initializeImage(float depth) {
-	this->Image.Initialize(filepath, depth);
-	this->Image.SetScale({ 0.2f, 0.2f });
+void Card::InitializeImage(float depth) {
+	this->image.Initialize(filepath, depth);
+	this->image.SetScale({ 0.2f, 0.2f });
 }
 
 void Card::Display() {
-	this->Image.Display();
+	this->image.Display();
 }
 
 void Card::SetAction(CardEnum newAbility, int newValue) 
@@ -45,57 +45,39 @@ void Card::SetAction(CardEnum newAbility, int newValue)
 	value = newValue;
 }
 
-void Card::PlayCard()
-{
-	switch (ability)
-	{
-	case CardEnum::Defend:
-		cout << "Defend!";
-		break;
-	case CardEnum::Buff:
-		cout << "Buff!";
-		break;
-	case CardEnum::Power:
-		cout << "Power!";
-		break;
-	default:
-		cout << "Invalid Target!";
-		break;
-	}
-}
 void Card::PlayCard(Actor* target) 
 {
-	if (target->isPlayer()) 
+	if (target->IsPlayer()) 
 	{
 		switch (ability)
 		{
 		case CardEnum::Defend:
-			cout << "Defend!";
+			cout << "Defend!" << endl;
 			break;
 		case CardEnum::Buff:
-			cout << "Buff!";
+			cout << "Buff!" << endl;
 			break;
 		case CardEnum::Power:
-			cout << "Power!";
+			cout << "Power!" << endl;
 			break;
 		default:
-			cout << "Invalid Target!";
+			cout << "Invalid Target!" << endl;
 			break;
 		}
 	}
-	else if(!target->isPlayer())
+	else if(!target->IsPlayer())
 	{
 		switch (ability)
 		{
 		case CardEnum::Attack:
-			cout << "Attack!";
+			cout << "Attack!" << endl;
 			target->TakeDamage(this->value);
 			break;
 		case CardEnum::Debuff:
-			cout << "Debuff!";
+			cout << "Debuff!" << endl;
 			break;
 		default:
-			cout << "Invalid Target!";
+			cout << "Invalid Target!" << endl;
 			break;
 		}
 	}

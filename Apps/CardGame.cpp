@@ -64,7 +64,7 @@ void Display() {
 		hm.hand.at(i)->Display();
 	}
 	for (int i = 0; i < targets.size(); i++) {
-		targets.at(i)->Image.Display();
+		targets.at(i)->image.Display();
 	}
 	/*
 	
@@ -104,8 +104,8 @@ void CardPlayer(Sprite* card, Sprite target) {
 void SetHand() {
 	for (int i = 0; i < hm.handSize; i++) {
 
-		hm.hand.at(i)->Image.z = (float)i * 0.1f + 0.2f;
-		hm.hand.at(i)->Image.SetPosition({ handXPos[i], handYPos }); 
+		hm.hand.at(i)->image.z = (float)i * 0.1f + 0.2f;
+		hm.hand.at(i)->image.SetPosition({ handXPos[i], handYPos }); 
 
 
 	}
@@ -123,7 +123,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		selected = NULL;
 		hm.DeselectCard();
 		for (int i = 0; i < hm.handSize; i++) {
-			Sprite* cardSprite = &hm.hand.at(i)->Image;
+			Sprite* cardSprite = &hm.hand.at(i)->image;
 			if (cardSprite->Hit(ix, iy)) { selected = cardSprite; hm.SelectCard(hm.hand.at(i)); }
 		}
 		for (Sprite* x : interactables) {
@@ -148,10 +148,10 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		//Sprite* selectedCard = hm.selected->Image;
 		if (hm.selected) {
 			for (int i = 0; i < targets.size(); i++) {
-				Sprite* targetSprite = &targets.at(i)->Image;
+				Sprite* targetSprite = &targets.at(i)->image;
 				//if (targetSprite->Hit(ix, iy)) {
-				if (targetSprite->Intersect(hm.selected->Image)) {
-					hm.playCard(targets.at(i));
+				if (targetSprite->Intersect(hm.selected->image)) {
+					hm.PlayCard(targets.at(i));
 				}
 
 			}
@@ -217,11 +217,11 @@ int main(int ac, char** av) {
 	endTurn.Initialize(endTurnTex, .1f);
 
 	
-	card1.initializeImage(.2f);
-	card2.initializeImage(.3f);
-	card3.initializeImage(.4f);
-	card4.initializeImage(.5f);
-	card5.initializeImage(.6f);
+	card1.InitializeImage(.2f);
+	card2.InitializeImage(.3f);
+	card3.InitializeImage(.4f);
+	card4.InitializeImage(.5f);
+	card5.InitializeImage(.6f);
 	alien.IntializeEnemy(.65f);
 	alien.SetPositionEnemy(0.35f, 0.1f);
 	//playCard.SetScale({ 0.2f, 0.2f });

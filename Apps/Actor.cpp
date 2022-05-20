@@ -5,7 +5,7 @@ using namespace std;
 
 Actor::Actor()
 {
-	ActorID = next_id;
+	actorId = nextId;
 	maxHealth = 10;
 	health = maxHealth;
 	tempArmor = 0;
@@ -38,7 +38,7 @@ bool Actor::CheckifAlive()
 	return false;
 }
 
-bool Actor::isPlayer() 
+bool Actor::IsPlayer() 
 {
 	return false;
 }
@@ -58,6 +58,7 @@ void Actor::TakeDamage(int damage) {
 		health -= abs(tempArmor);
 		RemoveArmor();
 		CheckifAlive();
+		cout << "ouch! my hp is " << health << endl;
 	}
 }
 
@@ -65,4 +66,4 @@ void Actor::RemoveArmor() {
 	tempArmor = 0;
 }
 
-int Actor::next_id = 0;
+int Actor::nextId = 0;

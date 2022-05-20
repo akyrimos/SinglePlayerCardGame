@@ -17,19 +17,18 @@ public:
 	* Constructor
 	*/
 	Card();
-	Card(int EnergyCost, int ID, string name);
+	Card(int energyCost, int id, string name);
 
 	~Card();
 
-	int EnergyCost;
-	int ID;
+	int energyCost;
+	int id;
 	string filepath;
-	Sprite Image;
+	Sprite image;
 
 	void SetAction(CardEnum newAbility, int newValue);
-	void PlayCard();
 	void PlayCard(Actor* target);
-	void initializeImage(float Zvalue);
+	void InitializeImage(float Zvalue);
 	void Display();
 	Actor CheckTarget(Actor target);
 
