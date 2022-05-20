@@ -19,7 +19,7 @@ TurnManager::~TurnManager() {
 }
 
 void TurnManager::ResetEnergy() {
-	handptr->TotalEnergy = 3;
+	handptr->TotalEnergy = handptr->MaxEnergy;
 }
 
 void TurnManager::RunTurn() {

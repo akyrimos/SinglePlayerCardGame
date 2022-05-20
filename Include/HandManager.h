@@ -21,7 +21,8 @@ public:
 	int maxHandSize = 10;
 	int drawCards = 5;
 	int handSize = 0;
-	int TotalEnergy = 3;
+	int TotalEnergy;
+	int MaxEnergy = 3;
 	vector<Card*> hand;
 
 private:

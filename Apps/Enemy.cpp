@@ -41,9 +41,9 @@ void Enemy::Display() {
 
 void Enemy::enemyAction() {
 	random_shuffle(ActionVec.begin(), ActionVec.end());
-	EnemyAction chosenAction{};
-	chosenAction.actionType = ActionVec.at(0).actionType;
-	chosenAction.actionValue = ActionVec.at(0).actionValue;
+	//EnemyAction chosenAction{};
+	//chosenAction.actionType = ActionVec.at(0).actionType;
+	//chosenAction.actionValue = ActionVec.at(0).actionValue;
 
 	//return chosenAction;
 

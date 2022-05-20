@@ -4,6 +4,7 @@ HandManager::HandManager() {
 	vector<Card*> hand;
 	libptr = nullptr;
 	selected = nullptr;
+	TotalEnergy = MaxEnergy;
 }
 
 HandManager::~HandManager()
