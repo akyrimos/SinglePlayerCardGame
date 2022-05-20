@@ -39,7 +39,7 @@ HandManager hm(&library);
 Actor player = Actor();
 Enemy alien = Enemy();
 TurnManager turnEngine = TurnManager(&hm, &alien, &player);
-
+vector<Actor*> targets;
 vector<Sprite*> interactables;
 
 float handXPos[10] = {-.50f, -.40f, -.30f, -.20f, -.10f, 0, .10f, .20f, .30f, .40f};
@@ -58,10 +58,13 @@ void Display() {
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 	background.Display();
-	playCard.Display();
+	//playCard.Display();
 	endTurn.Display();
 	for (int i = 0; i < hm.handSize; i++) {
 		hm.hand.at(i)->Display();
+	}
+	for (int i = 0; i < targets.size(); i++) {
+		targets.at(i)->Image.Display();
 	}
 	/*
 	
@@ -139,9 +142,22 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	}
 
 	if (action == GLFW_RELEASE) {
+		int ix = (int)x, iy = (int)y;
 		//startScreen = false;
 		//CardPlayer(selected, playCard);
-		hm.playCard();
+		//Sprite* selectedCard = hm.selected->Image;
+		if (hm.selected) {
+			for (int i = 0; i < targets.size(); i++) {
+				Sprite* targetSprite = &targets.at(i)->Image;
+				//if (targetSprite->Hit(ix, iy)) {
+				if (targetSprite->Intersect(hm.selected->Image)) {
+					hm.playCard(targets.at(i));
+				}
+
+			}
+		}
+
+
 		/*
 		if (selected) {
 			if (selected->Intersect(playCard))
@@ -187,7 +203,7 @@ int main(int ac, char** av) {
 
 	interactables.push_back(&start_button);
 	interactables.push_back(&endTurn);
-
+	targets.push_back(&alien);
 	library.Add(&card1);
 	library.Add(&card2);
 	library.Add(&card3);
@@ -197,7 +213,7 @@ int main(int ac, char** av) {
 
 
 	background.Initialize(backgroundTex, .7f);
-	playCard.Initialize(playCardTex, playCardMat, .6f);
+	//playCard.Initialize(playCardTex, playCardMat, .6f);
 	endTurn.Initialize(endTurnTex, .1f);
 
 	
@@ -206,9 +222,10 @@ int main(int ac, char** av) {
 	card3.initializeImage(.4f);
 	card4.initializeImage(.5f);
 	card5.initializeImage(.6f);
-
-	playCard.SetScale({ 0.2f, 0.2f });
-	playCard.SetPosition({ 0.5f, .0f });
+	alien.IntializeEnemy(.65f);
+	alien.SetPositionEnemy(0.35f, 0.1f);
+	//playCard.SetScale({ 0.2f, 0.2f });
+	//playCard.SetPosition({ 0.5f, .0f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
 

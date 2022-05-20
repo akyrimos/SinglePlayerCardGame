@@ -24,9 +24,10 @@ public:
 	int TotalEnergy;
 	int MaxEnergy = 3;
 	vector<Card*> hand;
+	Card* selected;
+
 
 private:
-	Card* selected;
 	Library* libptr;
 };
 #endif
