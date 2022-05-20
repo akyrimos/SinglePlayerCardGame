@@ -80,15 +80,6 @@ void DisplayStartScreen() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
-	interactables.push_back(&start_button);
-
-	interactables.push_back(&endTurn);
-
-	//interactables.push_back(&card1.Image);
-	//interactables.push_back(&card2.Image);
-	//interactables.push_back(&card3.Image);
-	//interactables.push_back(&card4.Image);
-	//interactables.push_back(&card5.Image);
 	startBackground.Display();
 	start_button.Display();
 
@@ -193,6 +184,9 @@ int main(int ac, char** av) {
 	start_button.Initialize(startButton, startButtonMat, .25f);
 	start_button.SetScale({ 0.3f, 0.3f });
 	start_button.SetPosition({ .10f, -.45f });
+
+	interactables.push_back(&start_button);
+	interactables.push_back(&endTurn);
 
 	library.Add(&card1);
 	library.Add(&card2);
