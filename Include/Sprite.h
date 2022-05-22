@@ -8,7 +8,7 @@
 #include <vector>
 #include "VecMat.h"
 
-using std::string;
+using namespace std;
 
 void BuildShader();
 int GetSpriteShader();
@@ -24,16 +24,17 @@ public:
 	int nTexChannels = 0;
 	// for animation:
 	GLuint frame = 0, nFrames = 0;
-	std::vector<GLuint> textureNames;
+	vector<GLuint> textureNames;
 	float frameDuration = 1.5f;
 	time_t change;
 	GLuint textureName = 0, matName = 0;
 	mat4 ptTransform, uvTransform;
 	bool Intersect(Sprite &s);
 	void UpdateTransform();
+	void Initialize(GLuint texName, float z = 0);
 	void Initialize(string imageFile, float z = 0);
 	void Initialize(string imageFile, string matFile, float z = 0);
-	void Initialize(std::vector<string> &imageFiles, string matFile, float z = 0);
+	void Initialize(vector<string> &imageFiles, string matFile, float z = 0);
 	bool Hit(int x, int y);
 	void SetPosition(vec2 p);
 	vec2 GetPosition();
