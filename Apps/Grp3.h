@@ -7,6 +7,7 @@
 using namespace std;
 const int MaxHandSize = 10;
 
+
 class Actor : public Sprite {
 public:
 	int health = 10;
@@ -30,35 +31,65 @@ public:
 	void RemoveArmor() { tempArmor = 0; }
 };
 
-enum class CardEnum { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
+enum class EffectType { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
+enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
+class Action {
+	int value;
+	EffectType effect;
 
+	Action(int val, EffectType eff) :value(val), effect(eff) {};
+};
 class Card : public Sprite {
 public:
 	vec3 position;
 	int energyCost;
 	int id;
-	CardEnum ability;
+	EffectType ability;
+	stack<Action> actions;
+	TargetType tType;
 	int value;
 	Card() {
 		energyCost = 1;
 		id = 1;
 		value = 6;
-		ability = CardEnum::Attack;
+		ability = EffectType::Attack;
+		tType = TargetType::Enemy;
 	}
+	// TODO: change to initialize value
 	Card(int EnergyCost, int ID, string name) {
 		energyCost = EnergyCost;
 		id = ID;
-		ability = CardEnum::Undefined;
+		ability = EffectType::Undefined;
 	}
-	void SetAction(CardEnum newAbility, int newValue) {
+	void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
 		value = newValue;
 	}
 	void PlayCard(Actor* target) {
 		const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
 		cout << cardNames[(int) ability] << endl;
-		if (!target->IsPlayer() && ability == CardEnum::Attack)
-			target->TakeDamage(value);
+		if (ValidTarget(target)) {
+			if (!target->IsPlayer() && ability == EffectType::Attack)
+				target->TakeDamage(value);
+		}
+	}
+	bool ValidTarget(Actor* target) {
+		if (!target) return false;
+		switch (tType) {
+		case TargetType::Player:
+			if (target->IsPlayer()) {
+				return true;
+				break;
+			}
+		case TargetType::Enemy:
+			if (!target->IsPlayer()) {
+				return true;
+				break;
+			}
+		default:
+			return false;
+			break;
+		}
 	}
 };
 
@@ -67,10 +98,10 @@ public:
 	Enemy();
 	Enemy(int startinghealth);
 	void Action();
-	void AddAction(CardEnum actionAdd, int valueAdd);
+	void AddAction(EffectType actionAdd, int valueAdd);
 	void GainArmor();
 	struct EnemyAction {
-		CardEnum actionType;
+		EffectType actionType;
 		int actionValue;
 	};
 	vector<EnemyAction> actions;

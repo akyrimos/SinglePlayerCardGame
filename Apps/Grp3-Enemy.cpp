@@ -28,6 +28,6 @@ void Enemy::Action() {
 
 }
 
-void Enemy::AddAction(CardEnum actionAdd, int valueAdd) {
+void Enemy::AddAction(EffectType actionAdd, int valueAdd) {
 	actions.push_back({ actionAdd, valueAdd });
 }

@@ -34,6 +34,7 @@ Card c0, c1, c2, c3, c4, c5, c6, c7, c8, c9;
 Sprite background, playCard, endTurn, startBackground, startButton;
 
 // Gameplay
+int turnNum = 0;
 Card *selectedCard = NULL;
 vector<Actor *> targets;
 HandManager hm;
@@ -52,7 +53,7 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
 	//armor
 	if (a->tempArmor > 0) 
-		Text(loc + vec3(-0.2, 1, 0), a->ptTransform, vec3(0.2,1,1), 30, to_string(a->tempArmor).c_str());
+		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->tempArmor).c_str());
 }
 
 void Display() {
@@ -75,7 +76,10 @@ void Display() {
 			DisplayActor(targets[i]);
 		player.Display();
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
+		string turnUI = to_string(turnNum);
 		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
+		Text(vec3(0.9, 0.9, 0), background.ptTransform, vec3(1, 1, 0), 50, turnUI.c_str());
+
 	}
 	glFlush();
 }
@@ -93,7 +97,6 @@ void CardPlayer(Sprite* card, Sprite target) {
 	card = NULL;
 }
 
-int turnNum = 1;
 float handXPos[10] = {-.5f, -.4f, -.3f, -.2f, -.1f, 0, .1f, .2f, .3f, .4f}, handYPos = -.75f;
 
 float Z(int i) { return .2f+i*.05f; }
@@ -108,6 +111,10 @@ void NewHand() {
 	}
 }
 
+void ResolveAction(Action a, Actor* target) {
+
+
+}
 void RunTurn() {
 	hm.DiscardHand();
 	hm.ResetEnergy();
@@ -203,7 +210,7 @@ int main(int ac, char** av) {
 	player.Initialize(playerTextureName, .7f);
 	player.SetScale(vec2(.2f, .3f));
 	player.SetPosition(vec2(-.6f, -.2f));
-	player.message = "Tarnation!";
+	//player.message = "Tarnation!";
 	// initialize alien sprite
 	alien.Initialize(enemyTextureName, .65f);
 	alien.SetScale(vec2(.7f, .7f));
