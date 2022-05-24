@@ -86,6 +86,7 @@ public:
 	Card *DrawFromLibrary();
 	void MoveToDiscard(Card* c);
 	void InitializeLibrary(Card **cards, int ncards);
+	void ResetEnergy() { energyRemaining = maxEnergy; }
 	stack<Card *> deckLibrary;
 	vector<Card *> discardPile;
 	int librarySize = 10;

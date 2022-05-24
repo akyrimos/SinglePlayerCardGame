@@ -49,7 +49,7 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	}
 	//health
 	if (a->health > 0)
-	Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
+		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
 	//armor
 	if (a->tempArmor > 0) 
 		Text(loc + vec3(-0.2, 1, 0), a->ptTransform, vec3(0.2,1,1), 30, to_string(a->tempArmor).c_str());
@@ -74,6 +74,8 @@ void Display() {
 		for (int i = 0; i < (int) targets.size(); i++)
 			DisplayActor(targets[i]);
 		player.Display();
+		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
+		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
 	}
 	glFlush();
 }
@@ -108,6 +110,7 @@ void NewHand() {
 
 void RunTurn() {
 	hm.DiscardHand();
+	hm.ResetEnergy();
 	// Enemy takes turn
 	player.RemoveArmor();
 	alien.RemoveArmor();
