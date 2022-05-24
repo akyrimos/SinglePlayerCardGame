@@ -36,6 +36,11 @@ bool Sprite::Intersect(Sprite &s) {
 	return !(x1min > x2max || x1max < x2min || y1min > y2max || y1max < y2min);
 }
 
+void Sprite::Initialize(GLuint texName, float z) {
+	this->z = z;
+	textureName = texName;
+}
+
 void Sprite::Initialize(string imageFile, float z) {
 	this->z = z;
 	textureName = LoadTexture(imageFile.c_str(), true, &nTexChannels);

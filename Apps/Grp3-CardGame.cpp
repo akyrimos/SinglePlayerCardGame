@@ -9,20 +9,22 @@
 #include "Grp3.h"
 #include "Misc.h"
 #include "Sprite.h"
+#include "Text.h"
 
 // App
 int winWidth = 800, winHeight = 800;
 bool startScreen = true;
 
 // Images
-string dir = "C:/Users/Jules/Code/GG-Projects/Grp-3-CardGame/";
+string dir = "../Lib/Images/";
 string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png";
 string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
-string attackCardImageName = dir+"attack_card.png";
+string attackCardImageName = dir+"attack card.png";
 string enemyImageName = dir+"alien_slime.png";
+string playerImageName = dir+"YosemiteSam.tga";
 string defendCardImageName = dir+"defend.png";
 
 // Sprites
@@ -39,6 +41,14 @@ Card *deck[] = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
 
 // Display
 
+void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
+	a->Display();
+	if (!a->message.empty()) {
+		vec3 loc = vec3(a->position, 0);
+		Text(loc, a->ptTransform, color, 20, a->message.c_str());
+	}
+}
+
 void Display() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -54,8 +64,10 @@ void Display() {
 		endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
+		DisplayActor(&player, vec3(0, 0, 0));
 		for (int i = 0; i < (int) targets.size(); i++)
-			targets[i]->Display();
+			DisplayActor(targets[i]);
+		player.Display();
 	}
 	glFlush();
 }
@@ -93,6 +105,7 @@ void RunTurn() {
 	// Enemy takes turn
 	player.RemoveArmor();
 	alien.RemoveArmor();
+	alien.message = "";
 	// tick down status effects go here
 	NewHand();
 }
@@ -170,14 +183,21 @@ int main(int ac, char** av) {
 	GLuint attackCardTextureName = LoadTexture(attackCardImageName.c_str());
 	GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
 	GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
+	GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
 		deck[i]->Initialize(i%2? attackCardTextureName : defendCardTextureName, Z(i));
 		deck[i]->SetScale(vec2(.2f, .2f));
 	}
 	hm.InitializeLibrary(deck, nDeckCards);
+	// initialize player sprite
+	player.Initialize(playerTextureName, .7f);
+	player.SetScale(vec2(.2f, .3f));
+	player.SetPosition(vec2(-.6f, -.2f));
+	player.message = "Tarnation!";
 	// initialize alien sprite
 	alien.Initialize(enemyTextureName, .65f);
+	alien.SetScale(vec2(.7f, .7f));
 	alien.SetPosition({0.35f, 0.1f});
 	targets.push_back(&alien);
 	// callbacks

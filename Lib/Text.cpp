@@ -21,7 +21,7 @@
 }
 
 // if FreeType not linked, comment next line:
-#define FREETYPE_OK
+//#define FREETYPE_OK
 
 #ifndef FREETYPE_OK
 float scaleAdj = .5f;
