@@ -23,7 +23,7 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
-string enemyImageName = dir+"Combined32.png";
+string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"YosemiteSam.tga";
 string defendCardImageName = dir+"defend.png";
 
@@ -52,8 +52,8 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	if (a->health > 0)
 		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
 	//armor
-	if (a->tempArmor > 0) 
-		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->tempArmor).c_str());
+	if (a->armor > 0) 
+		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
 }
 
 void Display() {
@@ -113,7 +113,7 @@ void NewHand() {
 // get actions from Card, user, and target from CardGame
 void ResolveAction(stack<Action> actions, Actor* user, Actor* target) {
 	while (!actions.empty()) {
-		ResolveAction(actions.top(), user, target);
+		//ResolveAction(actions.top(), user, target*);
 		actions.pop();
 	}
 }
@@ -170,8 +170,9 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 				Actor* target = targets[i];
 				if (target->Intersect(*selectedCard)) {
 					if (selectedCard->ValidTarget(target)) {
-						if(hm.ConsumeEnergy(selectedCard))
-							ResolveAction(selectedCard->actions, &player, target);
+						//if(hm.ConsumeEnergy(selectedCard))
+							//ResolveAction(selectedCard->actions, &player, target);
+							hm.PlayCard(targets[i], selectedCard);
 					}
 					//hm.PlayCard(targets[i], selectedCard);
 
