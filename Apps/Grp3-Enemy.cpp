@@ -4,17 +4,20 @@
 Enemy::Enemy() {
 	maxHealth = 10;
 	health = maxHealth;
-	tempArmor = 0;
+	armor = 0;
 	status = 0;
 }
 
 Enemy::Enemy(int startinghealth) {
 	maxHealth = startinghealth;
 	health = maxHealth;
-	tempArmor = 0;
+	armor = 0;
 	status = 0;
 }
 
+bool Enemy::IsPlayer(){
+	return false;
+}
 
 void Enemy::Action() {
 //	random_shuffle(ActionVec.begin(), ActionVec.end());

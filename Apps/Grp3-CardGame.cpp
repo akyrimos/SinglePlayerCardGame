@@ -23,7 +23,7 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
-string enemyImageName = dir+"Combined32.png";
+string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"YosemiteSam.tga";
 string defendCardImageName = dir+"defend.png";
 
@@ -52,8 +52,8 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	if (a->health > 0)
 		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
 	//armor
-	if (a->tempArmor > 0) 
-		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->tempArmor).c_str());
+	if (a->armor > 0) 
+		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
 }
 
 void Display() {

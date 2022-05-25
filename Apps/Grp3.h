@@ -19,23 +19,23 @@ class Actor : public Sprite {
 public:
 	int health = 10;
 	int maxHealth = 10;
-	int tempArmor = 0;
-	int* status = NULL;
+	int armor = 0;
+	int *status = NULL;
 	string message;
-	void GainArmor(int value) { health + value; }
+	void GainArmor(int value) { armor += value; }
 	bool CheckifAlive() { return health > 0; }
-	bool IsPlayer() { return false; }
+	virtual bool IsPlayer() { return true; }
 	void ChangeHealth(int healthToAdd) { if ((health += healthToAdd) > maxHealth) health = maxHealth; }
 	void TakeDamage(int damage) {
-		tempArmor -= damage;
-		if (tempArmor < 0) {
-			health -= abs(tempArmor);
+		armor -= damage;
+		if (armor < 0) {
+			health -= abs(armor);
 			RemoveArmor();
 			CheckifAlive();
 			message = "ouch! my health now " + to_string(health);
 		}
 	}
-	void RemoveArmor() { tempArmor = 0; }
+	void RemoveArmor() { armor = 0; }
 };
 
 class Card : public Sprite {
@@ -71,14 +71,17 @@ public:
 	}
 	void PlayCard(Actor* target) {
 		const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
-		cout << "My health now: " << target->health;
+		cout << "My health now: " << target->armor << endl;
 		cout << cardNames[(int) ability] << endl;
 		if (ValidTarget(target)) {
 			if (!target->IsPlayer() && ability == EffectType::Attack)
 				target->TakeDamage(value);
-			if (target->IsPlayer() && ability == EffectType::Defend)
+			if (!target->IsPlayer() && ability == EffectType::Defend) {
+				//this should be played on the player
+				cout << "value: " << value << endl;
 				target->GainArmor(value);
-				cout << "My health now: " << target->health;
+				cout << "My health now: " << target->armor << endl;
+			}
 		}
 	}
 	bool ValidTarget(Actor* target) {
@@ -106,6 +109,7 @@ public:
 	Enemy();
 	Enemy(int startinghealth);
 	void Action();
+	bool IsPlayer();
 	void AddAction(EffectType actionAdd, int valueAdd);
 	struct EnemyAction {
 		EffectType actionType;
