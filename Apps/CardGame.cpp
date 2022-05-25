@@ -23,7 +23,7 @@ string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
 string enemyImageName = dir+"Combined32.png";
-string playerImageName = dir+"YosemiteSam.tga";
+string playerImageName = dir+"Player.png";
 string defendCardImageName = dir+"defend.png";
 
 // Action definitions
