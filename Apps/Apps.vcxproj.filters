@@ -30,13 +30,13 @@
     <ClCompile Include="..\Lib\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grp3-CardGame.cpp">
+    <ClCompile Include="CardGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grp3-Enemy.cpp">
+    <ClCompile Include="Enemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Grp3-HandManager.cpp">
+    <ClCompile Include="HandManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Lib\Text.cpp">
@@ -62,7 +62,7 @@
     <ClInclude Include="..\Include\VecMat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Grp3.h">
+    <ClInclude Include="CardGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Text.h">

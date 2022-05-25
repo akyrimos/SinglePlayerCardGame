@@ -52,7 +52,7 @@ public:
 	string imageName;
 	vec3 position;
 	int energyCost;
-	int id;
+	//int id;
 	EffectType ability;
 	vector<Action> actions;
 	TargetType tType;

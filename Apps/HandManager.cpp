@@ -1,76 +1,71 @@
-#include "HandManager.h"
+#include "CardGame.h"
+#include <algorithm>    // std::shuffle
+#include <array>        // std::array
+#include <random>       // std::default_random_engine
 
 HandManager::HandManager() {
-	vector<Card*> hand;
-	libptr = nullptr;
-	selected = nullptr;
 	energyRemaining = maxEnergy;
+	cardsRemaining = librarySize;
 }
-
-HandManager::~HandManager()
-{
-}
-
-HandManager::HandManager(Library* lib) {
-	vector<Card*> hand;
-	libptr = lib;
-	selected = nullptr;
-}
-
-//HandManager& HandManager::operator=(const HandManager& rhs) {
-//	if (this == &rhs) return *this;
-//	delete& hand;
-//	this->hand = rhs.hand;
-//	this->libptr = rhs.libptr;
-//	this->maxHandSize = rhs.maxHandSize;
-//	drawCards = rhs.drawCards;
-//	return *this;
-//}
-
-//void HandManager::playCard()
-//{
-//	if (!selected || (TotalEnergy-selected->EnergyCost) < 0) return;
-//	cout << "Total Energy: " << TotalEnergy << endl;
-//	selected->PlayCard();
-//	selected->Image.SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
-//	TotalEnergy -= selected->EnergyCost;
-//}
 
 void HandManager::Draw() {
-	if (handSize >= maxHandSize) return;
-	hand.push_back(libptr->Draw());
-	handSize++;
+	if ((int) hand.size() >= MaxHandSize) return;
+	hand.push_back(DrawFromLibrary());
 }
 
-void HandManager::PlayCard(Actor* target) {
-	if (!selected || (energyRemaining - selected->energyCost) < 0) return;
-	selected->PlayCard(target);
-	selected->image.SetPosition({ -5.0f, -5.0f });
-	energyRemaining -= selected->energyCost;
-	cout << "Total Energy: " << energyRemaining << endl;
-}
+//void HandManager::PlayCard(Actor* target, Card *selectedCard) {
+//	if (!selectedCard || (energyRemaining - selectedCard->energyCost) < 0) return;
+//	selectedCard->PlayCard(target);
+//	selectedCard->SetPosition({ -5.0f, -5.0f });
+//	energyRemaining -= selectedCard->energyCost;
+//}
 
+bool HandManager::ConsumeEnergy(Card* card)
+{
+	if (!card || (energyRemaining - card->energyCost) < 0) return false;
+	
+	energyRemaining -= card->energyCost;
+	return true;
+}
 
 void HandManager::DiscardHand() {
-	for (int i = 0; i < handSize; i++) {
-		libptr->MoveToDiscard(hand[i]);
-	}
-	handSize = 0;
+	for (int i = 0; i < (int) hand.size(); i++)
+		MoveToDiscard(hand[i]);
 	hand.clear();
 }
 
-void HandManager::SetCardPosition(float x, float y, int index) {
-	hand.at(index)->image.SetPosition({ x, y });
+void HandManager::InitializeLibrary(Card **cards, int ncards) {
+	for (int i = 0; i < ncards; i++) // drawCards; i++)
+		//deckLibrary.push(cards[i]);
+		discardPile.push_back(cards[i]);
+
+	Shuffle();
 }
 
-void HandManager::SelectCard(Card* c)
+void HandManager::Shuffle() {
+	unsigned seed = clock();
+	shuffle(discardPile.begin(), discardPile.end(), std::default_random_engine(seed));
+	for (int i = 0; i < (int) discardPile.size(); i++)
+		deckLibrary.push(discardPile[i]);
+	discardPile.clear();
+}
+
+Card* HandManager::DrawFromLibrary() {
+	if (deckLibrary.empty())
+		Shuffle();
+	Card* drawnCard = deckLibrary.top();
+	deckLibrary.pop();
+	return drawnCard;
+}
+
+void HandManager::MoveCardOffScreen(Card* selectedCard)
 {
-	selected = c;
+	selectedCard->SetPosition({ -5.0f, -5.0f });
 }
 
-void HandManager::DeselectCard()
-{
-	selected = nullptr;
+void HandManager::NewFight() {
 }
 
-
+void HandManager::MoveToDiscard(Card* c) {
+	discardPile.push_back(c);
+}

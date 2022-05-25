@@ -159,9 +159,9 @@
     <ClCompile Include="..\Lib\Misc.cpp" />
     <ClCompile Include="..\Lib\Sprite.cpp" />
     <ClCompile Include="..\Lib\Text.cpp" />
-    <ClCompile Include="Grp3-CardGame.cpp" />
-    <ClCompile Include="Grp3-Enemy.cpp" />
-    <ClCompile Include="Grp3-HandManager.cpp" />
+    <ClCompile Include="CardGame.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="HandManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Draw.h" />
@@ -171,7 +171,7 @@
     <ClInclude Include="..\Include\Sprite.h" />
     <ClInclude Include="..\Include\Text.h" />
     <ClInclude Include="..\Include\VecMat.h" />
-    <ClInclude Include="Grp3.h" />
+    <ClInclude Include="CardGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
