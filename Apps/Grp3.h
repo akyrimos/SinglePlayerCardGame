@@ -25,7 +25,6 @@ public:
 			RemoveArmor();
 			CheckifAlive();
 			message = "ouch! my health now "+to_string(health);
-		//	cout << "ouch! my health now " << health << endl;
 		}
 	}
 	void RemoveArmor() { tempArmor = 0; }
@@ -34,6 +33,7 @@ public:
 enum class EffectType { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
 enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
 class Action {
+public:
 	int value;
 	EffectType effect;
 
@@ -111,6 +111,7 @@ class HandManager {
 public:
 	HandManager();
 	void PlayCard(Actor* target, Card *card);
+	bool ConsumeEnergy(Card* card);
 	void Draw();
 	void DiscardHand();
 	void Shuffle();

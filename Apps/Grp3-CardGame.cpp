@@ -111,10 +111,25 @@ void NewHand() {
 	}
 }
 
-void ResolveAction(Action a, Actor* target) {
-
-
+// get actions from Card, user, and target from CardGame
+void ResolveAction(stack<Action> actions, Actor* user, Actor* target) {
+	while (!actions.empty()) {
+		ResolveAction(actions.top(), user, target);
+		actions.pop();
+	}
 }
+void ResolveAction(Action a, Actor* user, Actor* target) {
+	switch (a.effect) {
+	case EffectType::Attack:
+		target->TakeDamage(a.value);
+		break;
+	case EffectType::Defend:
+		cout << "armor";
+	default:
+		cout << "default";
+	}
+}
+
 void RunTurn() {
 	hm.DiscardHand();
 	hm.ResetEnergy();
@@ -149,18 +164,21 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (endTurn.Hit(ix, iy))
 			RunTurn();
 	}
+	// Play card on target
 	if (action == GLFW_RELEASE) {
-		// CardPlayer(selected, playCard);
 		if (selectedCard)
 			for (int i = 0; i < (int) targets.size(); i++) {
-				Sprite* targetSprite = targets[i];
-				// if (targetSprite->Hit(ix, iy))
-				if (targetSprite->Intersect(*selectedCard))
-					hm.PlayCard(targets[i], selectedCard);
+				Actor* target = targets[i];
+				if (target->Intersect(*selectedCard)) {
+					if (selectedCard->ValidTarget(target)) {
+						if(hm.ConsumeEnergy(selectedCard))
+							ResolveAction(selectedCard->actions, &player, target);
+					}
+					//hm.PlayCard(targets[i], selectedCard);
+
+				}
 			}
-		// if (selected && selected->Intersect(playCard))
-		//	  selected->SetPosition({ -5.0f, -5.0f });
-		//    selected = NULL;
+
 	}
 }
 

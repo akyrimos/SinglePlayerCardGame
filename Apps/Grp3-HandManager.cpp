@@ -18,7 +18,14 @@ void HandManager::PlayCard(Actor* target, Card *selectedCard) {
 	selectedCard->PlayCard(target);
 	selectedCard->SetPosition({ -5.0f, -5.0f });
 	energyRemaining -= selectedCard->energyCost;
-	cout << "Total Energy: " << energyRemaining << endl;
+}
+
+bool HandManager::ConsumeEnergy(Card* card)
+{
+	if (!card || (energyRemaining - card->energyCost) < 0) return false;
+	
+	energyRemaining -= card->energyCost;
+	return true;
 }
 
 void HandManager::DiscardHand() {
