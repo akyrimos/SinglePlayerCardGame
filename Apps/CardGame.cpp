@@ -140,6 +140,7 @@ void ResolveAction(const Action a, Actor* user, Actor* target) {
 	case EffectType::Defend:
 		user->GainArmor(a.value);
 		cout << "Defend " << a.value << endl;
+		break;
 	default:
 		cout << "default";
 	}
