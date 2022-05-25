@@ -2,12 +2,13 @@
 #define GRP3
 #include "Sprite.h"
 #include <stack>
-#include<string> 
+#include <string> 
+#include <array>
 
 using namespace std;
 const int MaxHandSize = 10;
 
-enum class EffectType { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
+enum class EffectType { Undefined = 0, Attack, Defend, Weaken, Buff, Power, NActions };
 enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
 class Action {
 public:
@@ -58,13 +59,23 @@ public:
 	}
 
 	Card(int energycost, int value, EffectType ability, TargetType thing) {
+		actions.push_back(Action(value,ability));
 		this->energyCost = energycost;
 		this->value = value;
 		this->ability = ability;
 		this->tType = thing;
 	}
-	// TODO: change to initialize value
+	Card(int energycost, int value, Action Actions[], TargetType thing) {
+		actions.push_back(Action(value, ability));
+		this->energyCost = energycost;
+		this->value = value;
+		this->ability = ability;
+		this->tType = thing;
+	}
 
+	void AddAction(int value, EffectType effect) {
+		actions.push_back(Action(value, effect));
+	}
 	void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
 		value = newValue;
@@ -90,17 +101,20 @@ public:
 		case TargetType::Player:
 			if (target->IsPlayer()) {
 				return true;
-				break;
+				
 			}
+			break;
 		case TargetType::Enemy:
 			if (!target->IsPlayer()) {
 				return true;
-				break;
 			}
+			break;
+
 		default:
 			return false;
 			break;
 		}
+		return false;
 	}
 };
 
@@ -143,7 +157,7 @@ public:
 };
 
 
-void ResolveAction(vector<Action> actions, Actor* user, Actor* target);
-void ResolveAction(Action a, Actor* user, Actor* target);
+void ResolveAction(const vector<Action> actions, Actor* user, Actor* target);
+void ResolveAction(const Action a, Actor* user, Actor* target);
 
 #endif

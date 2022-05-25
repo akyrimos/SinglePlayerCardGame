@@ -3,7 +3,6 @@
 #include <glad.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
-#include "vector"
 #include "Draw.h"
 #include "GLXtras.h"
 #include "Grp3.h"
@@ -23,7 +22,7 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
-string enemyImageName = dir+"alien_slime.png";
+string enemyImageName = dir+"Combined32.png";
 string playerImageName = dir+"YosemiteSam.tga";
 string defendCardImageName = dir+"defend.png";
 
@@ -53,7 +52,7 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
 	//armor
 	if (a->armor > 0) 
-		Text(loc + vec3(-0.2f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
+		Text(loc + vec3(-0.5f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
 }
 
 void Display() {
@@ -70,10 +69,10 @@ void Display() {
 		endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
-		DisplayActor(&player, vec3(0, 0, 0));
+		//DisplayActor(&player, vec3(0, 0, 0));
 		for (int i = 0; i < (int) targets.size(); i++)
 			DisplayActor(targets[i]);
-		player.Display();
+		//player.Display();
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = to_string(turnNum);
 		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
@@ -115,19 +114,20 @@ void NewHand() {
 //	 	actions.pop();
 //	}
 //}
-void ResolveAction(vector<Action> actions, Actor* user, Actor* target) {
+void ResolveAction(const vector<Action> actions, Actor* user, Actor* target) {
 	for (Action a : actions) {
 		ResolveAction(a, user, target);
 	}
 }
-void ResolveAction(Action a, Actor* user, Actor* target) {
+void ResolveAction(const Action a, Actor* user, Actor* target) {
 	switch (a.effect) {
 	case EffectType::Attack:
 		target->TakeDamage(a.value);
 		cout << "Attack " << a.value << endl;
 		break;
 	case EffectType::Defend:
-		cout << "armor";
+		user->GainArmor(a.value);
+		cout << "Defend " << a.value << endl;
 	default:
 		cout << "default";
 	}
@@ -246,6 +246,7 @@ int main(int ac, char** av) {
 	alien.Initialize(enemyTextureName, .65f);
 	alien.SetScale(vec2(.7f, .7f));
 	alien.SetPosition({0.35f, 0.1f});
+	targets.push_back(&player);
 	targets.push_back(&alien);
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
