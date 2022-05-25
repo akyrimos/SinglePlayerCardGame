@@ -26,10 +26,18 @@ string enemyImageName = dir+"Combined32.png";
 string playerImageName = dir+"YosemiteSam.tga";
 string defendCardImageName = dir+"defend.png";
 
+// Action definitions
+vector<Action> a_strike = { Action(6, EffectType::Attack) };
+vector<Action> a_block = { Action(5, EffectType::Defend) };
+// CardData definitions
+CardData strike(attackCardImageName, 1, a_strike, TargetType::Enemy);
+CardData block(defendCardImageName, 1, a_block, TargetType::Player);
+
 // Sprites
 Actor player;
 Enemy alien;
-Card c0, c1, c2, c3, c4, c5(1, 5, EffectType::Defend, TargetType::Player), c6(1, 5, EffectType::Defend, TargetType::Player), c7(1, 5, EffectType::Defend, TargetType::Player), c8(1, 5, EffectType::Defend, TargetType::Player), c9(1, 5, EffectType::Defend, TargetType::Player);
+Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
+c5(block), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton;
 
 // Gameplay
@@ -226,9 +234,9 @@ int main(int ac, char** av) {
 	GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
-		if (deck[i]->ability == EffectType::Attack) 
+		if (deck[i]->imageName == attackCardImageName)
 			deck[i]->Initialize(attackCardTextureName);
-		if (deck[i]->ability == EffectType::Defend)
+		if (deck[i]->imageName == defendCardImageName)
 			deck[i]->Initialize(defendCardTextureName);
 
 		deck[i]->SetScale(vec2(.2f, .2f));

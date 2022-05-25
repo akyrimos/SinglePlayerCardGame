@@ -13,12 +13,12 @@ void HandManager::Draw() {
 	hand.push_back(DrawFromLibrary());
 }
 
-void HandManager::PlayCard(Actor* target, Card *selectedCard) {
-	if (!selectedCard || (energyRemaining - selectedCard->energyCost) < 0) return;
-	selectedCard->PlayCard(target);
-	selectedCard->SetPosition({ -5.0f, -5.0f });
-	energyRemaining -= selectedCard->energyCost;
-}
+//void HandManager::PlayCard(Actor* target, Card *selectedCard) {
+//	if (!selectedCard || (energyRemaining - selectedCard->energyCost) < 0) return;
+//	selectedCard->PlayCard(target);
+//	selectedCard->SetPosition({ -5.0f, -5.0f });
+//	energyRemaining -= selectedCard->energyCost;
+//}
 
 bool HandManager::ConsumeEnergy(Card* card)
 {

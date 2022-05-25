@@ -16,6 +16,14 @@ public:
 	EffectType effect;
 	Action(int val, EffectType eff) :value(val), effect(eff) {};
 };
+class CardData {
+public:
+	string imageName;
+	int energyCost;
+	vector<Action> actions;
+	TargetType targetType;
+	CardData(string n, int cost, vector<Action> act, TargetType targ) : imageName(n), energyCost(cost), actions(act), targetType(targ) {};
+};
 class Actor : public Sprite {
 public:
 	int health = 10;
@@ -41,36 +49,35 @@ public:
 
 class Card : public Sprite {
 public:
+	string imageName;
 	vec3 position;
 	int energyCost;
 	int id;
 	EffectType ability;
 	vector<Action> actions;
 	TargetType tType;
-	int value;
 	Card() {
 		energyCost = 1;
-		value = 6;
 		ability = EffectType::Attack;
 		tType = TargetType::Enemy;
-		Action a(6, EffectType::Attack);
-		actions.push_back(a);
-		actions.push_back(a);
+		actions = { Action(6, EffectType::Attack) };
 	}
-
-	Card(int energycost, int value, EffectType ability, TargetType thing) {
-		actions.push_back(Action(value,ability));
-		this->energyCost = energycost;
-		this->value = value;
-		this->ability = ability;
-		this->tType = thing;
+	Card(const CardData c) {
+		energyCost = c.energyCost;
+		actions = c.actions;
+		tType = c.targetType;
+		imageName = c.imageName;
 	}
-	Card(int energycost, int value, Action Actions[], TargetType thing) {
-		actions.push_back(Action(value, ability));
+	Card(int EnergyCost, int Value, EffectType Effect, TargetType TargType) {
+		actions.push_back(Action(Value,Effect));
+		this->energyCost = EnergyCost;
+		this->ability = Effect;
+		this->tType = TargType;
+	}
+	Card(int energycost, vector<Action> Actions, TargetType TargType) {
 		this->energyCost = energycost;
-		this->value = value;
-		this->ability = ability;
-		this->tType = thing;
+		this->tType = TargType;
+		this->actions = Actions;
 	}
 
 	void AddAction(int value, EffectType effect) {
@@ -78,23 +85,23 @@ public:
 	}
 	void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
-		value = newValue;
 	}
-	void PlayCard(Actor* target) {
-		const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
-		cout << "My health now: " << target->armor << endl;
-		cout << cardNames[(int) ability] << endl;
-		if (ValidTarget(target)) {
-			if (!target->IsPlayer() && ability == EffectType::Attack)
-				target->TakeDamage(value);
-			if (!target->IsPlayer() && ability == EffectType::Defend) {
-				//this should be played on the player
-				cout << "value: " << value << endl;
-				target->GainArmor(value);
-				cout << "My health now: " << target->armor << endl;
-			}
-		}
-	}
+	//void PlayCard(Actor* target) {
+
+	//	const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
+	//	cout << "My health now: " << target->armor << endl;
+	//	cout << cardNames[(int) ability] << endl;
+	//	if (ValidTarget(target)) {
+	//		if (!target->IsPlayer() && ability == EffectType::Attack)
+	//			target->TakeDamage(value);
+	//		if (!target->IsPlayer() && ability == EffectType::Defend) {
+	//			//this should be played on the player
+	//			cout << "value: " << value << endl;
+	//			target->GainArmor(value);
+	//			cout << "My health now: " << target->armor << endl;
+	//		}
+	//	}
+	//}
 	bool ValidTarget(Actor* target) {
 		if (!target) return false;
 		switch (tType) {
