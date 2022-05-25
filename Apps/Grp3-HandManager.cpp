@@ -29,7 +29,10 @@ void HandManager::DiscardHand() {
 
 void HandManager::InitializeLibrary(Card **cards, int ncards) {
 	for (int i = 0; i < ncards; i++) // drawCards; i++)
-		deckLibrary.push(cards[i]);
+		//deckLibrary.push(cards[i]);
+		discardPile.push_back(cards[i]);
+
+	Shuffle();
 }
 
 void HandManager::Shuffle() {
