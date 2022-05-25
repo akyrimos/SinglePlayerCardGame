@@ -48,6 +48,9 @@ Card* HandManager::DrawFromLibrary() {
 	return drawnCard;
 }
 
+void HandManager::NewFight() {
+}
+
 void HandManager::MoveToDiscard(Card* c) {
 	discardPile.push_back(c);
 }

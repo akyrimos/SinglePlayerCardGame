@@ -15,9 +15,6 @@ Enemy::Enemy(int startinghealth) {
 	status = 0;
 }
 
-void Enemy::GainArmor() {
-	tempArmor = 10;
-}
 
 void Enemy::Action() {
 //	random_shuffle(ActionVec.begin(), ActionVec.end());

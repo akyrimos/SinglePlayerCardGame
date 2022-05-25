@@ -30,7 +30,7 @@ string defendCardImageName = dir+"defend.png";
 // Sprites
 Actor player;
 Enemy alien;
-Card c0, c1, c2, c3, c4, c5, c6, c7, c8, c9;
+Card c0, c1, c2, c3, c4, c5(1, 5, EffectType::Defend, TargetType::Player), c6(1, 5, EffectType::Defend, TargetType::Player), c7(1, 5, EffectType::Defend, TargetType::Player), c8(1, 5, EffectType::Defend, TargetType::Player), c9(1, 5, EffectType::Defend, TargetType::Player);
 Sprite background, playCard, endTurn, startBackground, startButton;
 
 // Gameplay
@@ -85,17 +85,16 @@ void Display() {
 }
 
 // Gameplay
-
-void CardPlayer(Sprite* card, Sprite target) {
-	// helper method to play a card on a enemy
-	if (card) {
-		if (card->Intersect(target)) {
-			card->SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
-		}
-	}
-	// before it goes null add the card to the discard pile (library)
-	card = NULL;
-}
+//void CardPlayer(Sprite* card, Sprite target) {
+//	// helper method to play a card on a enemy
+//	if (card) {
+//		if (card->Intersect(target)) {
+//			card->SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
+//		}
+//	}
+//	// before it goes null add the card to the discard pile (library)
+//	card = NULL;
+//}
 
 float handXPos[10] = {-.5f, -.4f, -.3f, -.2f, -.1f, 0, .1f, .2f, .3f, .4f}, handYPos = -.75f;
 
@@ -126,7 +125,7 @@ void RunTurn() {
 	NewHand();
 }
 
-// Mouse
+// Mouse with cards playing on enemy and clicking buttons
 
 void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	double x, y;
@@ -164,6 +163,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 	}
 }
 
+//Mouse function to move the card
 void MouseMove(GLFWwindow *w, double x, double y) {
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && selectedCard)
 		selectedCard->MouseDrag(vec2((float) x, (float) (winHeight-y)));
@@ -202,10 +202,17 @@ int main(int ac, char** av) {
 	GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
-		deck[i]->Initialize(i%2? attackCardTextureName : defendCardTextureName, Z(i));
+		if (deck[i]->ability == EffectType::Attack) 
+			deck[i]->Initialize(attackCardTextureName);
+		if (deck[i]->ability == EffectType::Defend)
+			deck[i]->Initialize(defendCardTextureName);
+
 		deck[i]->SetScale(vec2(.2f, .2f));
 	}
 	hm.InitializeLibrary(deck, nDeckCards);
+	hm.DiscardHand();
+	hm.DiscardHand();
+	hm.Shuffle();
 	// initialize player sprite
 	player.Initialize(playerTextureName, .7f);
 	player.SetScale(vec2(.2f, .3f));

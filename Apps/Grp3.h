@@ -15,6 +15,7 @@ public:
 	int tempArmor = 0;
 	int *status = NULL;
 	string message;
+	void GainArmor(int value) { health + value; }
 	bool CheckifAlive() { return health > 0; }
 	bool IsPlayer() { return false; }
 	void ChangeHealth(int healthToAdd) { if ((health += healthToAdd) > maxHealth) health = maxHealth; }
@@ -36,7 +37,6 @@ enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
 class Action {
 	int value;
 	EffectType effect;
-
 	Action(int val, EffectType eff) :value(val), effect(eff) {};
 };
 class Card : public Sprite {
@@ -50,27 +50,33 @@ public:
 	int value;
 	Card() {
 		energyCost = 1;
-		id = 1;
 		value = 6;
 		ability = EffectType::Attack;
 		tType = TargetType::Enemy;
 	}
-	// TODO: change to initialize value
-	Card(int EnergyCost, int ID, string name) {
-		energyCost = EnergyCost;
-		id = ID;
-		ability = EffectType::Undefined;
+
+	Card(int energycost, int value, EffectType ability, TargetType thing) {
+		this->energyCost = energycost;
+		this->value = value;
+		this->ability = ability;
+		this->tType = thing;
 	}
+	// TODO: change to initialize value
+
 	void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
 		value = newValue;
 	}
 	void PlayCard(Actor* target) {
 		const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
+		cout << "My health now: " << target->health;
 		cout << cardNames[(int) ability] << endl;
 		if (ValidTarget(target)) {
 			if (!target->IsPlayer() && ability == EffectType::Attack)
 				target->TakeDamage(value);
+			if (target->IsPlayer() && ability == EffectType::Defend)
+				target->GainArmor(value);
+				cout << "My health now: " << target->health;
 		}
 	}
 	bool ValidTarget(Actor* target) {
@@ -99,7 +105,6 @@ public:
 	Enemy(int startinghealth);
 	void Action();
 	void AddAction(EffectType actionAdd, int valueAdd);
-	void GainArmor();
 	struct EnemyAction {
 		EffectType actionType;
 		int actionValue;
@@ -114,6 +119,7 @@ public:
 	void Draw();
 	void DiscardHand();
 	void Shuffle();
+	void NewFight();
 	Card *DrawFromLibrary();
 	void MoveToDiscard(Card* c);
 	void InitializeLibrary(Card **cards, int ncards);
