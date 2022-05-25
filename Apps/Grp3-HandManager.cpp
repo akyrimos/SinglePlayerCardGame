@@ -58,6 +58,11 @@ Card* HandManager::DrawFromLibrary() {
 	return drawnCard;
 }
 
+void HandManager::MoveCardOffScreen(Card* selectedCard)
+{
+	selectedCard->SetPosition({ -5.0f, -5.0f });
+}
+
 void HandManager::NewFight() {
 }
 

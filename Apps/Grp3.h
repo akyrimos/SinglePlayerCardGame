@@ -7,13 +7,20 @@
 using namespace std;
 const int MaxHandSize = 10;
 
-
+enum class EffectType { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
+enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
+class Action {
+public:
+	int value;
+	EffectType effect;
+	Action(int val, EffectType eff) :value(val), effect(eff) {};
+};
 class Actor : public Sprite {
 public:
 	int health = 10;
 	int maxHealth = 10;
 	int tempArmor = 0;
-	int *status = NULL;
+	int* status = NULL;
 	string message;
 	void GainArmor(int value) { health + value; }
 	bool CheckifAlive() { return health > 0; }
@@ -25,27 +32,19 @@ public:
 			health -= abs(tempArmor);
 			RemoveArmor();
 			CheckifAlive();
-			message = "ouch! my health now "+to_string(health);
+			message = "ouch! my health now " + to_string(health);
 		}
 	}
 	void RemoveArmor() { tempArmor = 0; }
 };
 
-enum class EffectType { Undefined = 0, Attack, Defend, Debuff, Buff, Power, NActions };
-enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
-class Action {
-public:
-	int value;
-	EffectType effect;
-	Action(int val, EffectType eff) :value(val), effect(eff) {};
-};
 class Card : public Sprite {
 public:
 	vec3 position;
 	int energyCost;
 	int id;
 	EffectType ability;
-	stack<Action> actions;
+	vector<Action> actions;
 	TargetType tType;
 	int value;
 	Card() {
@@ -53,6 +52,9 @@ public:
 		value = 6;
 		ability = EffectType::Attack;
 		tType = TargetType::Enemy;
+		Action a(6, EffectType::Attack);
+		actions.push_back(a);
+		actions.push_back(a);
 	}
 
 	Card(int energycost, int value, EffectType ability, TargetType thing) {
@@ -122,6 +124,7 @@ public:
 	void Shuffle();
 	void NewFight();
 	Card *DrawFromLibrary();
+	void MoveCardOffScreen(Card* selectedCard);
 	void MoveToDiscard(Card* c);
 	void InitializeLibrary(Card **cards, int ncards);
 	void ResetEnergy() { energyRemaining = maxEnergy; }
@@ -134,5 +137,9 @@ public:
 	int energyRemaining = maxEnergy;
 	vector<Card *> hand;
 };
+
+
+void ResolveAction(vector<Action> actions, Actor* user, Actor* target);
+void ResolveAction(Action a, Actor* user, Actor* target);
 
 #endif

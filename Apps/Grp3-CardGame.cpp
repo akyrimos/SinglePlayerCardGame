@@ -67,7 +67,6 @@ void Display() {
 	}
 	else {
 		background.Display();
-		// playCard.Display();
 		endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
@@ -78,8 +77,7 @@ void Display() {
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = to_string(turnNum);
 		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
-		Text(vec3(0.9, 0.9, 0), background.ptTransform, vec3(1, 1, 0), 50, turnUI.c_str());
-
+		Text(vec3(0.9f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 50, turnUI.c_str());
 	}
 	glFlush();
 }
@@ -111,16 +109,22 @@ void NewHand() {
 }
 
 // get actions from Card, user, and target from CardGame
-void ResolveAction(stack<Action> actions, Actor* user, Actor* target) {
-	while (!actions.empty()) {
-		ResolveAction(actions.top(), user, target);
-		actions.pop();
+//void ResolveAction(stack<Action*> actions, Actor* user, Actor* target) {
+//	while (!actions.empty()) {
+//		ResolveAction(actions.top(), user, target);
+//	 	actions.pop();
+//	}
+//}
+void ResolveAction(vector<Action> actions, Actor* user, Actor* target) {
+	for (Action a : actions) {
+		ResolveAction(a, user, target);
 	}
 }
 void ResolveAction(Action a, Actor* user, Actor* target) {
 	switch (a.effect) {
 	case EffectType::Attack:
 		target->TakeDamage(a.value);
+		cout << "Attack " << a.value << endl;
 		break;
 	case EffectType::Defend:
 		cout << "armor";
@@ -170,8 +174,10 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 				Actor* target = targets[i];
 				if (target->Intersect(*selectedCard)) {
 					if (selectedCard->ValidTarget(target)) {
-						if(hm.ConsumeEnergy(selectedCard))
+						if (hm.ConsumeEnergy(selectedCard)) {
 							ResolveAction(selectedCard->actions, &player, target);
+							hm.MoveCardOffScreen(selectedCard);
+						}
 					}
 					//hm.PlayCard(targets[i], selectedCard);
 
