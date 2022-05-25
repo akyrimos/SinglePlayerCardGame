@@ -20,7 +20,7 @@ string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png";
 string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
-string startButtonTex = dir+"startScreenButton.png", startButtonMat = dir+"startScreenButton.png";
+string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
 string enemyImageName = dir+"Combined32.png";
 string playerImageName = dir+"Player.png";
@@ -178,6 +178,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		}
 		if (endTurn.Hit(ix, iy))
 			RunTurn();
+
 	}
 	// Play card on target
 	if (action == GLFW_RELEASE) {
@@ -221,7 +222,7 @@ int main(int ac, char** av) {
 	// initialize background and button sprites
 	background.Initialize(backgroundTex, .9f);
 	startBackground.Initialize(startscreenBack, .9f);
-	startButton.Initialize(startButtonTex, startButtonMat, .85f);
+	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.3f });
