@@ -27,6 +27,12 @@ bool HandManager::ConsumeEnergy(Card* card)
 	energyRemaining -= card->energyCost;
 	return true;
 }
+void HandManager::DiscardCard(Card* c) {
+	for (int i = 0; i < hand.size(); i++)
+		if (hand.at(i) == c) hand.erase(hand.begin() + i);
+	discardPile.push_back(c);
+	MoveCardOffScreen(c);
+}
 
 void HandManager::DiscardHand() {
 	for (int i = 0; i < (int) hand.size(); i++)
@@ -65,7 +71,7 @@ void HandManager::MoveCardOffScreen(Card* selectedCard)
 
 void HandManager::NewFight() {
 }
-
 void HandManager::MoveToDiscard(Card* c) {
 	discardPile.push_back(c);
+	MoveCardOffScreen(c);
 }

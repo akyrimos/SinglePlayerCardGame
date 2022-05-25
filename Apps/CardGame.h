@@ -144,6 +144,7 @@ public:
 	HandManager();
 	void PlayCard(Actor* target, Card *card);
 	bool ConsumeEnergy(Card* card);
+	void DiscardCard(Card* c);
 	void Draw();
 	void DiscardHand();
 	void Shuffle();

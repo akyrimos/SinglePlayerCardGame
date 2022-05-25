@@ -40,6 +40,10 @@ Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(block), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton;
 
+// Card Positions
+float handXPos[10] = { -.5f, -.4f, -.3f, -.2f, -.1f, 0, .1f, .2f, .3f, .4f }, handYPos = -.75f;
+
+float Z(int i) { return .2f + i * .05f; }
 // Gameplay
 int turnNum = 0;
 Card *selectedCard = NULL;
@@ -82,9 +86,13 @@ void Display() {
 			DisplayActor(targets[i]);
 		//player.Display();
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
-		string turnUI = to_string(turnNum);
+		string turnUI = "Turn " + to_string(turnNum);
+		string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
+		string discardUI = "Discard: "+ to_string(hm.discardPile.size());
 		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
-		Text(vec3(0.9f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 50, turnUI.c_str());
+		Text(vec3(0.7f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 30, turnUI.c_str());
+		Text(vec3(-.96f, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
+		Text(vec3(.60, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
 	}
 	glFlush();
 }
@@ -100,10 +108,6 @@ void Display() {
 //	// before it goes null add the card to the discard pile (library)
 //	card = NULL;
 //}
-
-float handXPos[10] = {-.5f, -.4f, -.3f, -.2f, -.1f, 0, .1f, .2f, .3f, .4f}, handYPos = -.75f;
-
-float Z(int i) { return .2f+i*.05f; }
 
 void NewHand() {
 	for (int i = 0; i < hm.drawCards; i++)
@@ -184,7 +188,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 					if (selectedCard->ValidTarget(target)) {
 						if (hm.ConsumeEnergy(selectedCard)) {
 							ResolveAction(selectedCard->actions, &player, target);
-							hm.MoveCardOffScreen(selectedCard);
+							hm.DiscardCard(selectedCard);
 						}
 					}
 					//hm.PlayCard(targets[i], selectedCard);
