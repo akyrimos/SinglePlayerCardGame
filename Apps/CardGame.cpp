@@ -42,7 +42,7 @@ c5(block), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton;
 
 // Card Positions
-float handXPos[10] = { -.5f, -.3f, -.1f, .1f, .3f, .5f }, handYPos = -.75f;
+float handXPos[5] = { -.5f, -.3f, -.1f, .1f, .3f }, handYPos = -.75f;
 
 float Z(int i) { return .2f + i * .05f; }
 // Gameplay

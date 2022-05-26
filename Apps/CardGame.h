@@ -129,13 +129,13 @@ class Enemy : public Actor {
 public:
 	Enemy();
 	Enemy(int startinghealth);
-	void Action();
 	bool IsPlayer();
 	void AddAction(EffectType actionAdd, int valueAdd);
 	struct EnemyAction {
 		EffectType actionType;
 		int actionValue;
 	};
+	EnemyAction Action();
 	vector<EnemyAction> actions;
 };
 
