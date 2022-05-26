@@ -151,6 +151,8 @@ void RunTurn() {
 	hm.DiscardHand();
 	hm.ResetEnergy();
 	// Enemy takes turn
+	ResolveAction(alien.TakeAction(), &alien, &player);
+
 	player.RemoveArmor();
 	alien.RemoveArmor();
 	alien.message = "";
@@ -262,6 +264,11 @@ int main(int ac, char** av) {
 	alien.Initialize(enemyTextureName, .65f);
 	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
+
+	alien.AddAction(10, EffectType::Attack);
+	alien.AddAction(5, EffectType::Attack);
+	alien.AddAction(10, EffectType::Defend);
+
 	targets.push_back(&player);
 	targets.push_back(&alien);
 	// callbacks

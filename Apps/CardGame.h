@@ -130,13 +130,13 @@ public:
 	Enemy();
 	Enemy(int startinghealth);
 	bool IsPlayer();
-	void AddAction(EffectType actionAdd, int valueAdd);
-	struct EnemyAction {
-		EffectType actionType;
-		int actionValue;
-	};
-	EnemyAction Action();
-	vector<EnemyAction> actions;
+
+	void AddAction(int value, EffectType effect) {
+		enemyActions.push_back(Action(value, effect));
+	}
+
+	Action TakeAction();
+	vector<Action> enemyActions;
 };
 
 class HandManager {

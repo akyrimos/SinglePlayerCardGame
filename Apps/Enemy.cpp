@@ -19,18 +19,11 @@ bool Enemy::IsPlayer(){
 	return false;
 }
 
-
-void Enemy::AddAction(EffectType actionAdd, int valueAdd) {
-	actions.push_back({ actionAdd, valueAdd });
-}
-
-Enemy::EnemyAction Enemy::Action() {
+Action Enemy::TakeAction() {
 	unsigned seed = clock();
-	shuffle(actions.begin(), actions.end(), std::default_random_engine(seed));
+	shuffle(enemyActions.begin(), enemyActions.end(), std::default_random_engine(seed));
 	//	random_shuffle(ActionVec.begin(), ActionVec.end());
-	EnemyAction chosenAction{};
-	chosenAction.actionType = actions.at(0).actionType;
-	chosenAction.actionValue = actions.at(0).actionValue;
+	Action chosenAction(enemyActions.at(0).value, enemyActions.at(0).effect);
 	
 	return chosenAction;
 }
