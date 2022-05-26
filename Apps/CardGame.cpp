@@ -145,6 +145,15 @@ void ResolveAction(const Action a, Actor* user, Actor* target) {
 	default:
 		cout << "default";
 	}
+
+	if (!target->CheckifAlive()) {
+		if (target->IsPlayer()) {
+			cout << "A loser is you" << endl;
+		}
+		else {
+			cout << "A winner is you" << endl;
+		}
+	}
 }
 
 void RunTurn() {
