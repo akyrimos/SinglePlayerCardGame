@@ -84,7 +84,10 @@ void Display() {
 			hm.hand[i]->Display();
 		//DisplayActor(&player, vec3(0, 0, 0));
 		for (int i = 0; i < (int) targets.size(); i++)
-			DisplayActor(targets[i]);
+			if (targets[i]->CheckifAlive() == false)
+				targets[i]->SetPosition({ 5.0f,-5.0f });
+			else
+				DisplayActor(targets[i]);
 		//player.Display();
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = "Turn " + to_string(turnNum);
@@ -157,7 +160,6 @@ void ResolveAction(const Action a, Actor* user, Actor* target) {
 }
 
 void RunTurn() {
-
 	hm.DiscardHand();
 	hm.ResetEnergy();
 	// Enemy takes turn
