@@ -154,12 +154,10 @@ bool WriteTarga(const char *filename) {
 namespace {
 
 unsigned char *ReadFile(const char *fileName, int &width, int &height, int &nChannels) {
-//	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 	unsigned char *data = stbi_load(fileName, &width, &height, &nChannels, 0);
-	if (!data) {
+	if (!data)
 		printf("Can't open %s (%s)\n", fileName, stbi_failure_reason());
-		return NULL;
-	}
 	return data;
 }
 
@@ -170,9 +168,7 @@ float GetVal(unsigned char *data, int x, int y, int w, int nChannels) {
 
 float Lerp(float a, float b, float t) { return a+t*(b-a); }
 
-};
-
-// end namespace
+}; // end namespace
 
 unsigned char *MergeFiles(const char *imageName, const char *matteName, int &imageWidth, int &imageHeight) {
 	int imageNChannels, matteWidth, matteHeight, matteNChannels;
@@ -187,9 +183,11 @@ unsigned char *MergeFiles(const char *imageName, const char *matteName, int &ima
 		for (int i = 0; i < imageWidth; i++) {
 			for (int k = 0; k < 3; k++)
 				*o++ = *t++;
+			if (imageNChannels == 4) t++;
 			if (sameSize) {
 				*o++ = *m++;
 				if (matteNChannels == 3) m += 2;
+				if (matteNChannels == 4) m += 3;
 			}
 			else {
 				float txf = (float) i/(imageWidth), tyf = (float) j/(imageHeight);

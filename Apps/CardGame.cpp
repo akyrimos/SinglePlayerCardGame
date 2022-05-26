@@ -23,7 +23,7 @@ string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
 string enemyImageName = dir+"alien_slime.png";
-string playerImageName = dir+"Player.png";
+string playerImageName = dir+"OppAddPlayer.png";
 string playerMatte = dir + "PlayerMatte.png";
 string defendCardImageName = dir+"defend.png";
 
@@ -90,7 +90,7 @@ void Display() {
 		string turnUI = "Turn " + to_string(turnNum);
 		string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
 		string discardUI = "Discard: "+ to_string(hm.discardPile.size());
-		Text(vec3(-1, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
+		Text(vec3(-.9, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
 		Text(vec3(0.7f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 30, turnUI.c_str());
 		Text(vec3(-.96f, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
 		Text(vec3(.60, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
@@ -267,7 +267,7 @@ int main(int ac, char** av) {
 	//player.Initialize(playerTextureName, .7f);
 	player.Initialize(playerImageName,playerMatte, .7f);
 	player.SetScale(vec2(.2f, .3f));
-	player.SetPosition(vec2(-.6f, 0.1f));
+	player.SetPosition(vec2(-.6f, -.2f));
 	//player.message = "Tarnation!";
 	// initialize alien sprite
 	alien.Initialize(enemyTextureName, .65f);

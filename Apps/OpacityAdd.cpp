@@ -4,76 +4,52 @@
 #include <stdio.h>
 #include <string.h>
 #include "Misc.h"
-#include "STB_Image.h"
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#include "stb_image.h"
 #include "stb_image_write.h"
+
+#define DISPLAY_APP
+#ifdef DISPLAY_APP
+	#include <glad.h>                                         
+	#include <glfw3.h>                                        
+	#include "GLXtras.h"
+	GLuint program = 0;
+	GLuint textureName = 0, textureUnit = 0;
+	const char *vertexShader = R"(
+		#version 130
+		out vec2 vuv;
+		void main() {
+			vec2 pt[] = vec2[4](vec2(-1,-1), vec2(-1,1), vec2(1,1), vec2(1,-1));
+			vec2 uv[] = vec2[4](vec2(0,0), vec2(0,1), vec2(1,1), vec2(1,0));
+			vuv = uv[gl_VertexID];
+			gl_Position = vec4(pt[gl_VertexID], 0, 1);
+		}
+	)";
+	const char *pixelShader = R"(
+		#version 130
+		in vec2 vuv;                                                    // from vertex shader
+		uniform sampler2D textureImage;                                 // from CPU
+		out vec4 pColor;
+		void main() {
+			pColor = texture(textureImage, vuv);
+			if (pColor.a < .02) // if nearly transparent,
+				discard;		// don't tag z-buffer
+		}
+	)";
+#endif
 
 using std::string;
 
-unsigned char *ReadFile(string fileName, int &width, int &height, int &nChannels) {
-	stbi_set_flip_vertically_on_load(false);
-	unsigned char *data = stbi_load(fileName.c_str(), &width, &height, &nChannels, 0);
-	if (!data) {
-		printf("Can't open %s (%s)\n", fileName.c_str(), stbi_failure_reason());
-		return NULL;
-	}
-	return data;
-}
-
-float GetVal(unsigned char *data, int x, int y, int w, int nChannels) {
-	unsigned char c = data[nChannels == 1? y*w+x : 3*(y*w+x)];
-	return (float)c/255;
-}
-
-float Lerp(float a, float b, float t) { return a+t*(b-a); }
-
-bool Write32(const char *directory, const char *image, const char *matte, const char *out) {
+bool Write32(const char *image, const char *matte, const char *out) {
 	const char *ext = strlen(out) > 3? out+strlen(out)-3 : NULL;
-	string imageName = string(directory)+"/"+string(image);
-	string matteName = string(directory)+"/"+string(matte);
-	string outName = string(directory)+"/"+string(out);
-	int tWidth, tHeight, tNChannels, mWidth, mHeight, mNChannels;
-	unsigned char *tData = ReadFile(imageName, tWidth, tHeight, tNChannels);
-	unsigned char *mData = ReadFile(matteName, mWidth, mHeight, mNChannels);
-	printf("image nchans=%i, matte nchans=%i\n", tNChannels, mNChannels);
-	if (!tData || !mData) return false;
-	bool sameSize = tWidth == mWidth && tHeight == mHeight;
-	unsigned char *oData = new unsigned char[4*tWidth*tHeight];
-	unsigned char *t = tData, *m = mData, *o = oData;
-	for (int j = 0; j < tHeight; j++)
-		for (int i = 0; i < tWidth; i++) {
-			for (int k = 0; k < 3; k++)
-				*o++ = *t++;
-			if (sameSize) {
-				*o++ = *m++;
-				if (mNChannels == 3) m += 2;
-			}
-			else {
-				float txf = (float)i/(tWidth-1), tyf = (float)j/(tHeight-1);
-				float x = txf*mWidth, y = tyf*mHeight;
-				int x0 = (int) floor(x), y0 = (int) floor(y);
-				float mxf = x-x0, myf = y-y0;
-				bool lerpX = x0 < mWidth-1, lerpY = y0 < mHeight-1;
-				float v00 = GetVal(mData, x0, y0, mWidth, mNChannels), v10, v11, v01;
-				if (lerpX) v10 = GetVal(mData, x0+1, y0, mWidth, mNChannels);
-				if (lerpY) v01 = GetVal(mData, x0, y0+1, mWidth, mNChannels);
-				if (lerpX && lerpY) v11 = GetVal(mData, x0+1, y0+1, mWidth, mNChannels);
-				float v = v00;
-				if (lerpX && !lerpY)
-					v = Lerp(v00, v10, mxf);
-				if (!lerpX && lerpY)
-					v = Lerp(v00, v01, myf);
-				if (lerpX && lerpY) {
-					float v1 = Lerp(v00, v10, mxf), v2 = Lerp(v01, v11, mxf);
-					v = Lerp(v1, v2, myf);
-				}
-				*o++ = (unsigned char) (255.*v);
-			}
-		}
-	const char *oName = outName.c_str();
-	int r = !strcmp(ext, "png")? stbi_write_png(oName, tWidth, tHeight, 4, oData, tWidth*4) :
-			!strcmp(ext, "tga")? stbi_write_tga(oName, tWidth, tHeight, 4, oData) :
+	int width, height;
+	unsigned char *oData = MergeFiles(image, matte, width, height);
+	int r = !strcmp(ext, "png")? stbi_write_png(out, width, height, 4, oData, width*4) :
+			!strcmp(ext, "tga")? stbi_write_tga(out, width, height, 4, oData) :
 			0; // bmp, jpg do not (?) support 4 channels
-	printf("%s %s\n", oName, r? "written" : "write failure");
+	delete [] oData;
+	printf("%s %s\n", out, r? "written" : "write failure");
 	return r != 0;
 }
 
@@ -83,17 +59,53 @@ void GetInput(const char *prompt, char *buf) {
 	if (strlen(buf) > 1) buf[strlen(buf)-1] = 0; // remove <cr>
 }
 
+#ifdef DISPLAY_APP
+	void Display() {
+		glClearColor(0, 0, 0, 1);                                       // set background color
+		glClear(GL_COLOR_BUFFER_BIT);                                   // clear background
+		glUseProgram(program);
+		glActiveTexture(GL_TEXTURE0+textureUnit);                       // make texture active
+		glBindTexture(GL_TEXTURE_2D, textureName);
+		SetUniform(program, "textureImage", (int) textureUnit);         // set texture map for pixel shader
+		glDrawArrays(GL_QUADS, 0, 4);                                   // draw object                     
+		glFlush();                                                      // finish scene
+	}
+	int main() {
+		glfwInit();
+		GLFWwindow *w = glfwCreateWindow(600, 600, "Opacity Add", NULL, NULL);
+		glfwSetWindowPos(w, 200, 200);
+		glfwMakeContextCurrent(w);
+		gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+		program = LinkProgramViaCode(&vertexShader, &pixelShader);
+		char directory[500], image[500], matte[500], out[500];
+		while (!glfwWindowShouldClose(w)) {
+			GetInput("directory", directory);
+			if (directory[strlen(directory)-1] == '/')
+				directory[strlen(directory)-1] = 0;
+			GetInput("picture (any type)", image);
+			GetInput("matte (any type)", matte);
+			GetInput("output (png or tga only)", out);
+			string dir(directory), dImage = dir+"/"+image, dMatte = dir+"/"+matte, dOut = dir+"/"+out;
+			bool ok = Write32(dImage.c_str(), dMatte.c_str(), dOut.c_str());
+			textureName = LoadTexture(dOut.c_str());
+			Display();
+			glfwSwapBuffers(w);                          
+			glfwPollEvents();
+		}
+		glfwDestroyWindow(w);
+		glfwTerminate();
+	}
+#else
 int main(int ac, char **av) {
 	char directory[500], picture[500], matte[500], out32[500];
-	strcpy(directory, "/Users/Jules/Code/Aids");
-	strcpy(picture, "Lily.tga");
-	strcpy(matte, "1.tga");
-	strcpy(out32, "FRABA.tga");
-//	GetInput("directory", directory);
-//	GetInput("picture (any type)", picture);
-//	GetInput("matte (any type)", matte);
-//	GetInput("output (png or tga only)", out32);
-	bool ok = Write32(directory, picture, matte, out32);
-	printf("%s %s\n", out32, ok? "written" : "write failed");
-	getchar();
+	GetInput("directory", directory);
+	printf("\n");
+	while (true) {
+		GetInput("picture (any type)", picture);
+		GetInput("matte (any type)", matte);
+		GetInput("output (png or tga only)", out32);
+		bool ok = Write32(directory, picture, matte, out32);
+		printf("%s %s\n\n", out32, ok? "written" : "write failed");
+	}
 }
+#endif
