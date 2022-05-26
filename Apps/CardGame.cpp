@@ -22,7 +22,7 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
-string enemyImageName = dir+"Combined32.png";
+string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
 string playerMatte = dir + "PlayerMatte.png";
 string defendCardImageName = dir+"defend.png";
@@ -256,11 +256,11 @@ int main(int ac, char** av) {
 	//player.Initialize(playerTextureName, .7f);
 	player.Initialize(playerImageName,playerMatte, .7f);
 	player.SetScale(vec2(.2f, .3f));
-	player.SetPosition(vec2(-.6f, -.2f));
+	player.SetPosition(vec2(-.6f, 0.1f));
 	//player.message = "Tarnation!";
 	// initialize alien sprite
 	alien.Initialize(enemyTextureName, .65f);
-	alien.SetScale(vec2(.7f, .7f));
+	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
 	targets.push_back(&player);
 	targets.push_back(&alien);
