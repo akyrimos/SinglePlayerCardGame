@@ -16,12 +16,12 @@ bool startScreen = true;
 
 // Images
 string dir = "../Lib/Images/";
-string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png";
+//string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png";
 string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
-string attackCardImageName = dir+"attack card.png";
+string attackCardImageName = dir+"attack card.png"; //attack.png
 string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"OppAddPlayer.png";
 string playerMatte = dir + "PlayerMatte.png";
@@ -157,13 +157,15 @@ void ResolveAction(const Action a, Actor* user, Actor* target) {
 }
 
 void RunTurn() {
+
 	hm.DiscardHand();
 	hm.ResetEnergy();
 	// Enemy takes turn
+	alien.RemoveArmor();
+
 	ResolveAction(alien.TakeAction(), &alien, &player);
 
 	player.RemoveArmor();
-	alien.RemoveArmor();
 	alien.message = "";
 	// tick down status effects go here
 	NewHand();
@@ -265,12 +267,12 @@ int main(int ac, char** av) {
 	hm.Shuffle();
 	// initialize player sprite
 	//player.Initialize(playerTextureName, .7f);
-	player.Initialize(playerImageName,playerMatte, .7f);
+	player.Initialize(playerImageName, .7f);
 	player.SetScale(vec2(.2f, .3f));
-	player.SetPosition(vec2(-.6f, -.2f));
+	player.SetPosition(vec2(-.6f, 0.1f));
 	//player.message = "Tarnation!";
 	// initialize alien sprite
-	alien.Initialize(enemyTextureName, .65f);
+	alien.Initialize(enemyImageName, .65f);
 	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
 
