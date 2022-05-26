@@ -117,30 +117,31 @@ int MakeNumberTexture(unsigned char *image, int textureUnit) {
 
 void Letter(int x, int y, char c, vec3 color, float ptSize) {
 	if (c < 48 || c == 61 || c == 94) { // 32(space), 40((), 41()), 43(+), 45(-), 46(.), 47(/), 61(=), 94(^)
-		UseDrawShader();
+		float lineWidth = ptSize/3; // = 2;
+		UseDrawShader(ScreenMode());
 		int size = (int) ptSize, h = (int)(ptSize*.5f), hh = (int)(ptSize*.75f);
 		if (c == 40) {
 			vec2 p1(x+h, y+size+1), p2(x+2, y+(int)(.75f*ptSize)), p3(x+2, y+(int)(.25f*ptSize)), p4(x+h, y-1);
-			Line(p1, p2, 2, color); Line(p2, p3, 2, color); Line(p3, p4, 2, color);
+			Line(p1, p2, lineWidth, color); Line(p2, p3, lineWidth, color); Line(p3, p4, lineWidth, color);
 		}
 		if (c == 41) {
 			vec2 p1(x+h, y+size+1), p2(x+size-2, y+(int)(.75f*ptSize)), p3(x+size-2, y+(int)(.25f*ptSize)), p4(x+h, y-1);
-			Line(p1, p2, 2, color); Line(p2, p3, 2, color); Line(p3, p4, 2, color);
+			Line(p1, p2, lineWidth, color); Line(p2, p3, lineWidth, color); Line(p3, p4, lineWidth, color);
 		}
 		if (c == 61) {
-			Line(x+1, y+h+3, x+h+6, y+h+3, 2, color);
-			Line(x+1, y+h-3, x+h+6, y+h-3, 2, color);
+			Line(x+1, y+h+3, x+h+6, y+h+3, lineWidth, color);
+			Line(x+1, y+h-3, x+h+6, y+h-3, lineWidth, color);
 		}
 		if (c == 43) {
-			Line(x+1, y+h+1, x+h+6, y+h+1, 2, color);
-			Line(x+h, y+2, x+h, y+h+6, 2, color);
+			Line(x+1, y+h+1, x+h+6, y+h+1, lineWidth, color);
+			Line(x+h, y+2, x+h, y+h+6, lineWidth, color);
 		}
-		if (c == 45) Line(x+1, y+h, x+h+3, y+h, 2, color);
+		if (c == 45) Line(x+1, y+h, x+h+3, y+h, lineWidth, color);
 		if (c == 46) Disk(vec2(x+h, y+3), ptSize/3, color);
-		if (c == 47) Line(x+1, y, x+size-1, y+size, 2, color);
+		if (c == 47) Line(x+1, y, x+size-1, y+size, lineWidth, color);
 		if (c == 94) {
-			Line(x+1, y+2, x+h, y+h+4, 2, color);
-			Line(x+h, y+h+4, x+size-2, y+2, 2, color);
+			Line(x+1, y+2, x+h, y+h+4, lineWidth, color);
+			Line(x+h, y+h+4, x+size-2, y+2, lineWidth, color);
 		}
 		return;
 	}
@@ -184,15 +185,16 @@ void Letter(int x, int y, char c, vec3 color, float ptSize) {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// display character c, value determines horizontal position along texture
 	float w = .8f*ptSize, h = ptSize, xx = (float) x, yy = (float) y;
+	float t = 0, dt = 0;
 	if (type == Number) {
 		int value = c-'0';
-		float dt = 1.f/10.f, t = (float) value*dt;
+		dt = 1.f/10.f; t = (float) value*dt;
 		float vertices[][4] = { {xx, yy, t, 1}, {xx+w, yy, t+dt, 1}, {xx+w, yy+h, t+dt, 0}, {xx, yy+h, t, 0} };
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 	}
 	else {
 		int letterID = type == Upper? c-'A' : type == Lower? c-'a' : c-'0';
-		float dt = 1.f/26.f, t = (float)letterID*dt;
+		dt = 1.f/26.f; t = (float)letterID*dt;
 		float vertices[][4] = { {xx, yy+h, t, 1}, {xx+w, yy+h, t+dt, 1}, {xx+w, yy, t+dt, 0}, {xx, yy, t, 0} };
 		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
 	}

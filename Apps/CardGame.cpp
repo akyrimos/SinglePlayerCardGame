@@ -11,7 +11,7 @@
 #include "Text.h"
 
 // App
-int winWidth = 800, winHeight = 800;
+int winWidth = 1200, winHeight = 800;
 bool startScreen = true;
 
 // Images
@@ -24,6 +24,7 @@ string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack card.png";
 string enemyImageName = dir+"Combined32.png";
 string playerImageName = dir+"Player.png";
+string playerMatte = dir + "PlayerMatte.png";
 string defendCardImageName = dir+"defend.png";
 
 // Action definitions
@@ -237,7 +238,7 @@ int main(int ac, char** av) {
 	GLuint attackCardTextureName = LoadTexture(attackCardImageName.c_str());
 	GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
 	GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
-	GLuint playerTextureName = LoadTexture(playerImageName.c_str());
+	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
 		if (deck[i]->imageName == attackCardImageName)
@@ -252,7 +253,8 @@ int main(int ac, char** av) {
 	hm.DiscardHand();
 	hm.Shuffle();
 	// initialize player sprite
-	player.Initialize(playerTextureName, .7f);
+	//player.Initialize(playerTextureName, .7f);
+	player.Initialize(playerImageName,playerMatte, .7f);
 	player.SetScale(vec2(.2f, .3f));
 	player.SetPosition(vec2(-.6f, -.2f));
 	//player.message = "Tarnation!";
