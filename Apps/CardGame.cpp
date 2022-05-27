@@ -21,7 +21,7 @@ string backgroundTex = dir+"fightbackground.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
-string attackCardImageName = dir+"attack card.png"; //attack.png
+string attackCardImageName = dir+"attack.png"; //attack.png
 string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
 string playerMatte = dir + "PlayerMatte.png";
@@ -256,16 +256,16 @@ int main(int ac, char** av) {
 	// playCard.SetScale({ 0.2f, 0.2f });
 	// playCard.SetPosition({ 0.5f, .0f });
 	// initialize card sprites, deckLibrary
-	GLuint attackCardTextureName = LoadTexture(attackCardImageName.c_str());
-	GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
-	GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
+	//GLuint attackCardTextureName = LoadTexture(attackCardImageName.c_str());
+	//GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
+	//GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
 	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
 		if (deck[i]->imageName == attackCardImageName)
-			deck[i]->Initialize(attackCardTextureName);
+			deck[i]->Initialize(attackCardImageName);
 		if (deck[i]->imageName == defendCardImageName)
-			deck[i]->Initialize(defendCardTextureName);
+			deck[i]->Initialize(defendCardImageName);
 
 		deck[i]->SetScale(vec2(.2f, .3f));
 	}
