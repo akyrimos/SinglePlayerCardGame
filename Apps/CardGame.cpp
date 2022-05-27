@@ -242,7 +242,7 @@ int main(int ac, char** av) {
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
 	// scale, position buttons
-	startButton.SetScale({ 0.3f, 0.3f });
+	startButton.SetScale({ 0.3f, 0.2f });
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
@@ -261,7 +261,7 @@ int main(int ac, char** av) {
 		if (deck[i]->imageName == defendCardImageName)
 			deck[i]->Initialize(defendCardTextureName);
 
-		deck[i]->SetScale(vec2(.2f, .2f));
+		deck[i]->SetScale(vec2(.2f, .3f));
 	}
 	hm.InitializeLibrary(deck, nDeckCards);
 	hm.DiscardHand();
