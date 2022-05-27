@@ -280,7 +280,7 @@ int main(int ac, char** av) {
 	player.SetPosition(vec2(-.6f, 0.1f));
 	//player.message = "Tarnation!";
 	// initialize alien sprite
-	alien.Initialize(alien., .65f);
+	alien.Initialize(alien.imageName, .65f);
 	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
 
