@@ -49,7 +49,6 @@ public:
 			health -= abs(armor);
 			RemoveArmor();
 			CheckifAlive();
-			message = "ouch! my health now " + to_string(health);
 		}
 	}
 	void RemoveArmor() { armor = 0; }
@@ -94,29 +93,12 @@ public:
 	void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
 	}
-	//void PlayCard(Actor* target) {
-
-	//	const char *cardNames[] = { "Undefined", "Attack", "Defend", "Debuff", "Buff", "Power" };
-	//	cout << "My health now: " << target->armor << endl;
-	//	cout << cardNames[(int) ability] << endl;
-	//	if (ValidTarget(target)) {
-	//		if (!target->IsPlayer() && ability == EffectType::Attack)
-	//			target->TakeDamage(value);
-	//		if (!target->IsPlayer() && ability == EffectType::Defend) {
-	//			//this should be played on the player
-	//			cout << "value: " << value << endl;
-	//			target->GainArmor(value);
-	//			cout << "My health now: " << target->armor << endl;
-	//		}
-	//	}
-	//}
 	bool ValidTarget(Actor* target) {
 		if (!target) return false;
 		switch (tType) {
 		case TargetType::Player:
 			if (target->IsPlayer()) {
 				return true;
-				
 			}
 			break;
 		case TargetType::Enemy:
@@ -124,7 +106,6 @@ public:
 				return true;
 			}
 			break;
-
 		default:
 			return false;
 			break;
@@ -135,24 +116,18 @@ public:
 
 class Enemy : public Actor {
 public:
+	vector<vector<Action>> actionsPool;
 	Enemy();
 	Enemy(EnemyData d);
-	bool IsPlayer();
-
-
-	void AddAction(vector<Action> a) {
-		actionsPool.push_back(a);
-	}
+	bool IsPlayer() override;
+	void AddAction(vector<Action> a) {actionsPool.push_back(a);}
 	string printAction(EffectType);
-
 	vector<Action> TakeAction();
-	vector<vector<Action>> actionsPool;
 };
 
 class HandManager {
 public:
 	HandManager();
-	void PlayCard(Actor* target, Card *card);
 	bool ConsumeEnergy(Card* card);
 	void DiscardCard(Card* c);
 	void Draw();
@@ -173,7 +148,6 @@ public:
 	int energyRemaining = maxEnergy;
 	vector<Card *> hand;
 };
-
 
 void ResolveAction(const vector<Action> actions, Actor* user, Actor* target);
 void ResolveAction(const Action a, Actor* user, Actor* target);

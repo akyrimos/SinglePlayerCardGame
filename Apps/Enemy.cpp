@@ -16,10 +16,9 @@ Enemy::Enemy(EnemyData d) {
 	imageName = d.imageName;
 	for (int i = 0; i < d.actionsPool.size(); i++)
 		actionsPool.push_back(d.actionsPool.at(i));
-
 }
 
-bool Enemy::IsPlayer(){
+bool Enemy::IsPlayer() {
 	return false;
 }
 

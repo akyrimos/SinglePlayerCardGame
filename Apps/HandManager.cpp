@@ -13,17 +13,9 @@ void HandManager::Draw() {
 	hand.push_back(DrawFromLibrary());
 }
 
-//void HandManager::PlayCard(Actor* target, Card *selectedCard) {
-//	if (!selectedCard || (energyRemaining - selectedCard->energyCost) < 0) return;
-//	selectedCard->PlayCard(target);
-//	selectedCard->SetPosition({ -5.0f, -5.0f });
-//	energyRemaining -= selectedCard->energyCost;
-//}
-
 bool HandManager::ConsumeEnergy(Card* card)
 {
 	if (!card || (energyRemaining - card->energyCost) < 0) return false;
-	
 	energyRemaining -= card->energyCost;
 	return true;
 }
@@ -41,10 +33,8 @@ void HandManager::DiscardHand() {
 }
 
 void HandManager::InitializeLibrary(Card **cards, int ncards) {
-	for (int i = 0; i < ncards; i++) // drawCards; i++)
-		//deckLibrary.push(cards[i]);
+	for (int i = 0; i < ncards; i++)
 		discardPile.push_back(cards[i]);
-
 	Shuffle();
 }
 

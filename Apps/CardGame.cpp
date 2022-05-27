@@ -88,36 +88,23 @@ void Display() {
 		endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
-		//DisplayActor(&player, vec3(0, 0, 0));
 		for (int i = 0; i < (int) targets.size(); i++)
 			if (targets[i]->CheckifAlive() == false)
 				targets[i]->SetPosition({ 5.0f,-5.0f });
 			else
 				DisplayActor(targets[i]);
-		//player.Display();
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = "Turn " + to_string(turnNum);
 		string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
 		string discardUI = "Discard: "+ to_string(hm.discardPile.size());
-		Text(vec3(-.9, -.75, 0), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
+		Text(vec3(-.9f, -.75f, .0f), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
 		Text(vec3(0.7f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 30, turnUI.c_str());
-		Text(vec3(-.96f, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
-		Text(vec3(.60, -.95, 0), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
+		Text(vec3(-.96f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
+		Text(vec3(.6f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
 	}
 	glFlush();
 }
 
-// Gameplay
-//void CardPlayer(Sprite* card, Sprite target) {
-//	// helper method to play a card on a enemy
-//	if (card) {
-//		if (card->Intersect(target)) {
-//			card->SetPosition({ -5.0f, -5.0f }); //Check if it is a valid target before doing an action(playing a card) on target
-//		}
-//	}
-//	// before it goes null add the card to the discard pile (library)
-//	card = NULL;
-//}
 
 void NewHand() {
 	for (int i = 0; i < hm.drawCards; i++)
@@ -129,13 +116,6 @@ void NewHand() {
 	}
 }
 
-// get actions from Card, user, and target from CardGame
-//void ResolveAction(stack<Action*> actions, Actor* user, Actor* target) {
-//	while (!actions.empty()) {
-//		ResolveAction(actions.top(), user, target);
-//	 	actions.pop();
-//	}
-//}
 void ResolveAction(const vector<Action> actions, Actor* user, Actor* target) {
 	for (Action a : actions) {
 		ResolveAction(a, user, target);
@@ -176,8 +156,6 @@ void RunTurn() {
 
 	player.RemoveArmor();
 	alien.message = "";
-	//vec3 loc = vec3(alien.position, 0);
-	//Text(loc, alien.ptTransform, vec3(1, 0, 0), 20,alien.message.c_str());
 	// tick down status effects go here
 	NewHand();
 }
@@ -218,11 +196,8 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 							hm.DiscardCard(selectedCard);
 						}
 					}
-					//hm.PlayCard(targets[i], selectedCard);
-
 				}
 			}
-
 	}
 }
 
@@ -255,10 +230,9 @@ int main(int ac, char** av) {
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
-	// playCard.Initialize(playCardTex, playCardMat, .6f);
-	// playCard.SetScale({ 0.2f, 0.2f });
-	// playCard.SetPosition({ 0.5f, .0f });
+
 	// initialize card sprites, deckLibrary
+
 	//GLuint attackCardTextureName = LoadTexture(attackCardImageName.c_str());
 	//GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
 	//GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
@@ -277,18 +251,14 @@ int main(int ac, char** av) {
 	hm.DiscardHand();
 	hm.Shuffle();
 	// initialize player sprite
-	//player.Initialize(playerTextureName, .7f);
 	player.Initialize(playerImageName, .7f);
 	player.SetScale(vec2(.2f, .3f));
 	player.SetPosition(vec2(-.6f, 0.1f));
-	//player.message = "Tarnation!";
 	// initialize alien sprite
 	alien.Initialize(alien.imageName, .65f);
 	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
-
-
-
+	//push actors into targets
 	targets.push_back(&player);
 	targets.push_back(&alien);
 	// callbacks
