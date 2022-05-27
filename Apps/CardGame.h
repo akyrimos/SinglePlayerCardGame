@@ -18,27 +18,34 @@ public:
 };
 class CardData {
 public:
+	string name;
 	string imageName;
 	int energyCost;
 	vector<Action> actions;
 	TargetType targetType;
-	CardData(string n, int cost, vector<Action> act, TargetType targ) : imageName(n), energyCost(cost), actions(act), targetType(targ) {};
+	CardData(string n, string img, int cost, vector<Action> act, TargetType targ) 
+		: name(n), imageName(img), energyCost(cost), actions(act), targetType(targ) {};
 };
 class EnemyData {
 public:
+	string name;
 	string imageName;
 	int maxHP;
 	vector<vector<Action>> actionsPool;
-	EnemyData(string n, int hp, vector<vector<Action>> pool): imageName(n), maxHP(hp), actionsPool(pool) {};
+	EnemyData(string n, string img, int hp, vector<vector<Action>> pool)
+		: name(n),imageName(img), maxHP(hp), actionsPool(pool) {};
 };
 class Actor : public Sprite {
 public:
-	int health = 10;
 	int maxHealth = 10;
+	int health = maxHealth;
 	int armor = 0;
-	int *status = NULL;
+	int* status = NULL;
+	string name;
 	string imageName;
 	string message;
+	Actor() {};
+	Actor(string n, string img, int hp):name(n),imageName(img), maxHealth(hp),health(maxHealth){};
 	void GainArmor(int value) { armor += value; }
 	bool CheckifAlive() { return health > 0; }
 	virtual bool IsPlayer() { return true; }

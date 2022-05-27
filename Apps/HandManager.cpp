@@ -20,7 +20,7 @@ bool HandManager::ConsumeEnergy(Card* card)
 	return true;
 }
 void HandManager::DiscardCard(Card* c) {
-	for (int i = 0; i < hand.size(); i++)
+	for (int i = 0; i < (signed)hand.size(); i++)
 		if (hand.at(i) == c) hand.erase(hand.begin() + i);
 	discardPile.push_back(c);
 	MoveCardOffScreen(c);

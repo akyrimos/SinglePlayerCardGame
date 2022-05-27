@@ -24,7 +24,6 @@ string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack.png"; //attack.png
 string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
-string playerMatte = dir + "PlayerMatte.png";
 string defendCardImageName = dir+"defend.png";
 
 // Action definitions
@@ -34,14 +33,14 @@ vector<Action> a_block = { Action(5, EffectType::Defend) };
 vector<Action> a_doubleStrike = { Action(6, EffectType::Attack) , Action(6, EffectType::Attack) };
 vector<Action> a_bigStrike = { Action(10, EffectType::Attack) };
 // CardData definitions
-CardData strike(attackCardImageName, 1, a_strike, TargetType::Enemy);
-CardData block(defendCardImageName, 1, a_block, TargetType::Player);
+CardData strike("Strike", attackCardImageName, 1, a_strike, TargetType::Enemy);
+CardData block("Block", defendCardImageName, 1, a_block, TargetType::Player);
 
 //EnemyData definitions
 vector<vector<Action>> testMovePool = {a_bigStrike, a_block, a_doubleStrike};
-EnemyData test(enemyImageName, 10, testMovePool);
+EnemyData test("TestSlime",enemyImageName, 10, testMovePool);
 // Sprites
-Actor player;
+Actor player("Player", playerImageName, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(block), c6(block), c7(block), c8(block), c9(block);
@@ -251,7 +250,7 @@ int main(int ac, char** av) {
 	hm.DiscardHand();
 	hm.Shuffle();
 	// initialize player sprite
-	player.Initialize(playerImageName, .7f);
+	player.Initialize(player.imageName, .7f);
 	player.SetScale(vec2(.2f, .3f));
 	player.SetPosition(vec2(-.6f, 0.1f));
 	// initialize alien sprite

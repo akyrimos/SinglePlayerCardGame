@@ -14,7 +14,7 @@ Enemy::Enemy(EnemyData d) {
 	armor = 0;
 	status = 0;
 	imageName = d.imageName;
-	for (int i = 0; i < d.actionsPool.size(); i++)
+	for (int i = 0; i < (signed)d.actionsPool.size(); i++)
 		actionsPool.push_back(d.actionsPool.at(i));
 }
 
