@@ -6,6 +6,7 @@ Enemy::Enemy() {
 	health = maxHealth;
 	armor = 0;
 	status = 0;
+	isPlayer = false;
 }
 
 Enemy::Enemy(EnemyData d) {
@@ -14,13 +15,11 @@ Enemy::Enemy(EnemyData d) {
 	armor = 0;
 	status = 0;
 	imageName = d.imageName;
+	isPlayer = false;
 	for (int i = 0; i < (signed)d.actionsPool.size(); i++)
 		actionsPool.push_back(d.actionsPool.at(i));
 }
 
-bool Enemy::IsPlayer() {
-	return false;
-}
 
 vector<Action> Enemy::TakeAction() {
 	unsigned seed = clock();
