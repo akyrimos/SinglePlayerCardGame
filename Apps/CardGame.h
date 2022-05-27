@@ -10,29 +10,43 @@ const int MaxHandSize = 10;
 
 enum class EffectType { Undefined = 0, Attack, Defend, Weaken, Buff, Power, NActions };
 enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
-class Action {
+//class Effect {
+//public:
+//	int value;
+//	EffectType effType;
+//	Effect(int val, EffectType eff) :value(val), effType(eff) {};
+//};
+
+class Effect {
 public:
 	int value;
-	EffectType effect;
-	Action(int val, EffectType eff) :value(val), effect(eff) {};
+	EffectType effectType;
+	Effect(int val, EffectType effType) :value(val), effectType(effType) {};
+};
+class Action {
+public:
+	string name;
+	vector<Effect> effects;
+	Action() :name("none"), effects(vector<Effect>{}) {};
+	Action(string n, vector<Effect> effs) :name(n), effects(effs) {};
 };
 class CardData {
 public:
 	string name;
 	string imageName;
 	int energyCost;
-	vector<Action> actions;
+	Action action;
 	TargetType targetType;
-	CardData(string n, string img, int cost, vector<Action> act, TargetType targ) 
-		: name(n), imageName(img), energyCost(cost), actions(act), targetType(targ) {};
+	CardData(string n, string img, int cost, Action act, TargetType targ) 
+		: name(n), imageName(img), energyCost(cost), action(act), targetType(targ) {};
 };
 class EnemyData {
 public:
 	string name;
 	string imageName;
 	int maxHP;
-	vector<vector<Action>> actionsPool;
-	EnemyData(string n, string img, int hp, vector<vector<Action>> pool)
+	vector<Action> actionsPool;
+	EnemyData(string n, string img, int hp, vector<Action> pool)
 		: name(n),imageName(img), maxHP(hp), actionsPool(pool) {};
 };
 class Actor : public Sprite {
@@ -69,38 +83,39 @@ public:
 	int energyCost;
 	//int id;
 	EffectType ability;
-	vector<Action> actions;
+	Action action;
 	TargetType tType;
 	Card() {
 		energyCost = 1;
 		ability = EffectType::Attack;
 		tType = TargetType::Enemy;
-		actions = { Action(6, EffectType::Attack) };
-	}
+		action = Action("Strike", vector<Effect> {Effect(6, EffectType::Attack)});
+	};
+	
 	Card(const CardData c) {
 		energyCost = c.energyCost;
-		actions = c.actions;
+		action = c.action;
 		tType = c.targetType;
 		imageName = c.imageName;
-	}
-	Card(int EnergyCost, int Value, EffectType Effect, TargetType TargType) {
-		actions.push_back(Action(Value,Effect));
-		this->energyCost = EnergyCost;
-		this->ability = Effect;
-		this->tType = TargType;
-	}
-	Card(int energycost, vector<Action> Actions, TargetType TargType) {
+	};
+	//Card(int EnergyCost, int Value, EffectType Effect, TargetType TargType) {
+	//	actions.push_back(Effect(Value,Effect));
+	//	this->energyCost = EnergyCost;
+	//	this->ability = Effect;
+	//	this->tType = TargType;
+	//}
+	/*Card(int energycost, vector<Effect> Actions, TargetType TargType) {
 		this->energyCost = energycost;
 		this->tType = TargType;
-		this->actions = Actions;
-	}
+		this->action = Actions;
+	}*/
 
-	void AddAction(int value, EffectType effect) {
-		actions.push_back(Action(value, effect));
-	}
-	void SetAction(EffectType newAbility, int newValue) {
+	//void AddAction(int value, EffectType effect) {
+	//	action.push_back(Effect(value, effect));
+	//}
+	/*void SetAction(EffectType newAbility, int newValue) {
 		ability = newAbility;
-	}
+	}*/
 	bool ValidTarget(Actor* target) {
 		if (!target) return false;
 		switch (tType) {
@@ -124,12 +139,12 @@ public:
 
 class Enemy : public Actor {
 public:
-	vector<vector<Action>> actionsPool;
+	vector<Action> actionsPool;
 	Enemy();
 	Enemy(EnemyData d);
-	void AddAction(vector<Action> a) {actionsPool.push_back(a);}
+	void AddAction(Action a) {actionsPool.push_back(a);}
 	string printAction(EffectType);
-	vector<Action> TakeAction();
+	Action TakeAction();
 };
 
 class HandManager {
@@ -156,7 +171,7 @@ public:
 	vector<Card *> hand;
 };
 
-void ResolveAction(const vector<Action> actions, Actor* user, Actor* target);
-void ResolveAction(const Action a, Actor* user, Actor* target);
+void ResolveAction(const Action act, Actor* user, Actor* target);
+void ResolveEffect(const Effect e, Actor* user, Actor* target);
 
 #endif

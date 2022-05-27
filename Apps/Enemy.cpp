@@ -17,15 +17,15 @@ Enemy::Enemy(EnemyData d) {
 	imageName = d.imageName;
 	isPlayer = false;
 	for (int i = 0; i < (signed)d.actionsPool.size(); i++)
-		actionsPool.push_back(d.actionsPool.at(i));
+		actionsPool.push_back(d.actionsPool. at(i));
 }
 
 
-vector<Action> Enemy::TakeAction() {
+Action Enemy::TakeAction() {
 	unsigned seed = clock();
 	shuffle(actionsPool.begin(), actionsPool.end(), std::default_random_engine(seed));
 	//	random_shuffle(ActionVec.begin(), ActionVec.end());
-	vector<Action> chosenAction = actionsPool.at(0);
+	Action chosenAction = actionsPool.at(0);
 	return chosenAction;
 }
 

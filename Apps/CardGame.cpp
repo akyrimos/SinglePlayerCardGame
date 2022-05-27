@@ -27,17 +27,18 @@ string playerImageName = dir+"Player.png";
 string defendCardImageName = dir+"defend.png";
 
 // Action definitions
-vector<Action> a_strike = { Action(6, EffectType::Attack) };
-vector<Action> a_block = { Action(5, EffectType::Defend) };
+Action a_strike("Strike", vector<Effect>{ Effect(6, EffectType::Attack) });
+Action a_block("Block", vector<Effect>{ Effect(5, EffectType::Defend) });
+Action a_doubleStrike("Double Strike", vector<Effect>{ Effect(6, EffectType::Attack), Effect(6, EffectType::Attack) });
+Action a_bigStrike("Big Strike", vector<Effect>{ Effect(10, EffectType::Attack) });
 
-vector<Action> a_doubleStrike = { Action(6, EffectType::Attack) , Action(6, EffectType::Attack) };
-vector<Action> a_bigStrike = { Action(10, EffectType::Attack) };
+
 // CardData definitions
-CardData strike("Strike", attackCardImageName, 1, a_strike, TargetType::Enemy);
-CardData block("Block", defendCardImageName, 1, a_block, TargetType::Player);
+CardData strike(a_strike.name, attackCardImageName, 1, a_strike, TargetType::Enemy);
+CardData block(a_block.name, defendCardImageName, 1, a_block, TargetType::Player);
 
 //EnemyData definitions
-vector<vector<Action>> testMovePool = {a_bigStrike, a_block, a_doubleStrike};
+vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
 EnemyData test("TestSlime",enemyImageName, 10, testMovePool);
 // Sprites
 Actor player("Player", playerImageName, 20);
@@ -115,20 +116,20 @@ void NewHand() {
 	}
 }
 
-void ResolveAction(const vector<Action> actions, Actor* user, Actor* target) {
-	for (Action a : actions) {
-		ResolveAction(a, user, target);
+void ResolveAction(const Action act, Actor* user, Actor* target) {
+	for (Effect e : act.effects) {
+		ResolveEffect(e, user, target);
 	}
 }
-void ResolveAction(const Action a, Actor* user, Actor* target) {
-	switch (a.effect) {
+void ResolveEffect(const Effect e, Actor* user, Actor* target) {
+	switch (e.effectType) {
 	case EffectType::Attack:
-		target->TakeDamage(a.value);
-		cout << "Attack " << a.value << endl;
+		target->TakeDamage(e.value);
+		cout << "Attack " << e.value << endl;
 		break;
 	case EffectType::Defend:
-		user->GainArmor(a.value);
-		cout << "Defend " << a.value << endl;
+		user->GainArmor(e.value);
+		cout << "Defend " << e.value << endl;
 		break;
 	default:
 		cout << "default";
@@ -191,7 +192,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 				if (target->Intersect(*selectedCard)) {
 					if (selectedCard->ValidTarget(target)) {
 						if (hm.ConsumeEnergy(selectedCard)) {
-							ResolveAction(selectedCard->actions, &player, target);
+							ResolveAction(selectedCard->action, &player, target);
 							hm.DiscardCard(selectedCard);
 						}
 					}
