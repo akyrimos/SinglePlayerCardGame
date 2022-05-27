@@ -143,6 +143,7 @@ public:
 	void AddAction(vector<Action> a) {
 		actionsPool.push_back(a);
 	}
+	string printAction(EffectType);
 
 	vector<Action> TakeAction();
 	vector<vector<Action>> actionsPool;

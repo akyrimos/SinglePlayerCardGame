@@ -170,11 +170,14 @@ void RunTurn() {
 	hm.ResetEnergy();
 	// Enemy takes turn
 	alien.RemoveArmor();
-
+	
+	
 	ResolveAction(alien.TakeAction(), &alien, &player);
 
 	player.RemoveArmor();
 	alien.message = "";
+	//vec3 loc = vec3(alien.position, 0);
+	//Text(loc, alien.ptTransform, vec3(1, 0, 0), 20,alien.message.c_str());
 	// tick down status effects go here
 	NewHand();
 }

@@ -30,3 +30,28 @@ vector<Action> Enemy::TakeAction() {
 	vector<Action> chosenAction = actionsPool.at(0);
 	return chosenAction;
 }
+
+string Enemy::printAction(EffectType type) {
+	string temp;
+	switch (type) {
+	case EffectType::Attack:
+		temp = "Attack you";
+		break;
+	case EffectType::Defend:
+		temp = "Defend myself";
+		break;
+	case EffectType::Buff:
+		temp = "Buff myself";
+		break;
+	case EffectType::Power:
+		temp = "Power up myself";
+		break;
+	case EffectType::Weaken:
+		temp = "Weaken you";
+		break;
+	default:
+		temp = "I dont know what im doing!";
+		break;
+	}
+	return temp;
+}
