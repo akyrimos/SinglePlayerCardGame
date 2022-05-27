@@ -24,12 +24,20 @@ public:
 	TargetType targetType;
 	CardData(string n, int cost, vector<Action> act, TargetType targ) : imageName(n), energyCost(cost), actions(act), targetType(targ) {};
 };
+class EnemyData {
+public:
+	string imageName;
+	int maxHP;
+	vector<vector<Action>> actionsPool;
+	EnemyData(string n, int hp, vector<vector<Action>> pool): imageName(n), maxHP(hp), actionsPool(pool) {};
+};
 class Actor : public Sprite {
 public:
 	int health = 10;
 	int maxHealth = 10;
 	int armor = 0;
 	int *status = NULL;
+	string imageName;
 	string message;
 	void GainArmor(int value) { armor += value; }
 	bool CheckifAlive() { return health > 0; }
@@ -128,15 +136,16 @@ public:
 class Enemy : public Actor {
 public:
 	Enemy();
-	Enemy(int startinghealth);
+	Enemy(EnemyData d);
 	bool IsPlayer();
 
-	void AddAction(int value, EffectType effect) {
-		enemyActions.push_back(Action(value, effect));
+
+	void AddAction(vector<Action> a) {
+		actionsPool.push_back(a);
 	}
 
-	Action TakeAction();
-	vector<Action> enemyActions;
+	vector<Action> TakeAction();
+	vector<vector<Action>> actionsPool;
 };
 
 class HandManager {

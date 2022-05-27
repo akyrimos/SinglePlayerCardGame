@@ -23,20 +23,26 @@ string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack card.png"; //attack.png
 string enemyImageName = dir+"alien_slime.png";
-string playerImageName = dir+"OppAddPlayer.png";
+string playerImageName = dir+"Player.png";
 string playerMatte = dir + "PlayerMatte.png";
 string defendCardImageName = dir+"defend.png";
 
 // Action definitions
 vector<Action> a_strike = { Action(6, EffectType::Attack) };
 vector<Action> a_block = { Action(5, EffectType::Defend) };
+
+vector<Action> a_doubleStrike = { Action(6, EffectType::Attack) , Action(6, EffectType::Attack) };
+vector<Action> a_bigStrike = { Action(10, EffectType::Attack) };
 // CardData definitions
 CardData strike(attackCardImageName, 1, a_strike, TargetType::Enemy);
 CardData block(defendCardImageName, 1, a_block, TargetType::Player);
 
+//EnemyData definitions
+vector<vector<Action>> testMovePool = {a_bigStrike, a_block, a_doubleStrike};
+EnemyData test(enemyImageName, 10, testMovePool);
 // Sprites
 Actor player;
-Enemy alien;
+Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(block), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton;
@@ -272,13 +278,11 @@ int main(int ac, char** av) {
 	player.SetPosition(vec2(-.6f, 0.1f));
 	//player.message = "Tarnation!";
 	// initialize alien sprite
-	alien.Initialize(enemyImageName, .65f);
+	alien.Initialize(alien., .65f);
 	alien.SetScale(vec2(.3f, .3f));
 	alien.SetPosition({0.35f, 0.1f});
 
-	alien.AddAction(10, EffectType::Attack);
-	alien.AddAction(5, EffectType::Attack);
-	alien.AddAction(10, EffectType::Defend);
+
 
 	targets.push_back(&player);
 	targets.push_back(&alien);
