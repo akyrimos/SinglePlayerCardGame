@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClCompile Include="..\Lib\Draw.cpp" />
     <ClCompile Include="..\Lib\glad.c" />
+    <ClCompile Include="..\Lib\GlowSprite.cpp" />
     <ClCompile Include="..\Lib\GLXtras.cpp" />
     <ClCompile Include="..\Lib\Letters.cpp" />
     <ClCompile Include="..\Lib\Misc.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Draw.h" />
+    <ClInclude Include="..\Include\GlowSprite.h" />
     <ClInclude Include="..\Include\GLXtras.h" />
     <ClInclude Include="..\Include\Letters.h" />
     <ClInclude Include="..\Include\Misc.h" />

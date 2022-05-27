@@ -42,6 +42,9 @@
     <ClCompile Include="..\Lib\Letters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Lib\GlowSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CardGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Letters.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\GlowSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

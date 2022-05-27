@@ -44,11 +44,12 @@ public:
 	string name;
 	string imageName;
 	string message;
+	bool isPlayer = true;
 	Actor() {};
 	Actor(string n, string img, int hp):name(n),imageName(img), maxHealth(hp),health(maxHealth){};
 	void GainArmor(int value) { armor += value; }
 	bool CheckifAlive() { return health > 0; }
-	virtual bool IsPlayer() { return true; }
+	bool IsPlayer() { return isPlayer; }
 	void ChangeHealth(int healthToAdd) { if ((health += healthToAdd) > maxHealth) health = maxHealth; }
 	void TakeDamage(int damage) {
 		armor -= damage;
@@ -126,7 +127,6 @@ public:
 	vector<vector<Action>> actionsPool;
 	Enemy();
 	Enemy(EnemyData d);
-	bool IsPlayer() override;
 	void AddAction(vector<Action> a) {actionsPool.push_back(a);}
 	string printAction(EffectType);
 	vector<Action> TakeAction();
