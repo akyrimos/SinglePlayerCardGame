@@ -32,7 +32,6 @@ Action a_block("Block", vector<Effect>{ Effect(5, EffectType::Defend) });
 Action a_doubleStrike("Double Strike", vector<Effect>{ Effect(6, EffectType::Attack), Effect(6, EffectType::Attack) });
 Action a_bigStrike("Big Strike", vector<Effect>{ Effect(10, EffectType::Attack) });
 
-
 // CardData definitions
 CardData strike(a_strike.name, attackCardImageName, 1, a_strike, TargetType::Enemy);
 CardData block(a_block.name, defendCardImageName, 1, a_block, TargetType::Player);
@@ -64,7 +63,7 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	a->Display();
 	vec3 loc = vec3(a->position, 0);
 	if (!a->message.empty()) {
-		Text(loc, a->ptTransform, color, 20, a->message.c_str());
+		Text(loc + vec3(-0.75f,0.9f,0), a->ptTransform, color, 20, a->message.c_str());
 	}
 	//health
 	if (a->health > 0)
@@ -88,11 +87,12 @@ void Display() {
 		endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
-		for (int i = 0; i < (int) targets.size(); i++)
-			if (targets[i]->CheckifAlive() == false)
-				targets[i]->SetPosition({ 5.0f,-5.0f });
-			else
+		for (int i = 0; i < (int)targets.size(); i++)
+			if (targets[i]->CheckifAlive())
 				DisplayActor(targets[i]);
+			else
+				targets[i]->SetPosition(vec2(-5.0f, - 5.0f));
+
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = "Turn " + to_string(turnNum);
 		string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
@@ -115,7 +115,10 @@ void NewHand() {
 		hm.hand[i]->z = Z(i);
 	}
 }
-
+void StartTurn() {
+	alien.PrepareAction();
+	NewHand();
+}
 void ResolveAction(const Action act, Actor* user, Actor* target) {
 	for (Effect e : act.effects) {
 		ResolveEffect(e, user, target);
@@ -157,7 +160,7 @@ void RunTurn() {
 	player.RemoveArmor();
 	alien.message = "";
 	// tick down status effects go here
-	NewHand();
+	StartTurn();
 }
 
 // Mouse with cards playing on enemy and clicking buttons
@@ -178,7 +181,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			selectedCard->MouseDown(vec2((float)x, (float)y));
 		if (startButton.Hit(ix, iy)) {
 			startScreen = false;
-			NewHand();
+			StartTurn();
 		}
 		if (endTurn.Hit(ix, iy))
 			RunTurn();
@@ -203,7 +206,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 
 //Mouse function to move the card
 void MouseMove(GLFWwindow *w, double x, double y) {
-	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && selectedCard)
+	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && selectedCard && player.CheckifAlive())
 		selectedCard->MouseDrag(vec2((float) x, (float) (winHeight-y)));
 }
 

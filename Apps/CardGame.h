@@ -144,6 +144,9 @@ public:
 	Enemy(EnemyData d);
 	void AddAction(Action a) {actionsPool.push_back(a);}
 	string printAction(EffectType);
+	Action chosenAction;
+	void PrepareAction();
+	void ActionMessage();
 	Action TakeAction();
 };
 

@@ -21,11 +21,42 @@ Enemy::Enemy(EnemyData d) {
 }
 
 
-Action Enemy::TakeAction() {
+void Enemy::PrepareAction() {
+	if (!CheckifAlive()) { chosenAction = Action(); return; }
 	unsigned seed = clock();
 	shuffle(actionsPool.begin(), actionsPool.end(), std::default_random_engine(seed));
-	//	random_shuffle(ActionVec.begin(), ActionVec.end());
-	Action chosenAction = actionsPool.at(0);
+	chosenAction = actionsPool.at(0);
+	ActionMessage();
+}
+
+void Enemy::ActionMessage() {
+	for (Effect e : chosenAction.effects) {
+		string type = "";
+		switch (e.effectType) {
+		case EffectType::Attack:
+			type = "Attack ";
+			break;
+		case EffectType::Defend:
+			type = "Defend ";
+			break;
+		case EffectType::Buff:
+			type = "Buff ";
+			break;
+		case EffectType::Power:
+			type = "Power ";
+			break;
+		case EffectType::Weaken:
+			type = "Weaken ";
+			break;
+		default:
+			type = "I dont know what im doing!";
+			break;
+		}
+		message += type + to_string(e.value) + " ";
+	}
+}
+Action Enemy::TakeAction() {
+	if (!CheckifAlive()) chosenAction = Action();
 	return chosenAction;
 }
 
