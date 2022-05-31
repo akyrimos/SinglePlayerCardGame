@@ -90,8 +90,17 @@ void Display() {
 		for (int i = 0; i < (int)targets.size(); i++)
 			if (targets[i]->CheckifAlive())
 				DisplayActor(targets[i]);
-			else
-				targets[i]->SetPosition(vec2(-5.0f, - 5.0f));
+			else {
+				targets[i]->SetPosition(vec2(-5.0f, -5.0f));
+				if (targets[i]->IsPlayer()) {
+					//defeat
+				}
+				else {
+					//display reward screen
+					//make enemy stronger
+					//intialize new fight
+				}
+			}
 
 		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
 		string turnUI = "Turn " + to_string(turnNum);
