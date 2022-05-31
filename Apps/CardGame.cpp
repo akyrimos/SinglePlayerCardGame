@@ -25,6 +25,10 @@ string attackCardImageName = dir+"attack.png"; //attack.png
 string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
 string defendCardImageName = dir+"defend.png";
+string strengthReward = dir + "strengthReward.png";
+string chargeReward = dir + "chargeReward.png";
+string protectionReward = dir + "protectionReward.png";
+
 
 // Action definitions
 Action a_strike("Strike", vector<Effect>{ Effect(6, EffectType::Attack) });
@@ -136,12 +140,12 @@ void ResolveAction(const Action act, Actor* user, Actor* target) {
 void ResolveEffect(const Effect e, Actor* user, Actor* target) {
 	switch (e.effectType) {
 	case EffectType::Attack:
-		target->TakeDamage(e.value);
-		cout << "Attack " << e.value << endl;
+		target->TakeDamage(e.value + user->strength);
+		cout << "Attack " << e.value + user->strength << endl;
 		break;
 	case EffectType::Defend:
-		user->GainArmor(e.value);
-		cout << "Defend " << e.value << endl;
+		user->GainArmor(e.value + user->dexterity);
+		cout << "Defend " << e.value + user->dexterity << endl;
 		break;
 	default:
 		cout << "default";

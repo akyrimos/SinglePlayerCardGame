@@ -55,6 +55,8 @@ public:
 	int health = maxHealth;
 	int armor = 0;
 	int* status = NULL;
+	int strength = 0;
+	int dexterity = 0;
 	string name;
 	string imageName;
 	string message;
@@ -74,6 +76,8 @@ public:
 		}
 	}
 	void RemoveArmor() { armor = 0; }
+	void gainStrength() { strength += 1; }
+	void gainDexterity() { dexterity += 1; }
 };
 
 class Card : public Sprite {
