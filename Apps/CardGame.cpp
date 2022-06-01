@@ -16,8 +16,8 @@ bool startScreen = true;
 
 // Images
 string dir = "../Lib/Images/";
-//string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png";
-string backgroundTex = dir+"fightbackground.png";
+//string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png"
+string backgroundTex = dir+"Atmosphere.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
@@ -28,8 +28,9 @@ string strikeDir = dir + "strike.png";
 string blockDir = dir + "block.png";
 
 //	Actor Images
+string playerDir = dir + "Player.png";
+string chompDir = dir + "Chomp.png";
 string enemyImageName = dir+"alien_slime.png";
-string playerImageName = dir+"Player.png";
 
 string defendCardImageName = dir+"defend.png";
 string strengthRewardTex = dir + "strengthReward.png";
@@ -50,9 +51,9 @@ CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
 
 //EnemyData definitions
 vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
-EnemyData test("TestSlime",enemyImageName, 10, testMovePool);
+EnemyData test("Chomp",chompDir, 10, testMovePool);
 // Sprites
-Actor player("Player", playerImageName, 20);
+Actor player("Player", playerDir, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(block), c6(block), c7(block), c8(block), c9(block);
