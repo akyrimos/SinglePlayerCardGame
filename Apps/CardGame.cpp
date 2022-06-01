@@ -22,8 +22,15 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack.png"; //attack.png
+
+//	Card Images
+string strikeDir = dir + "strike.png";
+string blockDir = dir + "block.png";
+
+//	Actor Images
 string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
+
 string defendCardImageName = dir+"defend.png";
 string strengthReward = dir + "strengthReward.png";
 string chargeReward = dir + "chargeReward.png";
@@ -37,8 +44,8 @@ Action a_doubleStrike("Double Strike", vector<Effect>{ Effect(6, EffectType::Att
 Action a_bigStrike("Big Strike", vector<Effect>{ Effect(10, EffectType::Attack) });
 
 // CardData definitions
-CardData strike(a_strike.name, attackCardImageName, 1, a_strike, TargetType::Enemy);
-CardData block(a_block.name, defendCardImageName, 1, a_block, TargetType::Player);
+CardData strike(a_strike.name, strikeDir, 1, a_strike, TargetType::Enemy);
+CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
 
 //EnemyData definitions
 vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
@@ -255,11 +262,8 @@ int main(int ac, char** av) {
 	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
-		if (deck[i]->imageName == attackCardImageName)
-			deck[i]->Initialize(attackCardImageName);
-		if (deck[i]->imageName == defendCardImageName)
-			deck[i]->Initialize(defendCardImageName);
-
+		string dir = deck[i]->imageName;
+		deck[i]->Initialize(dir);
 		deck[i]->SetScale(vec2(.2f, .3f));
 	}
 	hm.InitializeLibrary(deck, nDeckCards);
