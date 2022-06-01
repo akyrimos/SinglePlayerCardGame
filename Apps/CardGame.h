@@ -170,6 +170,7 @@ public:
 	void MoveCardOffScreen(Card* selectedCard);
 	void MoveToDiscard(Card* c);
 	void InitializeLibrary(vector<Card*> cards, int ncards);
+	void AddCard(Card* card);
 	void InitializeLibrary(Card **cards, int ncards);
 	void ResetEnergy() { energyRemaining = maxEnergy; }
 	stack<Card *> deckLibrary;

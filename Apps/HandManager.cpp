@@ -38,6 +38,10 @@ void HandManager::InitializeLibrary(vector<Card*> cards, int ncards) {
 	Shuffle();
 }
 
+void HandManager::AddCard(Card* card) {
+	discardPile.push_back(card);
+}
+
 void HandManager::InitializeLibrary(Card **cards, int ncards) {
 	for (int i = 0; i < ncards; i++)
 		discardPile.push_back(cards[i]);
