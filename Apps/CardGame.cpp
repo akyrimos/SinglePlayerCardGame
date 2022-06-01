@@ -32,9 +32,10 @@ string enemyImageName = dir+"alien_slime.png";
 string playerImageName = dir+"Player.png";
 
 string defendCardImageName = dir+"defend.png";
-string strengthReward = dir + "strengthReward.png";
-string chargeReward = dir + "chargeReward.png";
-string protectionReward = dir + "protectionReward.png";
+string strengthRewardTex = dir + "strengthReward.png";
+string healthRewardTex = dir + "chargeReward.png";
+string protectionRewardTex = dir + "protectionReward.png";
+string continueTex = dir + "continueButton.png";
 
 
 // Action definitions
@@ -55,7 +56,7 @@ Actor player("Player", playerImageName, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(block), c6(block), c7(block), c8(block), c9(block);
-Sprite background, playCard, endTurn, startBackground, startButton;
+Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
 
 // Card Positions
 float handXPos[5] = { -.5f, -.3f, -.1f, .1f, .3f }, handYPos = -.75f;
@@ -83,7 +84,12 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	if (a->armor > 0) 
 		Text(loc + vec3(-0.5f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
 }
-
+void DisplayRewards() {
+	strengthReward.Display();
+	healthReward.Display();
+	protectionReward.Display();
+	continueButton.Display();
+}
 void Display() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -107,6 +113,9 @@ void Display() {
 					//defeat
 				}
 				else {
+					DisplayRewards();
+					//rewardChoice = false;
+					//targets[i]->ChangeHealth(100);
 					//display reward screen
 					//make enemy stronger
 					//intialize new fight
@@ -206,6 +215,18 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (endTurn.Hit(ix, iy))
 			RunTurn();
 
+		//might have to do with strength reward positioning. It is on top of the player sprite
+		//I think this is the only reward that gets executed after every turn.
+		if (strengthReward.Hit(ix, iy))
+			player.gainStrength();
+		if (protectionReward.Hit(ix, iy))
+			player.gainDexterity();
+		if (healthReward.Hit(ix, iy))
+			player.ChangeHealth(100);
+		if (continueButton.Hit(ix, iy)) {
+			//make enemy grow stronger and display the new round
+		}
+
 	}
 	// Play card on target
 	if (action == GLFW_RELEASE) {
@@ -248,11 +269,27 @@ int main(int ac, char** av) {
 	startBackground.Initialize(startscreenBack, .9f);
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
+	continueButton.Initialize(continueTex, .01f);
+	//intialize rewards
+	strengthReward.Initialize(strengthRewardTex, .04f);
+	healthReward.Initialize(healthRewardTex, .03f);
+	protectionReward.Initialize(protectionRewardTex, .02f);
+
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.2f });
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
+	continueButton.SetScale({ 0.2f, 0.1f });
+	continueButton.SetPosition({ 0.5f, -.4f });
+	strengthReward.SetScale({ .2f,.3f });
+	strengthReward.SetPosition({ -.35f,.2f });
+	healthReward.SetScale({ .2f,.3f });
+	healthReward.SetPosition({.1f,.2f});
+	protectionReward.SetScale({ .2f,.3f });
+	protectionReward.SetPosition({ .55f,.2f });
+	
+
 
 	// initialize card sprites, deckLibrary
 
@@ -281,6 +318,7 @@ int main(int ac, char** av) {
 	//push actors into targets
 	targets.push_back(&player);
 	targets.push_back(&alien);
+
 	// callbacks
 	glfwSetMouseButtonCallback(w, MouseButton);
 	glfwSetCursorPosCallback(w, MouseMove);
