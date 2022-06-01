@@ -298,7 +298,7 @@ int main(int ac, char** av) {
 	//GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
 	//GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
 	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
-	int nDeckCards = sizeof(deck)/sizeof(Card *);
+	int nDeckCards = deck.size();//sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
 		string dir = deck[i]->imageDir;
 		deck[i]->Initialize(dir);
