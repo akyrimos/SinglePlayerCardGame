@@ -299,7 +299,7 @@ int main(int ac, char** av) {
 	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
 	int nDeckCards = sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
-		string dir = deck[i]->imageName;
+		string dir = deck[i]->imageDir;
 		deck[i]->Initialize(dir);
 		deck[i]->SetScale(vec2(.2f, .3f));
 	}

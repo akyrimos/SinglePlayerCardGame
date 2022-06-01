@@ -82,7 +82,8 @@ public:
 
 class Card : public Sprite {
 public:
-	string imageName;
+	string name;
+	string imageDir;
 	vec3 position;
 	int energyCost;
 	//int id;
@@ -93,14 +94,16 @@ public:
 		energyCost = 1;
 		ability = EffectType::Attack;
 		tType = TargetType::Enemy;
+		name = "Strike";
 		action = Action("Strike", vector<Effect> {Effect(6, EffectType::Attack)});
 	};
 	
 	Card(const CardData c) {
+		name = c.name;
 		energyCost = c.energyCost;
 		action = c.action;
 		tType = c.targetType;
-		imageName = c.imageName;
+		imageDir = c.imageName;
 	};
 	//Card(int EnergyCost, int Value, EffectType Effect, TargetType TargType) {
 	//	actions.push_back(Effect(Value,Effect));
