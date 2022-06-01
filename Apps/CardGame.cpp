@@ -13,6 +13,7 @@
 // App
 int winWidth = 1200, winHeight = 800;
 bool startScreen = true;
+bool rewardScreen = false;
 
 // Images
 string dir = "../Lib/Images/";
@@ -218,15 +219,19 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 
 		//might have to do with strength reward positioning. It is on top of the player sprite
 		//I think this is the only reward that gets executed after every turn.
-		if (strengthReward.Hit(ix, iy))
-			player.gainStrength();
-		if (protectionReward.Hit(ix, iy))
-			player.gainDexterity();
-		if (healthReward.Hit(ix, iy))
-			player.ChangeHealth(100);
-		if (continueButton.Hit(ix, iy)) {
-			//make enemy grow stronger and display the new round
+		if (rewardScreen == true) {
+			if (strengthReward.Hit(ix, iy))
+				player.gainStrength();
+			if (protectionReward.Hit(ix, iy))
+				player.gainDexterity();
+			if (healthReward.Hit(ix, iy))
+				player.ChangeHealth(100);
+			if (continueButton.Hit(ix, iy)) {
+				//make enemy grow stronger and display the new round
+			}
+			rewardScreen = false;
 		}
+
 
 	}
 	// Play card on target
