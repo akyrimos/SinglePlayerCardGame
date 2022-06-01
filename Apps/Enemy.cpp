@@ -84,3 +84,9 @@ string Enemy::printAction(EffectType type) {
 	}
 	return temp;
 }
+
+void Enemy::ResetEnemy() {
+	maxHealth += 5;
+	this->health = maxHealth;
+	this->SetPosition({ 0.35f, 0.1f });
+}

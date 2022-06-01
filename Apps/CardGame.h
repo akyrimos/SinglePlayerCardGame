@@ -155,6 +155,7 @@ public:
 	void PrepareAction();
 	void ActionMessage();
 	Action TakeAction();
+	void ResetEnemy();
 };
 
 class HandManager {
