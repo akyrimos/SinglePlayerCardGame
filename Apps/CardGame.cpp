@@ -65,11 +65,11 @@ float handXPos[5] = { -.5f, -.3f, -.1f, .1f, .3f }, handYPos = -.75f;
 float Z(int i) { return .2f + i * .05f; }
 // Gameplay
 int turnNum = 0;
-Card *selectedCard = NULL;
+Card* selectedCard = NULL;
 vector<Actor *> targets;
 HandManager hm;
-Card *deck[] = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
-
+//Card* deck[] = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
+vector<Card*> deck = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
 // Display
 
 void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {

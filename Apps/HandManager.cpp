@@ -32,6 +32,12 @@ void HandManager::DiscardHand() {
 	hand.clear();
 }
 
+void HandManager::InitializeLibrary(vector<Card*> cards, int ncards) {
+	for (int i = 0; i < ncards; i++)
+		discardPile.push_back(cards[i]);
+	Shuffle();
+}
+
 void HandManager::InitializeLibrary(Card **cards, int ncards) {
 	for (int i = 0; i < ncards; i++)
 		discardPile.push_back(cards[i]);
