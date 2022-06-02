@@ -59,8 +59,6 @@ Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(backflip), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
-c5(block), c6(block), c7(block), c8(block), c9(block);
-Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward;
 
 // Card Positions
 float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
@@ -260,9 +258,9 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			if (protectionReward.Hit(ix, iy))
 				player.GainDexterity();
 			if (healthReward.Hit(ix, iy))
-				player.gainStrength();
+				player.GainStrength();
 			else if (protectionReward.Hit(ix, iy))
-				player.gainDexterity();
+				player.GainDexterity();
 			else if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
 			rewardScreen = false;
