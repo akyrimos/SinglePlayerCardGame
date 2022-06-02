@@ -32,12 +32,15 @@ void Enemy::PrepareAction() {
 void Enemy::ActionMessage() {
 	for (Effect e : chosenAction.effects) {
 		string type = "";
+		int value = 0;
 		switch (e.effectType) {
 		case EffectType::Attack:
 			type = "Attack ";
+			value = e.value + strength;
 			break;
 		case EffectType::Defend:
 			type = "Defend ";
+			value = e.value + dexterity;
 			break;
 		case EffectType::Buff:
 			type = "Buff ";
@@ -52,7 +55,7 @@ void Enemy::ActionMessage() {
 			type = "I dont know what im doing!";
 			break;
 		}
-		message += type + to_string(e.value) + " ";
+		message += type + to_string(value) + " ";
 	}
 }
 Action Enemy::TakeAction() {

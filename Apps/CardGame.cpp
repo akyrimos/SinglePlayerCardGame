@@ -161,10 +161,12 @@ void ResolveEffect(const Effect e, Actor* user, Actor* target) {
 	case EffectType::Attack:
 		target->TakeDamage(e.value + user->strength);
 		cout << "Attack " << e.value + user->strength << endl;
+		user->totalDamage += e.value + user->strength;
 		break;
 	case EffectType::Defend:
 		user->GainArmor(e.value + user->dexterity);
 		cout << "Defend " << e.value + user->dexterity << endl;
+		user->totalBlock += e.value + user->dexterity;
 		break;
 	default:
 		cout << "default";
@@ -201,6 +203,7 @@ void NewRound() {
 	alien.RemoveArmor();
 	alien.ResetEnemy();
 	player.RemoveArmor();
+	player.totalrounds += 1;
 	alien.message = "";
 	StartTurn();
 }

@@ -61,6 +61,9 @@ public:
 	string imageName;
 	string message;
 	bool isPlayer = true;
+	int totalDamage = 0;
+	int totalrounds = 0;
+	int totalBlock = 0;
 	Actor() {};
 	Actor(string n, string img, int hp):name(n),imageName(img), maxHealth(hp),health(maxHealth){};
 	void GainArmor(int value) { armor += value; }
