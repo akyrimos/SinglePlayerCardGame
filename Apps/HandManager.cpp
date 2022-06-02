@@ -32,21 +32,27 @@ void HandManager::DiscardHand() {
 	hand.clear();
 }
 
-void HandManager::InitializeLibrary(vector<Card*> cards, int ncards) {
+void HandManager::InitializeLibrary(vector<Card*> cards) {
+	for (int i = 0; i < cards.size(); i++)
+		discardPile.push_back(cards[i]);
+	Shuffle();
+}
+
+void HandManager::InitializeLibrary(Card** cards, int ncards) {
 	for (int i = 0; i < ncards; i++)
 		discardPile.push_back(cards[i]);
 	Shuffle();
 }
 
-void HandManager::AddCard(Card* card) {
-	discardPile.push_back(card);
+void HandManager::AddCard(CardData c) {
+	Card* cptr = new Card(c);
+	cptr->Initialize(c.imageName);
+	cptr->SetScale(vec2(.2f,.3f));
+	discardPile.push_back(cptr);
 }
 
-void HandManager::InitializeLibrary(Card **cards, int ncards) {
-	for (int i = 0; i < ncards; i++)
-		discardPile.push_back(cards[i]);
-	Shuffle();
-}
+
+
 
 void HandManager::Shuffle() {
 	unsigned seed = clock();

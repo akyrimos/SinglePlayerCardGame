@@ -9,6 +9,7 @@
 #include "Misc.h"
 #include "Sprite.h"
 #include "Text.h"
+#include <stdlib.h>
 
 // App
 int winWidth = 1200, winHeight = 800;
@@ -17,7 +18,6 @@ bool rewardScreen = false;
 
 // Images
 string dir = "../Lib/Images/";
-//string playCardTex = dir+"alien_slime.png", playCardMat = dir+"alien_slime.png"
 string backgroundTex = dir+"Atmosphere.png";
 string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
@@ -49,7 +49,7 @@ Action a_backflip("Backflip", vector<Effect>{Effect(2, EffectType::Draw), Effect
 CardData strike(a_strike.name, strikeDir, 1, a_strike, TargetType::Enemy);
 CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
 CardData backflip(a_backflip.name, backflipDir, 1, a_backflip, TargetType::Player);
-
+vector<CardData> cardRewards = { backflip, strike};
 //EnemyData definitions
 vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
 EnemyData test("Chomp",chompDir, 10, testMovePool);
@@ -58,7 +58,7 @@ Actor player("Player", playerDir, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(backflip), c6(block), c7(block), c8(block), c9(block);
-Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
+Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, cardReward, continueButton;
 
 // Card Positions
 float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
@@ -71,7 +71,7 @@ Card* selectedCard = NULL;
 vector<Actor *> targets;
 HandManager hm;
 //Card* deck[] = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
-vector<Card*> deck = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
+vector<Card*> startDeck = { &c0, &c1, &c2, &c3, &c4, &c5, &c6, &c7, &c8, &c9 };
 // Display
 
 void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
@@ -96,6 +96,7 @@ void DisplayRewards() {
 	strengthReward.Display();
 	healthReward.Display();
 	protectionReward.Display();
+	cardReward.Display();
 }
 void Display() {
 	glEnable(GL_BLEND);
@@ -190,7 +191,6 @@ void ResolveEffect(const Effect e, Actor* user, Actor* target, HandManager* hm) 
 			hm->Draw();
 		hm->ResetCardPositions();
 		cout << "Draw " << e.value << "cards";
-		break;
 	default:
 		cout << "default";
 	}
@@ -255,15 +255,18 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (endTurn.Hit(ix, iy))
 			RunTurn();
 
-		//might have to do with strength reward positioning. It is on top of the player sprite
-		//I think this is the only reward that gets executed after every turn.
 		if (rewardScreen == true) {
+			int cardIndex = rand() % cardRewards.size();
+			cardReward.Initialize(cardRewards[cardIndex].imageName,-.1f);
 			if (strengthReward.Hit(ix, iy))
 				player.GainStrength();
 			else if (protectionReward.Hit(ix, iy))
 				player.GainDexterity();
 			else if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
+			else if (cardReward.Hit(ix, iy))
+				hm.AddCard(cardRewards[cardIndex]);
+
 			rewardScreen = false;
 			NewRound();
 		}
@@ -312,21 +315,23 @@ int main(int ac, char** av) {
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
 	//intialize rewards
-	strengthReward.Initialize(strengthRewardTex, .4f);
-	healthReward.Initialize(healthRewardTex, .3f);
-	protectionReward.Initialize(protectionRewardTex, .2f);
-
+	strengthReward.Initialize(strengthRewardTex, -.4f);
+	healthReward.Initialize(healthRewardTex, -.3f);
+	protectionReward.Initialize(protectionRewardTex, -.2f);
+	cardReward.Initialize(backflipDir, -.1f);
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.2f });
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
 	strengthReward.SetScale({ .2f,.3f });
-	strengthReward.SetPosition({ -.35f,.2f });
+	strengthReward.SetPosition({ -.75f,.2f });
 	healthReward.SetScale({ .2f,.3f });
-	healthReward.SetPosition({.1f,.2f});
+	healthReward.SetPosition({-.3f,.2f});
 	protectionReward.SetScale({ .2f,.3f });
-	protectionReward.SetPosition({ .55f,.2f });
+	protectionReward.SetPosition({ .15f,.2f });
+	cardReward.SetScale({ .2f,.3f });
+	cardReward.SetPosition({.6f,.2f});
 	
 
 
@@ -336,16 +341,22 @@ int main(int ac, char** av) {
 	//GLuint defendCardTextureName = LoadTexture(defendCardImageName.c_str());
 	//GLuint enemyTextureName = LoadTexture(enemyImageName.c_str());
 	//GLuint playerTextureName = LoadTexture(playerImageName.c_str());
-	int nDeckCards = deck.size();//sizeof(deck)/sizeof(Card *);
+	//int nDeckCards = deck.size();//sizeof(deck)/sizeof(Card *);
+	//for (int i = 0; i < nDeckCards; i++) {
+	//	string dir = deck[i]->imageDir;
+	//	deck[i]->Initialize(dir);
+	//	deck[i]->SetScale(vec2(.2f, .3f));
+	//}
+	int nDeckCards = startDeck.size();//sizeof(deck)/sizeof(Card *);
 	for (int i = 0; i < nDeckCards; i++) {
-		string dir = deck[i]->imageDir;
-		deck[i]->Initialize(dir);
-		deck[i]->SetScale(vec2(.2f, .3f));
+		string dir = startDeck[i]->imageDir;
+		startDeck[i]->Initialize(dir);
+		startDeck[i]->SetScale(vec2(.2f, .3f));
 	}
-	hm.InitializeLibrary(deck, nDeckCards);
-	hm.DiscardHand();
-	hm.DiscardHand();
-	hm.Shuffle();
+	hm.InitializeLibrary(startDeck);
+	//hm.DiscardHand();
+	//hm.DiscardHand();
+	//hm.Shuffle();
 	// initialize player sprite
 	player.Initialize(player.imageName, .7f);
 	player.SetScale(vec2(.2f, .3f));
