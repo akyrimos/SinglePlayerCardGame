@@ -87,9 +87,9 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	if (a->armor > 0) 
 		Text(loc + vec3(-0.5f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
 	if(a->strength > 0)
-		Text(loc + vec3(-0.7f, -1.0f, 0.0f), a->ptTransform, vec3(1.0f, 0.41f, 0.0f), 15, ("STR: " + to_string(a->strength)).c_str());
+		Text(loc + vec3(-0.7f, -1.2f, 0.0f), a->ptTransform, vec3(1.0f, 0.41f, 0.0f), 15, ("STR: " + to_string(a->strength)).c_str());
 	if(a->dexterity > 0)
-		Text(loc + vec3(-0.7f, -1.2f, 0.0f), a->ptTransform, vec3(0.13f, 1.0f, 0.13f), 15, ("DEX: " + to_string(a->dexterity)).c_str());
+		Text(loc + vec3(-0.7f, -1.4f, 0.0f), a->ptTransform, vec3(0.13f, 1.0f, 0.13f), 15, ("DEX: " + to_string(a->dexterity)).c_str());
 
 }
 void DisplayRewards() {
