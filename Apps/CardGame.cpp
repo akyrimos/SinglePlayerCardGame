@@ -255,10 +255,6 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		if (rewardScreen == true) {
 			if (strengthReward.Hit(ix, iy))
 				player.GainStrength();
-			if (protectionReward.Hit(ix, iy))
-				player.GainDexterity();
-			if (healthReward.Hit(ix, iy))
-				player.GainStrength();
 			else if (protectionReward.Hit(ix, iy))
 				player.GainDexterity();
 			else if (healthReward.Hit(ix, iy))
