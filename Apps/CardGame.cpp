@@ -10,12 +10,14 @@
 #include "Sprite.h"
 #include "Text.h"
 #include <stdlib.h>
+#include <time.h>
 
 // App
 int winWidth = 1200, winHeight = 800;
 bool startScreen = true;
 bool rewardScreen = false;
 bool Endgame = false;
+
 // Images
 string dir = "../Lib/Images/";
 string backgroundTex = dir+"Atmosphere.png";
@@ -323,6 +325,7 @@ void Resize(GLFWwindow *w, int width, int height) {
 }
 
 int main(int ac, char** av) {
+	srand(time(NULL));
 	// init app window and GL context
 	glfwInit();
 	GLFWwindow *w = glfwCreateWindow(winWidth, winHeight, "Destroy the Aliens", NULL, NULL);
@@ -339,7 +342,9 @@ int main(int ac, char** av) {
 	strengthReward.Initialize(strengthRewardTex, -.4f);
 	healthReward.Initialize(healthRewardTex, -.3f);
 	protectionReward.Initialize(protectionRewardTex, -.2f);
-	cardReward.Initialize(backflipDir, -.1f);
+	cardIndex = rand() % cards.size();
+	cardReward.Initialize(cards[cardIndex].imageName, -.1f);
+	//cardReward.Initialize(backflipDir, -.1f);
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.2f });
 	startButton.SetPosition({ .10f, -.45f });
