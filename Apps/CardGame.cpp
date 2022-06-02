@@ -115,7 +115,8 @@ void Display() {
 					//defeat
 				}
 				else {
-					DisplayRewards();
+					if(rewardScreen == true)
+						DisplayRewards();
 					//rewardChoice = false;
 					//targets[i]->ChangeHealth(100);
 					//display reward screen
@@ -174,6 +175,7 @@ void ResolveEffect(const Effect e, Actor* user, Actor* target) {
 			cout << "A loser is you" << endl;
 		}
 		else {
+			rewardScreen = true;
 			cout << "A winner is you" << endl;
 		}
 	}
@@ -185,12 +187,21 @@ void RunTurn() {
 	// Enemy takes turn
 	alien.RemoveArmor();
 	
-	
 	ResolveAction(alien.TakeAction(), &alien, &player);
 
 	player.RemoveArmor();
 	alien.message = "";
 	// tick down status effects go here
+	StartTurn();
+}
+
+void NewRound() {
+	hm.DiscardHand();
+	hm.ResetEnergy();
+	alien.RemoveArmor();
+	alien.ResetEnemy();
+	player.RemoveArmor();
+	alien.message = "";
 	StartTurn();
 }
 
@@ -230,6 +241,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 				//make enemy grow stronger and display the new round
 			}
 			rewardScreen = false;
+			NewRound();
 		}
 
 
