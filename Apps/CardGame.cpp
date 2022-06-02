@@ -37,7 +37,6 @@ string defendCardImageName = dir+"defend.png";
 string strengthRewardTex = dir + "strengthReward.png";
 string healthRewardTex = dir + "chargeReward.png";
 string protectionRewardTex = dir + "protectionReward.png";
-string continueTex = dir + "continueButton.png";
 
 
 // Action definitions
@@ -60,6 +59,8 @@ Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(backflip), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
+c5(block), c6(block), c7(block), c8(block), c9(block);
+Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward;
 
 // Card Positions
 float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
@@ -92,7 +93,6 @@ void DisplayRewards() {
 	strengthReward.Display();
 	healthReward.Display();
 	protectionReward.Display();
-	continueButton.Display();
 }
 void Display() {
 	glEnable(GL_BLEND);
@@ -260,10 +260,11 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			if (protectionReward.Hit(ix, iy))
 				player.GainDexterity();
 			if (healthReward.Hit(ix, iy))
+				player.gainStrength();
+			else if (protectionReward.Hit(ix, iy))
+				player.gainDexterity();
+			else if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
-			if (continueButton.Hit(ix, iy)) {
-				//make enemy grow stronger and display the new round
-			}
 			rewardScreen = false;
 			NewRound();
 		}
@@ -311,7 +312,6 @@ int main(int ac, char** av) {
 	startBackground.Initialize(startscreenBack, .9f);
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
-	continueButton.Initialize(continueTex, .01f);
 	//intialize rewards
 	strengthReward.Initialize(strengthRewardTex, .04f);
 	healthReward.Initialize(healthRewardTex, .03f);
@@ -322,8 +322,6 @@ int main(int ac, char** av) {
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
 	endTurn.SetPosition({ 0.5f, -.4f });
-	continueButton.SetScale({ 0.2f, 0.1f });
-	continueButton.SetPosition({ 0.5f, -.4f });
 	strengthReward.SetScale({ .2f,.3f });
 	strengthReward.SetPosition({ -.35f,.2f });
 	healthReward.SetScale({ .2f,.3f });
