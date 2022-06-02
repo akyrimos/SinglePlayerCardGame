@@ -28,6 +28,7 @@ string gameoverTex = dir + "fightbackground.png";
 string strikeDir = dir + "strike.png";
 string blockDir = dir + "block.png";
 string backflipDir = dir + "backflip.png";
+string gatlingDir = dir + "gatling.png";
 //	Actor Images
 string playerDir = dir + "Player.png";
 string chompDir = dir + "Chomp.png";
@@ -45,19 +46,22 @@ Action a_block("Block", vector<Effect>{ Effect(5, EffectType::Defend) });
 Action a_doubleStrike("Double Strike", vector<Effect>{ Effect(6, EffectType::Attack), Effect(6, EffectType::Attack) });
 Action a_bigStrike("Big Strike", vector<Effect>{ Effect(10, EffectType::Attack) });
 Action a_backflip("Backflip", vector<Effect>{Effect(2, EffectType::Draw), Effect(5, EffectType::Defend)});
+Action a_gatling("Gatling", vector<Effect>{Effect(2, EffectType::Attack), Effect(2, EffectType::Attack), Effect(2, EffectType::Attack), Effect(2, EffectType::Attack), Effect(2, EffectType::Attack)});
 // CardData definitions
 CardData strike(a_strike.name, strikeDir, 1, a_strike, TargetType::Enemy);
 CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
 CardData backflip(a_backflip.name, backflipDir, 1, a_backflip, TargetType::Player);
-vector<CardData> cardRewards = { backflip, strike};
+CardData gatling(a_gatling.name, gatlingDir, 2, a_gatling, TargetType::Enemy);
+vector<CardData> cards = { backflip, gatling};
+int cardIndex;
 //EnemyData definitions
-vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
-EnemyData test("Chomp",chompDir, 10, testMovePool);
+vector<Action> chompMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
+EnemyData chomp("Chomp",chompDir, 10, chompMovePool);
 // Sprites
 Actor player("Player", playerDir, 20);
-Enemy alien(test);
+Enemy alien(chomp);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
-c5(backflip), c6(block), c7(block), c8(block), c9(block);
+c5(block), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, cardReward, continueButton, gameover;
 
 // Card Positions
@@ -78,18 +82,18 @@ void DisplayActor(Actor *a, vec3 color = vec3(1, 0, 0)) {
 	a->Display();
 	vec3 loc = vec3(a->position, 0);
 	if (!a->message.empty()) {
-		Text(loc + vec3(-0.75f,0.9f,0), a->ptTransform, color, 20, a->message.c_str());
+		Text(loc + vec3(-0.9f,1.0f,0), a->ptTransform, color, 30, a->message.c_str());
 	}
 	//health
 	if (a->health > 0)
-		Text(loc + vec3(0,1,0), a->ptTransform, vec3(1,0,0), 30, to_string(a->health).c_str());
+		Text(loc + vec3(-0.3f,-1.45f,0.0f), a->ptTransform, vec3(1.0f,0.0f,0.0f), 32, ("HP " + to_string(a->health) + "/" + to_string(a->maxHealth)).c_str());
 	//armor
 	if (a->armor > 0) 
-		Text(loc + vec3(-0.5f, 1.0f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 30, to_string(a->armor).c_str());
+		Text(loc + vec3(-0.3f, -1.25f, 0.0f), a->ptTransform, vec3(0.2f,1.0f,1.0f), 32, ("Armor " + to_string(a->armor)).c_str());
 	if(a->strength > 0)
-		Text(loc + vec3(-0.7f, -1.2f, 0.0f), a->ptTransform, vec3(1.0f, 0.41f, 0.0f), 15, ("STR: " + to_string(a->strength)).c_str());
+		Text(loc + vec3(-0.7f, -1.2f, 0.0f), a->ptTransform, vec3(1.0f, 0.41f, 0.0f), 18, ("STR " + to_string(a->strength)).c_str());
 	if(a->dexterity > 0)
-		Text(loc + vec3(-0.7f, -1.4f, 0.0f), a->ptTransform, vec3(0.13f, 1.0f, 0.13f), 15, ("DEX: " + to_string(a->dexterity)).c_str());
+		Text(loc + vec3(-0.7f, -1.4f, 0.0f), a->ptTransform, vec3(0.13f, 1.0f, 0.13f), 18, ("DEX " + to_string(a->dexterity)).c_str());
 
 }
 void DisplayRewards() {
@@ -133,8 +137,9 @@ void Display() {
 
 				}
 				else {
-					if(rewardScreen == true)
+					if (rewardScreen == true) {
 						DisplayRewards();
+					}
 					//rewardChoice = false;
 					//targets[i]->ChangeHealth(100);
 					//display reward screen
@@ -243,6 +248,9 @@ void NewRound() {
 	player.totalrounds += 1;
 	alien.totalrounds += 1;
 	alien.message = "";
+	// choose and initialize next card reward
+	cardIndex = rand() % cards.size();
+	cardReward.Initialize(cards[cardIndex].imageName, -.1f);
 	StartTurn();
 }
 
@@ -270,8 +278,6 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			RunTurn();
 
 		if (rewardScreen == true) {
-			int cardIndex = rand() % cardRewards.size();
-			cardReward.Initialize(cardRewards[cardIndex].imageName,-.1f);
 			if (strengthReward.Hit(ix, iy))
 				player.GainStrength();
 			else if (protectionReward.Hit(ix, iy))
@@ -279,7 +285,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			else if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
 			else if (cardReward.Hit(ix, iy))
-				hm.AddCard(cardRewards[cardIndex]);
+				hm.AddCard(cards[cardIndex]);
 
 			rewardScreen = false;
 			NewRound();
@@ -338,7 +344,7 @@ int main(int ac, char** av) {
 	startButton.SetScale({ 0.3f, 0.2f });
 	startButton.SetPosition({ .10f, -.45f });
 	endTurn.SetScale({ 0.2f, 0.1f });
-	endTurn.SetPosition({ 0.5f, -.4f });
+	endTurn.SetPosition({ 0.7f, -.5f });
 	strengthReward.SetScale({ .2f,.3f });
 	strengthReward.SetPosition({ -.75f,.2f });
 	healthReward.SetScale({ .2f,.3f });
