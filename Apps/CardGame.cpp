@@ -58,7 +58,7 @@ EnemyData test("Chomp",chompDir, 10, testMovePool);
 Actor player("Player", playerDir, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
-c5(backflip), c6(backflip), c7(backflip), c8(backflip), c9(backflip);
+c5(backflip), c6(block), c7(block), c8(block), c9(block);
 Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
 
 // Card Positions
