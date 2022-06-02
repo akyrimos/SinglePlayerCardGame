@@ -8,15 +8,8 @@
 using namespace std;
 const int MaxHandSize = 10;
 
-enum class EffectType { Undefined = 0, Attack, Defend, Weaken, Buff, Power, NActions };
+enum class EffectType { Undefined = 0, Attack, Defend, UserStr, UserDex, Sacrifice, Draw, NActions };
 enum class TargetType { Undefined = 0, Player, Enemy, None, NActions };
-//class Effect {
-//public:
-//	int value;
-//	EffectType effType;
-//	Effect(int val, EffectType eff) :value(val), effType(eff) {};
-//};
-
 class Effect {
 public:
 	int value;
@@ -79,8 +72,10 @@ public:
 		}
 	}
 	void RemoveArmor() { armor = 0; }
-	void gainStrength() { strength += 1; }
-	void gainDexterity() { dexterity += 1; }
+	void GainStrength() { strength += 1; }
+	void GainStrength(int x) { strength += x; }
+	void GainDexterity() { dexterity += 1; }
+	void GainDexterity(int x) { dexterity += x; }
 };
 
 class Card : public Sprite {
@@ -172,6 +167,7 @@ public:
 	void NewFight();
 	Card *DrawFromLibrary();
 	void MoveCardOffScreen(Card* selectedCard);
+	void ResetCardPositions();
 	void MoveToDiscard(Card* c);
 	void InitializeLibrary(vector<Card*> cards, int ncards);
 	void AddCard(Card* card);
@@ -179,6 +175,8 @@ public:
 	void ResetEnergy() { energyRemaining = maxEnergy; }
 	stack<Card *> deckLibrary;
 	vector<Card *> discardPile;
+	float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
+	float Z(int i) { return .2f + i * .05f; }
 	int librarySize = 10;
 	int cardsRemaining;
 	int drawCards = 5;
@@ -187,7 +185,7 @@ public:
 	vector<Card *> hand;
 };
 
-void ResolveAction(const Action act, Actor* user, Actor* target);
-void ResolveEffect(const Effect e, Actor* user, Actor* target);
+void ResolveAction(const Action act, Actor* user, Actor* target, HandManager* hm);
+void ResolveEffect(const Effect e, Actor* user, Actor* target, HandManager* hm);
 
 #endif

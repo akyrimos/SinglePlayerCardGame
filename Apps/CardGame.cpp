@@ -27,7 +27,7 @@ string attackCardImageName = dir+"attack.png"; //attack.png
 //	Card Images
 string strikeDir = dir + "strike.png";
 string blockDir = dir + "block.png";
-
+string backflipDir = dir + "backflip.png";
 //	Actor Images
 string playerDir = dir + "Player.png";
 string chompDir = dir + "Chomp.png";
@@ -45,10 +45,11 @@ Action a_strike("Strike", vector<Effect>{ Effect(6, EffectType::Attack) });
 Action a_block("Block", vector<Effect>{ Effect(5, EffectType::Defend) });
 Action a_doubleStrike("Double Strike", vector<Effect>{ Effect(6, EffectType::Attack), Effect(6, EffectType::Attack) });
 Action a_bigStrike("Big Strike", vector<Effect>{ Effect(10, EffectType::Attack) });
-
+Action a_backflip("Backflip", vector<Effect>{Effect(2, EffectType::Draw), Effect(5, EffectType::Defend)});
 // CardData definitions
 CardData strike(a_strike.name, strikeDir, 1, a_strike, TargetType::Enemy);
 CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
+CardData backflip(a_backflip.name, backflipDir, 1, a_backflip, TargetType::Player);
 
 //EnemyData definitions
 vector<Action> testMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
@@ -57,11 +58,12 @@ EnemyData test("Chomp",chompDir, 10, testMovePool);
 Actor player("Player", playerDir, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
-c5(block), c6(block), c7(block), c8(block), c9(block);
+c5(backflip), c6(backflip), c7(backflip), c8(backflip), c9(backflip);
 Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, continueButton;
 
 // Card Positions
-float handXPos[5] = { -.5f, -.3f, -.1f, .1f, .3f }, handYPos = -.75f;
+float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
+//float handXPos[5] = { -.5f, -.3f, -.1f, .1f, .3f }, handYPos = -.75f;
 
 float Z(int i) { return .2f + i * .05f; }
 // Gameplay
@@ -151,12 +153,12 @@ void StartTurn() {
 	alien.PrepareAction();
 	NewHand();
 }
-void ResolveAction(const Action act, Actor* user, Actor* target) {
+void ResolveAction(const Action act, Actor* user, Actor* target, HandManager* hm) {
 	for (Effect e : act.effects) {
-		ResolveEffect(e, user, target);
+		ResolveEffect(e, user, target, hm);
 	}
 }
-void ResolveEffect(const Effect e, Actor* user, Actor* target) {
+void ResolveEffect(const Effect e, Actor* user, Actor* target, HandManager* hm) {
 	switch (e.effectType) {
 	case EffectType::Attack:
 		target->TakeDamage(e.value + user->strength);
@@ -167,6 +169,24 @@ void ResolveEffect(const Effect e, Actor* user, Actor* target) {
 		user->GainArmor(e.value + user->dexterity);
 		cout << "Defend " << e.value + user->dexterity << endl;
 		user->totalBlock += e.value + user->dexterity;
+		break;
+	case EffectType::UserStr:
+		user->GainStrength(e.value);
+		cout << "Str + " << e.value << endl;
+		break;
+	case EffectType::UserDex:
+		user->GainDexterity(e.value);
+		cout << "Dex + " << e.value << endl;
+		break;
+	case EffectType::Sacrifice:
+		user->ChangeHealth(-e.value);
+		cout << "Sacrifice " << e.value << "HP" << endl;
+		break;
+	case::EffectType::Draw:
+		for(int i = 0; i < e.value; i++)
+			hm->Draw();
+		hm->ResetCardPositions();
+		cout << "Draw " << e.value << "cards";
 		break;
 	default:
 		cout << "default";
@@ -189,7 +209,7 @@ void RunTurn() {
 	// Enemy takes turn
 	alien.RemoveArmor();
 	
-	ResolveAction(alien.TakeAction(), &alien, &player);
+	ResolveAction(alien.TakeAction(), &alien, &player,&hm);
 
 	player.RemoveArmor();
 	alien.message = "";
@@ -236,9 +256,9 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 		//I think this is the only reward that gets executed after every turn.
 		if (rewardScreen == true) {
 			if (strengthReward.Hit(ix, iy))
-				player.gainStrength();
+				player.GainStrength();
 			if (protectionReward.Hit(ix, iy))
-				player.gainDexterity();
+				player.GainDexterity();
 			if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
 			if (continueButton.Hit(ix, iy)) {
@@ -258,7 +278,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 				if (target->Intersect(*selectedCard)) {
 					if (selectedCard->ValidTarget(target)) {
 						if (hm.ConsumeEnergy(selectedCard)) {
-							ResolveAction(selectedCard->action, &player, target);
+							ResolveAction(selectedCard->action, &player, target,&hm);
 							hm.DiscardCard(selectedCard);
 						}
 					}

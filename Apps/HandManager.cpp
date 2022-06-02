@@ -69,6 +69,12 @@ void HandManager::MoveCardOffScreen(Card* selectedCard)
 	selectedCard->SetPosition({ -5.0f, -5.0f });
 }
 
+void HandManager::ResetCardPositions() {
+	for (int i = 0; i < (int)hand.size(); i++) {
+		hand[i]->SetPosition(vec2(handXPos[i], handYPos));
+		hand[i]->z = Z(i);
+	}
+}
 void HandManager::NewFight() {
 }
 void HandManager::MoveToDiscard(Card* c) {

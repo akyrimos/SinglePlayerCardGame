@@ -42,14 +42,14 @@ void Enemy::ActionMessage() {
 			type = "Defend ";
 			value = e.value + dexterity;
 			break;
-		case EffectType::Buff:
-			type = "Buff ";
+		case EffectType::UserStr:
+			type = "UserStr ";
 			break;
-		case EffectType::Power:
-			type = "Power ";
+		case EffectType::UserDex:
+			type = "UserDex ";
 			break;
-		case EffectType::Weaken:
-			type = "Weaken ";
+		case EffectType::Draw:
+			type = "Draw ";
 			break;
 		default:
 			type = "I dont know what im doing!";
@@ -72,13 +72,13 @@ string Enemy::printAction(EffectType type) {
 	case EffectType::Defend:
 		temp = "Defend myself";
 		break;
-	case EffectType::Buff:
+	case EffectType::UserDex:
 		temp = "Buff myself";
 		break;
-	case EffectType::Power:
+	case EffectType::UserStr:
 		temp = "Power up myself";
 		break;
-	case EffectType::Weaken:
+	case EffectType::Draw:
 		temp = "Weaken you";
 		break;
 	default:
@@ -92,9 +92,9 @@ void Enemy::ResetEnemy() {
 	maxHealth += 5;
 	this->health = maxHealth;
 	if (this->totalrounds % 2 == 0)
-		gainStrength();
+		GainStrength();
 	else
-		gainDexterity();
+		GainDexterity();
 
 	this->SetPosition({ 0.35f, 0.1f });
 }
