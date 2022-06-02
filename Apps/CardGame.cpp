@@ -204,6 +204,7 @@ void NewRound() {
 	alien.ResetEnemy();
 	player.RemoveArmor();
 	player.totalrounds += 1;
+	alien.totalrounds += 1;
 	alien.message = "";
 	StartTurn();
 }

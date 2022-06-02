@@ -91,5 +91,10 @@ string Enemy::printAction(EffectType type) {
 void Enemy::ResetEnemy() {
 	maxHealth += 5;
 	this->health = maxHealth;
+	if (this->totalrounds % 2 == 0)
+		gainStrength();
+	else
+		gainDexterity();
+
 	this->SetPosition({ 0.35f, 0.1f });
 }
