@@ -55,7 +55,7 @@ CardData block(a_block.name, blockDir, 1, a_block, TargetType::Player);
 CardData backflip(a_backflip.name, backflipDir, 1, a_backflip, TargetType::Player);
 CardData gatling(a_gatling.name, gatlingDir, 2, a_gatling, TargetType::Enemy);
 vector<CardData> cards = { backflip, gatling};
-int cardIndex;
+int cardRewardIndex;
 //EnemyData definitions
 vector<Action> chompMovePool(vector<Action> {a_bigStrike, a_block, a_doubleStrike});
 EnemyData chomp("Chomp",chompDir, 10, chompMovePool);
@@ -251,8 +251,8 @@ void NewRound() {
 	alien.totalrounds += 1;
 	alien.message = "";
 	// choose and initialize next card reward
-	cardIndex = rand() % cards.size();
-	cardReward.Initialize(cards[cardIndex].imageName, -.1f);
+	cardRewardIndex = rand() % cards.size();
+	cardReward.Initialize(cards[cardRewardIndex].imageName, -.1f);
 	StartTurn();
 }
 
@@ -287,7 +287,7 @@ void MouseButton(GLFWwindow *w, int butn, int action, int mods) {
 			else if (healthReward.Hit(ix, iy))
 				player.ChangeHealth(100);
 			else if (cardReward.Hit(ix, iy))
-				hm.AddCard(cards[cardIndex]);
+				hm.AddCard(cards[cardRewardIndex]);
 
 			rewardScreen = false;
 			NewRound();
@@ -342,8 +342,8 @@ int main(int ac, char** av) {
 	strengthReward.Initialize(strengthRewardTex, -.4f);
 	healthReward.Initialize(healthRewardTex, -.3f);
 	protectionReward.Initialize(protectionRewardTex, -.2f);
-	cardIndex = rand() % cards.size();
-	cardReward.Initialize(cards[cardIndex].imageName, -.1f);
+	cardRewardIndex = rand() % cards.size();
+	cardReward.Initialize(cards[cardRewardIndex].imageName, -.1f);
 	//cardReward.Initialize(backflipDir, -.1f);
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.2f });
