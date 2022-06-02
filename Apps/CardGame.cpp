@@ -307,9 +307,9 @@ int main(int ac, char** av) {
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
 	//intialize rewards
-	strengthReward.Initialize(strengthRewardTex, .04f);
-	healthReward.Initialize(healthRewardTex, .03f);
-	protectionReward.Initialize(protectionRewardTex, .02f);
+	strengthReward.Initialize(strengthRewardTex, .4f);
+	healthReward.Initialize(healthRewardTex, .3f);
+	protectionReward.Initialize(protectionRewardTex, .2f);
 
 	// scale, position buttons
 	startButton.SetScale({ 0.3f, 0.2f });
