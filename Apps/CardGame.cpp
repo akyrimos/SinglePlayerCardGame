@@ -15,7 +15,7 @@
 int winWidth = 1200, winHeight = 800;
 bool startScreen = true;
 bool rewardScreen = false;
-
+bool Endgame = false;
 // Images
 string dir = "../Lib/Images/";
 string backgroundTex = dir+"Atmosphere.png";
@@ -23,7 +23,7 @@ string endTurnTex = dir+"end_turn_btn.png";
 string startscreenBack = dir+"backgroundStart.png";
 string startButtonTex = dir + "startScreenButton.png";
 string attackCardImageName = dir+"attack.png"; //attack.png
-
+string gameoverTex = dir + "fightbackground.png";
 //	Card Images
 string strikeDir = dir + "strike.png";
 string blockDir = dir + "block.png";
@@ -58,7 +58,7 @@ Actor player("Player", playerDir, 20);
 Enemy alien(test);
 Card c0(strike), c1(strike), c2(strike), c3(strike), c4(strike),
 c5(backflip), c6(block), c7(block), c8(block), c9(block);
-Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, cardReward, continueButton;
+Sprite background, playCard, endTurn, startBackground, startButton, strengthReward,healthReward,protectionReward, cardReward, continueButton, gameover;
 
 // Card Positions
 float handXPos[10] = { -.6f, -.45f,-.3f, -.15f, 0.0f, 0.15f, 0.3f,.45f,.6f,.75f }, handYPos = -.75f;
@@ -109,16 +109,28 @@ void Display() {
 	}
 	else {
 		background.Display();
-		endTurn.Display();
+		if(!Endgame)
+			endTurn.Display();
 		for (int i = 0; i < (int) hm.hand.size(); i++)
 			hm.hand[i]->Display();
 		for (int i = 0; i < (int)targets.size(); i++)
-			if (targets[i]->CheckifAlive())
+			if (targets[i]->CheckifAlive() && !Endgame)
 				DisplayActor(targets[i]);
 			else {
 				targets[i]->SetPosition(vec2(-5.0f, -5.0f));
 				if (targets[i]->IsPlayer()) {
 					//defeat
+					Endgame = true;
+					gameover.Display();
+					string Defeat = "GAME OVER";
+					string roundsWon = "Rounds won: " + to_string(player.totalrounds);
+					string totalblock = "Total Block: " + to_string(player.totalBlock);
+					string totalDamage = "Total Damage: " + to_string(player.totalDamage);
+					Text(vec3(-.3f, .5f, .0f), background.ptTransform, vec3(1, 0, 0), 70, Defeat.c_str());
+					Text(vec3(-.3f, .3f, .0f), background.ptTransform, vec3(0, 1, 1), 50, roundsWon.c_str());
+					Text(vec3(-.3f, .1f, .0f), background.ptTransform, vec3(1, 1, 0), 50, totalDamage.c_str());
+					Text(vec3(-.3f, -.1f, .0f), background.ptTransform, vec3(1, 1, 1), 50, totalblock.c_str());
+
 				}
 				else {
 					if(rewardScreen == true)
@@ -130,15 +142,16 @@ void Display() {
 					//intialize new fight
 				}
 			}
-
-		string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
-		string turnUI = "Turn " + to_string(turnNum);
-		string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
-		string discardUI = "Discard: "+ to_string(hm.discardPile.size());
-		Text(vec3(-.9f, -.75f, .0f), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
-		Text(vec3(0.7f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 30, turnUI.c_str());
-		Text(vec3(-.96f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
-		Text(vec3(.6f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
+		if (!Endgame) {
+			string energyUI = to_string(hm.energyRemaining) + "/" + to_string(hm.maxEnergy);
+			string turnUI = "Turn " + to_string(turnNum);
+			string deckUI = "Deck: " + to_string(hm.deckLibrary.size());
+			string discardUI = "Discard: " + to_string(hm.discardPile.size());
+			Text(vec3(-.9f, -.75f, .0f), background.ptTransform, vec3(1, 1, 0), 50, energyUI.c_str());
+			Text(vec3(0.7f, 0.9f, .0f), background.ptTransform, vec3(1, 1, 0), 30, turnUI.c_str());
+			Text(vec3(-.96f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, deckUI.c_str());
+			Text(vec3(.6f, -.95f, .0f), background.ptTransform, vec3(1, 0.5, 0), 30, discardUI.c_str());
+		}
 	}
 	glFlush();
 }
@@ -191,6 +204,7 @@ void ResolveEffect(const Effect e, Actor* user, Actor* target, HandManager* hm) 
 			hm->Draw();
 		hm->ResetCardPositions();
 		cout << "Draw " << e.value << "cards";
+		break;
 	default:
 		cout << "default";
 	}
@@ -311,6 +325,7 @@ int main(int ac, char** av) {
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 	// initialize background and button sprites
 	background.Initialize(backgroundTex, .9f);
+	gameover.Initialize(gameoverTex, .05f);
 	startBackground.Initialize(startscreenBack, .9f);
 	startButton.Initialize(startButtonTex, .85f);
 	endTurn.Initialize(endTurnTex, .05f);
