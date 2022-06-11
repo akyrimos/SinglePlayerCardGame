@@ -1,6 +1,7 @@
 How to play:
 
-Play cards to protect youreslf while also defeating the alien by bringing its HP to 0!
+Play cards to defeat the alien by bringing its HP to 0!
+Don't let the alien's attacks bring your HP to 0, or it's game over!
 
 To play cards drag attack cards onto the enemy and block cards onto the robot!
 Attack cards reduce the HP of the enemy.
