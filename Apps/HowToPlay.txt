@@ -1,0 +1,23 @@
+How to play:
+
+Play cards to protect youreslf while also defeating the alien by bringing its HP to 0!
+
+To play cards drag attack cards onto the enemy and block cards onto the robot!
+Attack cards reduce the HP of the enemy.
+Block cards reduce damage dealt by the enemy for the current turn.
+The next action of the enemy is displayed above it, use this to strategize your attacks and blocks!
+
+Playing cards costs energy
+The cost of each card is displayed on the top left of the card.
+The amount of usable energy is displayed in the bottom left of the screen
+
+Once the enemy is defeated it’ll come back stronger than before!
+However, you’ll get stronger as well!
+You have 4 options at the end of each round.
+1. Increase the damage of your attacks.
+2. Heal to full health.
+3. Increase the damage reduced of your blocks.
+4. Add a new card to your deck.
+
+See how many times you can defeat the alien!
+Good luck!
