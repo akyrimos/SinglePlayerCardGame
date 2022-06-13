@@ -73,13 +73,13 @@ string Enemy::printAction(EffectType type) {
 		temp = "Defend myself";
 		break;
 	case EffectType::UserDex:
-		temp = "Buff myself";
+		temp = "Increase dex";
 		break;
 	case EffectType::UserStr:
 		temp = "Power up myself";
 		break;
 	case EffectType::Draw:
-		temp = "Weaken you";
+		temp = "Drawing";
 		break;
 	default:
 		temp = "I dont know what im doing!";
